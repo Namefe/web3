@@ -1,38 +1,9 @@
-.App {
-  text-align: center;
+.path {
+  stroke-dasharray: 150;  /* 원의 길이에 맞게 조정 */
+  stroke-dashoffset: 150; /* 처음에 선이 보이지 않도록 설정 */
+  transition: stroke-dashoffset 1s ease;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.group:hover .path {
+  stroke-dashoffset: 0; /* hover 시 원이 그려짐 */
 }
