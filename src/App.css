@@ -1,9 +1,0 @@
-.path {
-  stroke-dasharray: 150;  /* 원의 길이에 맞게 조정 */
-  stroke-dashoffset: 150; /* 처음에 선이 보이지 않도록 설정 */
-  transition: stroke-dashoffset 1s ease;
-}
-
-.group:hover .path {
-  stroke-dashoffset: 0; /* hover 시 원이 그려짐 */
-}

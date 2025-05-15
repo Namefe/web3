@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-<header className='w-full h-16 bg-transparent flex items-center justify-between px-6'>
+<header className="fixed top-0 left-0 w-full h-[80px] z-50 bg-transparent flex items-center justify-between px-6">
   {/* 왼쪽: 로고 */}
   <div>
     <img src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" className='w-[100px] h-[60px]' />
