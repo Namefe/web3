@@ -4,37 +4,50 @@ const View01 = () => {
   const [progress, setProgress] = useState(0);
   const [progress2, setProgress2] = useState(0);
   const [scrollY, setScrollY] = useState(0);
+  const [scrollEffect2, setScrollEffect2] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const section1 = document.getElementById('merge-section');
-      const section2 = document.getElementById('scatter-section');
-      const scrollTop = window.scrollY;
+useEffect(() => {
+  const handleScroll = () => {
+    const section1 = document.getElementById('merge-section');
+    const section2 = document.getElementById('scatter-section');
+    const section3 = document.getElementById('section03');  
+    const scrollTop = window.scrollY;
 
-      const offsetTop1 = section1.offsetTop;
-      const height1 = section1.offsetHeight;
-      const relativeY1 = scrollTop - offsetTop1;
-      const effectiveHeight1 = height1 * 0.6;
-      const p1 = Math.min(Math.max(relativeY1 / effectiveHeight1, 0), 1);
-      setProgress(p1);
-      setScrollY(scrollTop);
+    // 기존 progress 계산하는 부분은 그대로 유지
+    const offsetTop1 = section1.offsetTop;
+    const height1 = section1.offsetHeight;
+    const relativeY1 = scrollTop - offsetTop1;
+    const effectiveHeight1 = height1 * 0.6;
+    const p1 = Math.min(Math.max(relativeY1 / effectiveHeight1, 0), 1);
+    setProgress(p1);
+    setScrollY(scrollTop);
 
-      if (section2) {
-        const offsetTop2 = section2.offsetTop;
-        const height2 = section2.offsetHeight;
-        const triggerOffset = 300; // 300px 일찍 시작
-        const relativeY2 = scrollTop - (offsetTop2 - triggerOffset);
-        const effectiveHeight2 = height2 * 0.2;
-        const p2 = Math.min(Math.max(relativeY2 / effectiveHeight2, 0), 1);
-        setProgress2(p2);
-      }
-    };
+    if (section2) {
+      const offsetTop2 = section2.offsetTop;
+      const height2 = section2.offsetHeight;
+      const triggerOffset = 300; 
+      const relativeY2 = scrollTop - (offsetTop2 - triggerOffset);
+      const effectiveHeight2 = height2 * 0.2;
+      const p2 = Math.min(Math.max(relativeY2 / effectiveHeight2, 0), 1);
+      setProgress2(p2);
+    }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  if (section3) {
+    const section3Top = section3.getBoundingClientRect().top;
 
+    if (section3Top <= 0) {
+      setScrollEffect2((prev) => prev);
+    } else {
+      const newScrollEffect = scrollTop / 5;
+      setScrollEffect2(newScrollEffect);
+    }}
+
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
   const line1 = ['T', 'R', 'A', 'U', 'M', 'A', '', 'C', 'E', 'N', 'T', 'E', 'R', ':'];
   const line2 = ['T', 'H', 'E', '', 'G', 'O', 'L', 'D', 'E', 'N', '', 'H', 'O', 'U', 'R'];
 
@@ -67,16 +80,16 @@ const View01 = () => {
 
   const finalImagePositions = [
     { x: 400, y: -200 },
-    { x: 400, y: -10 },
+    { x: 350, y: 70 },
     { x: 350, y: -200 },
-    { x: -150, y: -50 },
-    { x: -450, y: -300 },
-    { x: 150, y: -300 },
-    { x: -100, y: -50 },
+    { x: -300, y: 70 },
+    { x: -550, y: -250 },
+    { x: 200, y: -250 },
+    { x: -80, y: 50 },
   ];
   const finalImageRotations = [-10, 15, -12, 14, -8, 11, -9];
 
-  const scrollEffect = Math.min(scrollY / 5, 50);
+  const scrollEffect = Math.min(scrollY / 5, 100);
 
   const alternativeImages = [
   process.env.PUBLIC_URL + '/clickimage1.png',
@@ -156,11 +169,15 @@ const job =[
         {/* Images */}
         <div className="fixed top-[300px] flex flex-wrap justify-center items-center gap-4 mt-10 z-50">
           {initialImagePositions.map((pos, index) => {
-            const isSelected = selectedImage !== null;
-            const currentX =  pos.x * (1 - progress) + finalImagePositions[index].x * progress2;
-            const currentY =  pos.y * (1 - progress) + finalImagePositions[index].y * progress2 + scrollEffect;
-            const rotate = initialImageRotations[index] * (1 - progress) + finalImageRotations[index] * progress2;
-
+            const currentX =
+              pos.x * (1 - progress) + finalImagePositions[index].x * progress2;
+            const currentY =
+              pos.y * (1 - progress) +
+              finalImagePositions[index].y * progress2 +
+              scrollEffect2;
+            const rotate =
+              initialImageRotations[index] * (1 - progress) +
+              finalImageRotations[index] * progress2;
             return (
 <img
   key={`image-${index}`}

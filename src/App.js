@@ -1,4 +1,5 @@
 import './App.css';
+import ClickEffect from './view/clickEffect';
 import Footer from './view/footer';
 import Header from './view/header';
 import View01 from './view/view01';
@@ -10,6 +11,7 @@ import View05 from './view/view05';
 function App() {
   return (
     <>
+    <ClickEffect/>
     <Header/>
       <View01/>
       <View02/>
