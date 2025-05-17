@@ -27,8 +27,10 @@ const View02 = () => {
       className="w-full h-[300vh]"
         style={{
             backgroundImage: `url(${process.env.PUBLIC_URL + '/sec2bg.png'})`,
-            backgroundSize: 'cover',
+            // backgroundSize: 'cover',
+            backgroundRepeat : 'repeat-x',
             backgroundPosition: 'center',
+            backgroundAttachment : 'fixed',
             position: 'relative',
         }}
     >
