@@ -90,20 +90,27 @@ useEffect(() => {
   ]
 
   const initialPositionsLine1 = [
-    { x: -220, y: -30 }, { x: -300, y: 200 }, { x: -270, y: -100 }, { x: -220, y: 150 },
+    { x: -620, y: -150 }, { x: -380, y: 200 }, { x: -270, y: -100 }, { x: -220, y: 150 },
     { x: -200, y: -100 }, { x: -150, y: 120 }, { x: -120, y: -90 }, { x: -80, y: 180 },
-    { x: -50, y: -60 }, { x: -20, y: 140 }, { x: 0, y: -100 }, { x: 30, y: 100 },
-    { x: 60, y: -130 }, { x: 90, y: 160 },
+    { x: -50, y: -60 }, 
   ];
-  const initialRotationsLine1 = [10, -15, 8, -12, 5, -10, 15, -8, 12, -5, 10, -7, 6, -9];
+  const initialRotationsLine1 = [10, -15, 8, -12, 5, -10, 15, -8, 12];
 
   const initialPositionsLine2 = [
     { x: 120, y: -170 }, { x: 150, y: 130 }, { x: 180, y: -150 }, { x: 90, y: 40 },
     { x: 210, y: 90 }, { x: 240, y: -110 }, { x: 270, y: 70 }, { x: 300, y: -140 },
     { x: 330, y: 60 }, { x: 360, y: -120 }, { x: 0, y: 40 }, { x: 390, y: 40 },
-    { x: 390, y: -30 }, { x: 200, y: 20 }, { x: 180, y: 180 },
+    { x: 390, y: -30 }, 
   ];
-  const initialRotationsLine2 = [12, -6, 10, 7, -14, 9, -11, 6, -13, 8, 10, -9, 4, -7, 5];
+  const initialRotationsLine2 = [12, -6, 10, 7, -14, 9, -11, 6, -13, 8, 10, -9, 4];
+
+  const initialPositionsLine3 = [
+    { x: 120, y: -170 }, { x: 150, y: 130 }, { x: 180, y: -150 }, { x: 90, y: 40 },
+    { x: 210, y: 90 }, { x: 240, y: -110 }, { x: 270, y: 70 }, { x: 300, y: -140 },
+    { x: 330, y: 60 }, { x: 360, y: -120 }, { x: 0, y: 40 }, { x: 390, y: 40 },
+    { x: 390, y: -30 }, 
+  ];
+  const initialRotationsLine3 = [12, -6, 10, 7, -14, 9, -11, 6, -13, 8, 10, -9, 4];
 
   const initialImagePositions = [
     { x: -100, y: -200 },
@@ -206,8 +213,8 @@ const job =[
 
         <div className="flex space-x-2">
           {line3.map((letter, index) => {
-            const { x, y } = initialPositionsLine2[index];
-            const rotate = initialRotationsLine2[index] * (1 - progress);
+            const { x, y } = initialPositionsLine3[index];
+            const rotate = initialRotationsLine3[index] * (1 - progress);
             const currentX = x * (1 - progress);
             const currentY = y * (1 - progress);
             return (
