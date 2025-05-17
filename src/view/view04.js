@@ -59,7 +59,7 @@ const HospitalDocuments = () => {
     const localProgress = progress - index;
     if (localProgress < 0 || localProgress > 1) return '0%';
 
-    const movement = Math.sin(localProgress * Math.PI) * -80;
+    const movement = Math.sin(localProgress * Math.PI) * -40;
     return `${movement}%`;
   };
 

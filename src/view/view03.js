@@ -4,7 +4,7 @@ const View03 = () => {
   return (
     <section id="section03" style={{
       backgroundImage: `url(${process.env.PUBLIC_URL + '/board.jpg'})`,
-      // backgroundSize: 'cover',
+       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat : 'no-repeat',
       position: 'relative',

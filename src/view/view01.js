@@ -14,7 +14,6 @@ useEffect(() => {
     const section3 = document.getElementById('section03');  
     const scrollTop = window.scrollY;
 
-    // 기존 progress 계산하는 부분은 그대로 유지
     const offsetTop1 = section1.offsetTop;
     const height1 = section1.offsetHeight;
     const relativeY1 = scrollTop - offsetTop1;
@@ -48,8 +47,47 @@ useEffect(() => {
   window.addEventListener('scroll', handleScroll);
   return () => window.removeEventListener('scroll', handleScroll);
 }, []);
-  const line1 = ['T', 'R', 'A', 'U', 'M', 'A', '', 'C', 'E', 'N', 'T', 'E', 'R', ':'];
-  const line2 = ['T', 'H', 'E', '', 'G', 'O', 'L', 'D', 'E', 'N', '', 'H', 'O', 'U', 'R'];
+  const line1 = [ 
+  <img src={process.env.PUBLIC_URL + '/우.png'} alt="우" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/린.png'} alt="우" className="inline-block w-6 h-6" />, 
+   <img src={process.env.PUBLIC_URL + '/계.png'} alt="우" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/속.png'} alt="우" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/뛰.png'} alt="우" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/어.png'} alt="우" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/야.png'} alt="우" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/한.png'} alt="우" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/다.png'} alt="우" className="inline-block w-6 h-6" />,
+   ];
+  const line2 = [
+    <img src={process.env.PUBLIC_URL + '/넷.png'} alt="우" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/플.png'} alt="우" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/릭.png'} alt="우" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/스.png'} alt="우" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/시.png'} alt="우" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/리.png'} alt="우" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/즈.png'} alt="우" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/중.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/증.png'} alt="우" className="inline-block" />,
+    <img src={process.env.PUBLIC_URL + '/외.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/상.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/센.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/터.png'} alt="우" className="inline-block " />,
+  ];
+  const line3 = [
+    <img src={process.env.PUBLIC_URL + '/o.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/whiten.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/whitel.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/y.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/o.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/whiten.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/n.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/e.png'} alt="우" className="inline-block" />,
+    <img src={process.env.PUBLIC_URL + '/t.png'} alt="우" className="inline-block" />,
+    <img src={process.env.PUBLIC_URL + '/f.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/l.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/i.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/x.png'} alt="우" className="inline-block" />,
+  ]
 
   const initialPositionsLine1 = [
     { x: -220, y: -30 }, { x: -300, y: 200 }, { x: -270, y: -100 }, { x: -220, y: 150 },
@@ -102,19 +140,19 @@ useEffect(() => {
 ];
 
 const imageDescriptions = [
-  "이건 이미지 1번에 대한 설명입니다. 이 이미지는 매우 특별한 의미를 담고 있습니다.",
-  "이건 이미지 2번에 대한 설명입니다. 두 번째 이미지는 감정적인 메시지를 전달합니다.",
-  "이건 이미지 3번에 대한 설명입니다. 상징적인 요소들이 포함되어 있어요.",
-  "이건 이미지 4번에 대한 설명입니다. 회복의 과정이 담겨 있습니다.",
-  "이건 이미지 5번에 대한 설명입니다. 삶의 균형을 표현하고 있어요.",
-  "이건 이미지 6번에 대한 설명입니다. 시간과 공간을 넘나드는 느낌을 줍니다.",
-  "이건 이미지 7번에 대한 설명입니다. 치유와 연결의 메시지를 전달합니다.",
+  "실력도, 돈도, 사명감도 있지만 싸가지가 없는 천재 외과의사. 다소 거친 표현을 상대방들에게 쓰지만, 환자를 끝까지 포기하지 않고 어떻게든 살려내려는 성격을 지니고 있다. 다소 겁이 없고, 위급상황에서도 초인적인 능력으로 신들린 스킬을 발휘하며, 과거 ‘국제 평화 의사회’ '블랙 윙즈(민간군사기업)' 에이스로도 활약했다. 한국대학병원의 중증외상팀을 심폐 소생하기 위해 등판한다.",
+  "백강혁의 현란한 수술 스킬에 반해 낚여버린 외상외과의 첫번째 제자. 항문외과 펠로우로 지내던 중 중증외상팀으로 스카웃된다. 허당미 넘치지만 실력만큼은 어디 내놔도 빠지지 않는 인물로, 백강혁을 따라 사선을 넘나드는 중증 환자들과 온몸을 내던진 사투를 벌이며 성장해 간다.",
+  "중증외상팀 5년 차 시니어 간호사. 책임감도 강하고 실력도 좋은 베테랑으로, 백강혁이 별명을 붙일 만큼 당차고 깡다구가 좋다. 그 누구보다 화끈하게 중증외상팀을 지키고자 고군분투한다.",
+  "백강혁도 인정한 마취통증의학과 레지던트. 환자의 상태를 세심하게 살피며, 어떤 상황에서도 감정의 동요 없이 무덤덤하고 침착하게 마취를 진행하는 센스가 남달라 첫 만남에 백강혁의 신뢰를 얻는다.",
+  "스펙에 자부심이 넘치는 항문외과 과장. 차기 기조실장 자리를 노리며 병원 내 입지를 다지던 그의 앞에 비주류 백강혁이 등장해 산통을 깨고, 애제자인 양재원마저 중증외상팀으로 빼앗겨버린다.",
+  "백강혁의 최고의 지원군으로, 백강혁을 한국대 외상외과 교수로 밀어주고 전폭적인 지원을 약속한다. 백강혁이 꾸준히 성과를 내면서 기대에 부응하자 지원으로 보답하기까지 한다. 그런 모습에 못마땅해 하는 최조은 원장과 홍재훈 기조실장의 표정은 덤. 마지막에는 한국대병원에 닥터헬기를 지원해주면서 중증외상센터에 대한 아낌없는 애정을 보여준다.",
+  "한국대병원 기획조정실장으로 차기 원장을 노리고 있다. 환자보다 병원 수익을 중시하여 매 분기마다 각 진료과의 적자/흑자 순위를 매겨 대대적으로 발표할 정도다. 병원에 커다란 적자를 안겨주는 백강혁과 중증외상센터를 눈엣가시로 여기면서 계속 몰아낼 궁리를 하고 있다.",
 ];
 const imageName = [
   "백강혁","양재훈","천장미","박경원","한유림","강명희","홍재림"
 ]
 const job =[
-  "의사","간호사","물리치료사","작업치료사","심리상담사","사회복지사","영양사"
+  "한국대학교 병원 외상외과 교수 겸 중증외상센터장","한국대학교병원 외상외과 전임의","한국대학교 중증외상센터 시니어 간호사","한국대학교병원 마취통증의학과 전공의","한국대학교병원 외과 과장 겸 대장항문외과 과장","보건복지부 장관","한국대학교병원 기회조정실장 겸 감염내과 교수"
 ]
 
   return (
@@ -166,8 +204,28 @@ const job =[
           })}
         </div>
 
+        <div className="flex space-x-2">
+          {line3.map((letter, index) => {
+            const { x, y } = initialPositionsLine2[index];
+            const rotate = initialRotationsLine2[index] * (1 - progress);
+            const currentX = x * (1 - progress);
+            const currentY = y * (1 - progress);
+            return (
+              <span
+                key={`line3-${index}`}
+                className="font-medical text-6xl tracking-wide text-white"
+                style={{
+                  transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
+                }}
+              >
+                {letter}
+              </span>
+            );
+          })}
+        </div>
+
         {/* Images */}
-        <div className="fixed top-[300px] flex flex-wrap justify-center items-center gap-4 mt-10 z-50">
+        <div className="fixed top-[500px] flex flex-wrap justify-center items-center gap-4 mt-10 z-50">
           {initialImagePositions.map((pos, index) => {
             const currentX =
               pos.x * (1 - progress) + finalImagePositions[index].x * progress2;
@@ -215,7 +273,7 @@ onClick={() =>
       onClick={(e) => e.stopPropagation()}
     >
       {/* 왼쪽: 이미지 */}
-      <div className="w-1/2 pr-6 flex items-center justify-center">
+      <div className="w-1/2 pr-12 flex items-center justify-center">
         <img
           src={alternativeImages[selectedImage.index]}
           alt="selected"
@@ -224,11 +282,11 @@ onClick={() =>
       </div>
 
       {/* 오른쪽: 설명 */}
-<div className="w-1/2 pl-6 flex flex-col justify-center">
+<div className="w-1/2 flex flex-col justify-center">
   <h2 className="text-2xl font-bold text-gray-800 mb-4">
     이름 : {selectedImage.name}
   </h2>
-    <div className="text-gray-700 text-lg leading-relaxed">
+    <div className="text-gray-700 text-lg font-semibold mb-4 leading-relaxed">
     직업 : {selectedImage.job}
   </div>
   <div className="text-gray-700 text-lg leading-relaxed">
