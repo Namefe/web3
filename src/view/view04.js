@@ -70,7 +70,7 @@ const HospitalDocuments = () => {
       <div className="sticky top-0 h-screen flex items-center justify-between px-20">
 
         {/* 왼쪽: 번호 */}
-        <div className="text-8xl font-bold text-gray-800">
+        <div className="text-8xl pl-8 font-bold text-gray-800">
           {currentIndex + 1}
         </div>
 

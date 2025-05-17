@@ -4,97 +4,91 @@ const View01 = () => {
   const [progress, setProgress] = useState(0);
   const [progress2, setProgress2] = useState(0);
   const [scrollY, setScrollY] = useState(0);
-  const [scrollEffect2, setScrollEffect2] = useState(0);
+  const [section3Top, setSection3Top] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
 
-useEffect(() => {
-  const handleScroll = () => {
-    const section1 = document.getElementById('merge-section');
-    const section2 = document.getElementById('scatter-section');
-    const section3 = document.getElementById('section03');  
-    const scrollTop = window.scrollY;
-
-    const offsetTop1 = section1.offsetTop;
-    const height1 = section1.offsetHeight;
-    const relativeY1 = scrollTop - offsetTop1;
-    const effectiveHeight1 = height1 * 0.6;
-    const p1 = Math.min(Math.max(relativeY1 / effectiveHeight1, 0), 1);
-    setProgress(p1);
-    setScrollY(scrollTop);
-
-    if (section2) {
-      const offsetTop2 = section2.offsetTop;
-      const height2 = section2.offsetHeight;
-      const triggerOffset = 300; 
-      const relativeY2 = scrollTop - (offsetTop2 - triggerOffset);
-      const effectiveHeight2 = height2 * 0.2;
-      const p2 = Math.min(Math.max(relativeY2 / effectiveHeight2, 0), 1);
-      setProgress2(p2);
+  useEffect(() => {
+    const section3 = document.getElementById('section03');
+    if (section3) {
+      setSection3Top(section3.offsetTop);
     }
 
-  if (section3) {
-    const section3Top = section3.getBoundingClientRect().top;
+    const handleScroll = () => {
+      const section1 = document.getElementById('merge-section');
+      const section2 = document.getElementById('scatter-section');
+      const scrollTop = window.scrollY;
 
-    if (section3Top <= 0) {
-      setScrollEffect2((prev) => prev);
-    } else {
-      const newScrollEffect = scrollTop / 5;
-      setScrollEffect2(newScrollEffect);
-    }}
+      const offsetTop1 = section1.offsetTop;
+      const height1 = section1.offsetHeight;
+      const relativeY1 = scrollTop - offsetTop1;
+      const effectiveHeight1 = height1 * 0.6;
+      const p1 = Math.min(Math.max(relativeY1 / effectiveHeight1, 0), 1);
+      setProgress(p1);
+      setScrollY(scrollTop);
 
-  };
+      if (section2) {
+        const offsetTop2 = section2.offsetTop;
+        const height2 = section2.offsetHeight;
+        const triggerOffset = 300;
+        const relativeY2 = scrollTop - (offsetTop2 - triggerOffset);
+        const effectiveHeight2 = height2 * 0.2;
+        const p2 = Math.min(Math.max(relativeY2 / effectiveHeight2, 0), 1);
+        setProgress2(p2);
+      }
+    };
 
-  window.addEventListener('scroll', handleScroll);
-  return () => window.removeEventListener('scroll', handleScroll);
-}, []);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const line1 = [ 
-  <img src={process.env.PUBLIC_URL + '/우.png'} alt="우" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/린.png'} alt="우" className="inline-block w-6 h-6" />, 
-   <img src={process.env.PUBLIC_URL + '/계.png'} alt="우" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/속.png'} alt="우" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/뛰.png'} alt="우" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/어.png'} alt="우" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/야.png'} alt="우" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/한.png'} alt="우" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/다.png'} alt="우" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/우.png'} alt="우" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/린.png'} alt="린" className="inline-block w-6 h-6" />, 
+   <img src={process.env.PUBLIC_URL + '/계.png'} alt="계" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/속.png'} alt="속" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/뛰.png'} alt="뛰" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/어.png'} alt="어" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/야.png'} alt="야" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/한.png'} alt="한" className="inline-block w-6 h-6" />,
+   <img src={process.env.PUBLIC_URL + '/다.png'} alt="다" className="inline-block w-6 h-6" />,
    ];
   const line2 = [
-    <img src={process.env.PUBLIC_URL + '/넷.png'} alt="우" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/플.png'} alt="우" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/릭.png'} alt="우" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/스.png'} alt="우" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/시.png'} alt="우" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/리.png'} alt="우" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/즈.png'} alt="우" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/중.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/증.png'} alt="우" className="inline-block" />,
-    <img src={process.env.PUBLIC_URL + '/외.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/상.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/센.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/터.png'} alt="우" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/넷.png'} alt="넷" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/플.png'} alt="플" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/릭.png'} alt="릭" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/스.png'} alt="스" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/시.png'} alt="시" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/리.png'} alt="리" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/즈.png'} alt="즈" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/중.png'} alt="중" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/증.png'} alt="증" className="inline-block" />,
+    <img src={process.env.PUBLIC_URL + '/외.png'} alt="외" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/상.png'} alt="상" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/센.png'} alt="센" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/터.png'} alt="터" className="inline-block " />,
   ];
   const line3 = [
-    <img src={process.env.PUBLIC_URL + '/o.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/whiten.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/whitel.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/y.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/o.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/whiten.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/n.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/e.png'} alt="우" className="inline-block" />,
-    <img src={process.env.PUBLIC_URL + '/t.png'} alt="우" className="inline-block" />,
-    <img src={process.env.PUBLIC_URL + '/f.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/l.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/i.png'} alt="우" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/x.png'} alt="우" className="inline-block" />,
+    <img src={process.env.PUBLIC_URL + '/o.png'} alt="O" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/whiten.png'} alt="N" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/whitel.png'} alt="L" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/y.png'} alt="Y" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/o.png'} alt="O" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/whiten.png'} alt="N" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/n.png'} alt="N" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/e.png'} alt="E" className="inline-block" />,
+    <img src={process.env.PUBLIC_URL + '/t.png'} alt="T" className="inline-block" />,
+    <img src={process.env.PUBLIC_URL + '/f.png'} alt="F" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/l.png'} alt="L" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/i.png'} alt="I" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/x.png'} alt="X" className="inline-block" />,
   ]
 
   const initialPositionsLine1 = [
-    { x: -620, y: -150 }, { x: -380, y: 200 }, { x: -270, y: -100 }, { x: -220, y: 150 },
+    { x: -620, y: -150 }, { x: -380, y: 100 }, { x: -570, y: 300 }, { x: -520, y: 350 },
     { x: -200, y: -100 }, { x: -150, y: 120 }, { x: -120, y: -90 }, { x: -80, y: 180 },
-    { x: -50, y: -60 }, 
+    { x: -150, y: -30 }, 
   ];
-  const initialRotationsLine1 = [10, -15, 8, -12, 5, -10, 15, -8, 12];
+  const initialRotationsLine1 = [154, -150, 80, -52, 35, -110, 135, -84, 122];
 
   const initialPositionsLine2 = [
     { x: 120, y: -170 }, { x: 150, y: 130 }, { x: 180, y: -150 }, { x: 90, y: 40 },
@@ -163,10 +157,7 @@ const job =[
 ]
 
   return (
-    <section
-      id="merge-section"
-      className="w-full h-[500vh] bg-gray-600 flex items-start justify-center relative z-10"
-    >
+   <section id="merge-section" className="w-full h-[500vh] bg-gray-600 flex items-start justify-center relative z-10">
       <div className="sticky top-[30%] flex flex-col items-center space-y-4">
 
         {/* Line 1 */}
@@ -230,79 +221,76 @@ const job =[
             );
           })}
         </div>
+        </div>
 
         {/* Images */}
-        <div className="fixed top-[500px] flex flex-wrap justify-center items-center gap-4 mt-10 z-50">
-          {initialImagePositions.map((pos, index) => {
-            const currentX =
-              pos.x * (1 - progress) + finalImagePositions[index].x * progress2;
-            const currentY =
-              pos.y * (1 - progress) +
-              finalImagePositions[index].y * progress2 +
-              scrollEffect2;
-            const rotate =
-              initialImageRotations[index] * (1 - progress) +
-              finalImageRotations[index] * progress2;
-            return (
-<img
-  key={`image-${index}`}
-  src={process.env.PUBLIC_URL + `/image${index + 1}.png`}
-  alt={`image-${index + 1}`}
-  className="w-32 h-32 object-cover transition-transform duration-75 cursor-pointer"
-  style={{
-    transform: `translate(${pos.x * (1 - progress) + finalImagePositions[index].x * progress2}px, ${
-      pos.y * (1 - progress) + finalImagePositions[index].y * progress2 + scrollEffect
-    }px) rotate(${initialImageRotations[index] * (1 - progress) + finalImageRotations[index] * progress2}deg)`,
-  }}
-onClick={() =>
-  setSelectedImage({
-    src: process.env.PUBLIC_URL + `/image${index + 1}.png`,
-    description: imageDescriptions[index],
-    name: imageName[index],
-    job: job[index],
-    index: index,
-  })
-}
-/>
-            );
-          })}
-        </div>
+        <div
+        className={`${
+          scrollY >= section3Top + 150  ? 'absolute' : 'fixed'
+        } top-[500px] flex flex-wrap justify-center items-center gap-4 mt-10 z-50`}
+        style={{
+          top: scrollY >= section3Top + 150 ? `${section3Top + 500}px` : '500px',
+        }}
+      >
+        {initialImagePositions.map((pos, index) => {
+          const currentX = pos.x * (1 - progress) + finalImagePositions[index].x * progress2;
+          const currentY = pos.y * (1 - progress) + finalImagePositions[index].y * progress2;
+          const rotate = initialImageRotations[index] * (1 - progress) + finalImageRotations[index] * progress2;
+
+          return (
+            <img
+              key={`image-${index}`}
+              src={process.env.PUBLIC_URL + `/image${index + 1}.png`}
+              alt={`image-${index + 1}`}
+              className="w-32 h-32 object-cover transition-transform duration-75 cursor-pointer"
+              style={{
+                transform: `translate(${currentX}px, ${currentY + scrollEffect}px) rotate(${rotate}deg)`,
+              }}
+              onClick={() =>
+                setSelectedImage({
+                  src: process.env.PUBLIC_URL + `/image${index + 1}.png`,
+                  description: imageDescriptions[index],
+                  name: imageName[index],
+                  job: job[index],
+                  index: index,
+                })
+              }
+            />
+          );
+        })}
       </div>
 
       {/* Modal */}
-{selectedImage !== null && (
-  <div
-    className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-60"
-    onClick={() => setSelectedImage(null)}
-  >
-    <div
-      className=" p-4 bg-white h-[400px] flex max-w-4xl w-full mx-4"
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* 왼쪽: 이미지 */}
-      <div className="w-1/2 pr-12 flex items-center justify-center">
-        <img
-          src={alternativeImages[selectedImage.index]}
-          alt="selected"
-          className="w-64 h-[300px]  object-cover"
-        />
-      </div>
-
-      {/* 오른쪽: 설명 */}
-<div className="w-1/2 flex flex-col justify-center">
-  <h2 className="text-2xl font-bold text-gray-800 mb-4">
-    이름 : {selectedImage.name}
-  </h2>
-    <div className="text-gray-700 text-lg font-semibold mb-4 leading-relaxed">
-    직업 : {selectedImage.job}
-  </div>
-  <div className="text-gray-700 text-lg leading-relaxed">
-    {selectedImage.description}
-  </div>
-  </div>
-    </div>
-  </div>
-)}
+      {selectedImage !== null && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-60"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div
+            className="p-4 bg-white h-[400px] flex max-w-4xl w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-1/2 pr-12 flex items-center justify-center">
+              <img
+                src={alternativeImages[selectedImage.index]}
+                alt="selected"
+                className="w-64 h-[300px] object-cover"
+              />
+            </div>
+            <div className="w-1/2 flex flex-col justify-center">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                이름 : {selectedImage.name}
+              </h2>
+              <div className="text-gray-700 text-lg font-semibold mb-4 leading-relaxed">
+                직업 : {selectedImage.job}
+              </div>
+              <div className="text-gray-700 text-lg leading-relaxed">
+                {selectedImage.description}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
     </section>
   );
