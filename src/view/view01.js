@@ -157,8 +157,13 @@ const job =[
 ]
 
   return (
-   <section id="merge-section" className="w-full h-[500vh] bg-gray-600 flex items-start justify-center relative z-10">
-      <div className="sticky top-[30%] flex flex-col items-center space-y-4">
+   <section id="merge-section" className="w-full h-[500vh] md:h-[600vh] lg:h-[800vh] flex items-start justify-center relative z-10">
+      <img
+    src={process.env.PUBLIC_URL + '/hospitalbg.png'}
+    alt="병원 배경"
+    className="absolute top-0 left-0 w-full h-full object-cover z-0"
+  />
+      <div className="sticky top-[10%] flex flex-col items-center space-y-4">
 
         {/* Line 1 */}
         <div className="flex space-x-2">
@@ -227,9 +232,9 @@ const job =[
         <div
         className={`${
           scrollY >= section3Top + 150  ? 'absolute' : 'fixed'
-        } top-[500px] flex flex-wrap justify-center items-center gap-4 mt-10 z-50`}
+        } top-0 flex flex-wrap justify-center items-center gap-4 mt-10 z-50`}
         style={{
-          top: scrollY >= section3Top + 150 ? `${section3Top + 500}px` : '500px',
+          top: scrollY >= section3Top + 150 ? `${section3Top + 500}px` : '300px',
         }}
       >
         {initialImagePositions.map((pos, index) => {
@@ -263,7 +268,7 @@ const job =[
       {/* Modal */}
       {selectedImage !== null && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-60"
+          className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-[300]"
           onClick={() => setSelectedImage(null)}
         >
           <div
