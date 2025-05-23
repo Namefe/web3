@@ -119,12 +119,12 @@ const View01 = () => {
 
   const finalImagePositions = [
     { x: 400, y: -200 },
-    { x: 350, y: 70 },
-    { x: 350, y: -200 },
-    { x: -300, y: 70 },
-    { x: -550, y: -250 },
+    { x: 270, y: 200 },
+    { x: 400, y: 80 },
+    { x: -400, y: 150 },
+    { x: -600, y: -300 },
     { x: 200, y: -250 },
-    { x: -80, y: 50 },
+    { x: 170, y: 50 },
   ];
   const finalImageRotations = [-10, 15, -12, 14, -8, 11, -9];
 
@@ -157,7 +157,7 @@ const job =[
 ]
 
   return (
-   <section id="merge-section" className="w-full h-[500vh] md:h-[600vh] lg:h-[800vh] flex items-start justify-center relative z-10">
+   <section id="merge-section" className="w-full h-[500vh] md:h-[600vh] lg:h-[500vh] flex items-start justify-center relative z-10">
       <img
     src={process.env.PUBLIC_URL + '/hospitalbg.png'}
     alt="병원 배경"
@@ -235,7 +235,7 @@ const job =[
           scrollY >= section3Top + 150  ? 'absolute' : 'fixed'
         } top-0 flex flex-wrap justify-center items-center gap-4 mt-10 z-50`}
         style={{
-          top: scrollY >= section3Top + 150 ? `${section3Top + 500}px` : '300px',
+          top: scrollY >= section3Top + 150 ? `${section3Top + 600}px` : '300px',
         }}
       >
         {initialImagePositions.map((pos, index) => {
