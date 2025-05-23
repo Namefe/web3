@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const SupportHover = () => {
@@ -12,6 +12,12 @@ const SupportHover = () => {
 
   const controls = useAnimation();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+
+  const svgRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: svgRef, offset: ["start end", "center start"] });
+  const opacity1 = useTransform(scrollYProgress, [0.2, 0.3], [0, 1]);
+  const opacity2 = useTransform(scrollYProgress, [0.3, 0.4], [0, 1]);
+  const opacity3 = useTransform(scrollYProgress, [0.4, 0.5], [0, 1]);
 
   useEffect(() => {
     if (inView) {
@@ -28,24 +34,31 @@ const SupportHover = () => {
       animate={controls}
       transition={{ duration: 1 }}
     >
-      {/* SVG 병원 장식 아이콘 */}
-      <svg
-        className="absolute top-10 left-10 w-8 h-8 text-red-500 animate-bounce"
+      <motion.svg
+        ref={svgRef}
+        viewBox="0 0 500 40"
+        className="absolute top-[10%] left-[10%] w-[500px] h-auto"
+        style={{ opacity: opacity2 }}
         xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
-        viewBox="0 0 24 24"
+        fill="none"
+        stroke="black"
+        strokeWidth="2"
       >
-        <path d="M9 2v4H5v4H1v4h4v4h4v4h4v-4h4v-4h4v-4h-4V6h-4V2H9z" />
-      </svg>
+        <motion.path d="M0.4 4V1H22.2V4H13.1V30H9.6V4H0.4Z" transform="translate(0,0)" />
+        <motion.path d="M0 0H10C15 0 15 10 10 10H0Z M0 10L10 30" transform="translate(35,0)" />
+        <motion.path d="M10 0L0 30H5L10 15L15 30H20L10 0Z" transform="translate(70,0)" />
+        <motion.path d="M0 0V20C0 25 5 30 10 30C15 30 20 25 20 20V0" transform="translate(105,0)" />
+        <motion.path d="M0 30V0L10 15L20 0V30" transform="translate(140,0)" />
+        <motion.path d="M10 0L0 30H5L10 15L15 30H20L10 0Z" transform="translate(175,0)" />
+        <motion.path d="M20 5C15 0 5 0 0 15C5 30 15 30 20 25" transform="translate(210,0)" />
+        <motion.path d="M20 0H0V30H20M0 15H15" transform="translate(245,0)" />
+        <motion.path d="M0 30V0L20 30V0" transform="translate(280,0)" />
+        <motion.path d="M20 5C15 0 5 0 0 15C5 30 15 30 20 25" transform="translate(315,0)" />
+        <motion.path d="M20 0H0V30H20M0 15H15" transform="translate(350,0)" />
+        <motion.path d="M0 30V0L20 30V0" transform="translate(385,0)" />
+        <motion.path d="M0 0H10C15 0 15 10 10 10H0Z M0 10L10 30" transform="translate(420,0)" />
 
-      <svg
-        className="absolute bottom-12 right-10 w-6 h-6 text-blue-600 animate-pulse"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path d="M3 3h18v2H3V3zm1 4h16v13H4V7zm4 3v2h8v-2H8z" />
-      </svg>
+      </motion.svg>
 
       <div
         className="relative"
@@ -55,10 +68,10 @@ const SupportHover = () => {
         <motion.img
           src="/check.png"
           alt="중증외상센터 홍보 전단지"
-          className="w-[300px] h-[400px] object-contain"
-            animate={{
-            rotate: [-2, 2, -2],  
-            skewX: [0, 2, 0]     
+          className="w-[300px] h-[400px] object-contain hover:cursor-pointer"
+          animate={{
+            rotate: [-2, 2, -2],
+            skewX: [0, 2, 0],
           }}
           transition={{
             duration: 2,
@@ -70,18 +83,18 @@ const SupportHover = () => {
 
         {isHovering && (
           <div
-            className="fixed pointer-events-none z-50 flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white text-base font-semibold shadow-xl animate-pulse"
+            className="fixed pointer-events-none z-50 flex items-center justify-center  rounded-full bg-gradient-to-br from-indigo-500 via-yellow-500 to-pink-500 text-white text-base font-semibold shadow-xl animate-pulse"
             style={{
               width: "120px",
               height: "120px",
               left: cursorPos.x - 60,
               top: cursorPos.y - 60,
-              boxShadow: "0 0 20px rgba(153, 102, 255, 0.5)",
+              boxShadow: "0 0 20px rgba(255, 215, 0, 0.6)",
               transform: "scale(1.05)",
               backdropFilter: "blur(4px)",
             }}
           >
-            지원하기
+            지원하기 Click!
           </div>
         )}
       </div>

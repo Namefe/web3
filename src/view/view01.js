@@ -53,13 +53,13 @@ const View01 = () => {
    <img src={process.env.PUBLIC_URL + '/다.png'} alt="다" className="inline-block w-6 h-6" />,
    ];
   const line2 = [
-    <img src={process.env.PUBLIC_URL + '/넷.png'} alt="넷" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/플.png'} alt="플" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/릭.png'} alt="릭" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/스.png'} alt="스" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/시.png'} alt="시" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/리.png'} alt="리" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/즈.png'} alt="즈" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/넷2.png'} alt="넷" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/플2.png'} alt="플" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/릭2.png'} alt="릭" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/스2.png'} alt="스" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/시2.png'} alt="시" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/리2.png'} alt="리" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/즈2.png'} alt="즈" className="inline-block w-6 h-6" />,
     <img src={process.env.PUBLIC_URL + '/중.png'} alt="중" className="inline-block " />,
     <img src={process.env.PUBLIC_URL + '/증.png'} alt="증" className="inline-block" />,
     <img src={process.env.PUBLIC_URL + '/외.png'} alt="외" className="inline-block " />,
@@ -68,12 +68,12 @@ const View01 = () => {
     <img src={process.env.PUBLIC_URL + '/터.png'} alt="터" className="inline-block " />,
   ];
   const line3 = [
-    <img src={process.env.PUBLIC_URL + '/o.png'} alt="O" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/whiten.png'} alt="N" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/whitel.png'} alt="L" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/y.png'} alt="Y" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/o.png'} alt="O" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/whiten.png'} alt="N" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/o2.png'} alt="O" className="inline-block w-8 h-8 " />,
+    <img src={process.env.PUBLIC_URL + '/n2.png'} alt="N" className="inline-block w-8 h-8" />,
+    <img src={process.env.PUBLIC_URL + '/l2.png'} alt="L" className="inline-block w-8 h-8 " />,
+    <img src={process.env.PUBLIC_URL + '/y2.png'} alt="Y" className="inline-block w-8 h-8 " />,
+    <img src={process.env.PUBLIC_URL + '/o2.png'} alt="O" className="inline-block w-8 h-8 " />,
+    <img src={process.env.PUBLIC_URL + '/n2.png'} alt="N" className="inline-block w-8 h-8 mr-4" />,
     <img src={process.env.PUBLIC_URL + '/n.png'} alt="N" className="inline-block " />,
     <img src={process.env.PUBLIC_URL + '/e.png'} alt="E" className="inline-block" />,
     <img src={process.env.PUBLIC_URL + '/t.png'} alt="T" className="inline-block" />,
@@ -207,6 +207,7 @@ const job =[
           })}
         </div>
 
+        {/* Line 3 */}
         <div className="flex space-x-2">
           {line3.map((letter, index) => {
             const { x, y } = initialPositionsLine3[index];
@@ -216,7 +217,7 @@ const job =[
             return (
               <span
                 key={`line3-${index}`}
-                className="font-medical text-6xl tracking-wide text-white"
+                className="font-medical text-6xl  text-white"
                 style={{
                   transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
                 }}

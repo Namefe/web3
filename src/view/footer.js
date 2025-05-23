@@ -4,7 +4,6 @@ const Footer = () => {
   return (
     <footer className="w-full bg-white text-black px-6 py-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        {/* 로고 + 소개 */}
         <div className="flex flex-col gap-2">
           <img src="/logo.png" alt="회사 로고" className="w-32 h-auto" />
           <p className="text-xs text-gray-400 leading-snug">
@@ -13,14 +12,12 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Contact Info */}
         <div className="flex flex-col gap-2 text-xs">
           <h3 className="text-sm font-semibold">CONTACT</h3>
           <p>+82 2-1234-5678 | 서울 강남구 123</p>
           <p>business@yourcompany.com</p>
         </div>
 
-        {/* SNS & Legal */}
         <div className="flex flex-col gap-2 text-xs">
           <div className="flex gap-3">
             <a href="#" className="hover:text-gray-300">YouTube</a>
@@ -31,7 +28,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Copyright */}
       <div className="mt-4 border-t border-gray-700 pt-4 text-[10px] text-gray-500 text-center">
         © 2025 Your Company. All rights reserved.
       </div>

@@ -1,17 +1,105 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 const View03 = () => {
+  const [showRelation, setShowRelation] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = document.getElementById("section03");
+      if (!section) return;
+
+      const scrollTop = window.scrollY;
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+
+      if (scrollTop > sectionTop + sectionHeight * 0.1) {
+        setShowRelation(true);
+      } else {
+        setShowRelation(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <section id="section03" style={{
-      backgroundImage: `url(${process.env.PUBLIC_URL + '/board.jpg'})`,
-       backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat : 'no-repeat',
-      position: 'relative',
-    }} className="w-screen h-[300vh]">
+    <section
+      id="section03"
+      style={{
+        backgroundImage: `url(${process.env.PUBLIC_URL + "/board.jpg"})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        position: "relative",
+      }}
+      className="w-screen h-[300vh]"
+    >
+      {showRelation && (
+        <motion.div
+          className="absolute left-[30%] top-[30%] text-white text-2xl font-bold"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          생명의 은인 
+        </motion.div>
+      )}
 
+      {showRelation && (
+        <motion.div
+          className="absolute left-[55%] top-[30%] text-white text-2xl font-bold"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          조폭
+        </motion.div>
+      )}
+
+      {showRelation && (
+        <motion.div
+          className="absolute left-[40%] top-[55%] text-white text-xl font-bold"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          노예 1호
+        </motion.div>
+      )}
+      {showRelation && (
+        <motion.div
+          className="absolute left-[80%] top-[30%] text-white text-xl font-bold"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          낙하산 인사
+        </motion.div>
+      )}
+      {showRelation && (
+        <motion.div
+          className="absolute left-[80%] top-[40%] text-white text-xl font-bold"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          병원 적자의 원흉
+        </motion.div>
+      )}
+      {showRelation && (
+        <motion.div
+          className="absolute left-[10%] top-[60%] text-white text-xl font-bold"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          마취과의 유일한 희망
+        </motion.div>
+      )}
     </section>
-  )
-}
+  );
+};
 
-export default View03
+export default View03;
