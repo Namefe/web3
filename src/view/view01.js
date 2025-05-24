@@ -84,17 +84,26 @@ const View01 = () => {
   ]
 
   const initialPositionsLine1 = [
-    { x: -620, y: -150 }, { x: -380, y: 100 }, { x: -570, y: 300 }, { x: -520, y: 350 },
-    { x: -200, y: -100 }, { x: -150, y: 120 }, { x: -120, y: -90 }, { x: -80, y: 180 },
+    { x: -620, y: -100 }, { x: -380, y: 100 }, { x: -570, y: 300 }, { x: -520, y: 350 },
+    { x: -200, y: -100 }, { x: -150, y: 10 }, { x: 420, y: -90 }, { x: 480, y: 180 },
     { x: -150, y: -30 }, 
   ];
   const initialRotationsLine1 = [154, -150, 80, -52, 35, -110, 135, -84, 122];
 
   const initialPositionsLine2 = [
-    { x: 120, y: -170 }, { x: 150, y: 130 }, { x: 180, y: -150 }, { x: 90, y: 40 },
-    { x: 210, y: 90 }, { x: 240, y: -110 }, { x: 270, y: 70 }, { x: 300, y: -140 },
-    { x: 330, y: 60 }, { x: 360, y: -120 }, { x: 0, y: 40 }, { x: 390, y: 40 },
-    { x: 390, y: -30 }, 
+    { x: -200, y: -150 },
+    { x: 0, y: 200 },
+    { x: 100, y: -170 },
+    { x: -220, y: 600 },
+    { x: 340, y: 50 },
+    { x: 460, y: -100 },
+    { x: 580, y: 400 },
+    { x: -400, y: 320 },
+    { x: -320, y: 300 },
+    { x: 240, y: -50 },
+    { x: 600, y: 600 },
+    { x: -100, y: 500 },
+    { x: 400, y: 0 },
   ];
   const initialRotationsLine2 = [12, -6, 10, 7, -14, 9, -11, 6, -13, 8, 10, -9, 4];
 
@@ -107,13 +116,13 @@ const View01 = () => {
   const initialRotationsLine3 = [12, -6, 10, 7, -14, 9, -11, 6, -13, 8, 10, -9, 4];
 
   const initialImagePositions = [
-    { x: -100, y: -200 },
-    { x: 250, y: -150 },
-    { x: -200, y: 100 },
-    { x: 150, y: 50 },
-    { x: -100, y: 100 },
+    { x: -200, y: -200 },
+    { x: 250, y: 150 },
+    { x: -400, y: 400 },
+    { x: 150, y: 150 },
+    { x: 300, y: 200 },
     { x: 200, y: -100 },
-    { x: -70, y: 100 },
+    { x: 150, y: 400 },
   ];
   const initialImageRotations = [15, -10, 12, -8, 10, -6, 9];
 
@@ -248,7 +257,7 @@ const job =[
               key={`image-${index}`}
               src={process.env.PUBLIC_URL + `/image${index + 1}.png`}
               alt={`image-${index + 1}`}
-              className="w-32 h-32 object-cover transition-transform duration-75 cursor-pointer"
+              className="w-32 h-auto object-cover transition-transform duration-75 cursor-pointer"
               style={{
                 transform: `translate(${currentX}px, ${currentY + scrollEffect}px) rotate(${rotate}deg)`,
               }}
