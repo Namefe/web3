@@ -80,6 +80,11 @@ const SupportHover = () => {
             repeatType: "mirror",
           }}
         />
+        <div>
+          <img src={process.env.PUBLIC_URL + "/sec5_01.png"} alt="주사기" className="w-[30px] h-[40px]" />
+          <img src={process.env.PUBLIC_URL + "/sec5_02.png"} alt="앰뷸런스" className="w-[30px] h-[40px]" />
+          <img src={process.env.PUBLIC_URL + "/sec5_03.png"} alt="병원" className="w-[30px] h-[40px]" />
+        </div>
 
         {isHovering && (
           <div

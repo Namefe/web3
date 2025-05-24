@@ -261,15 +261,18 @@ const job =[
               style={{
                 transform: `translate(${currentX}px, ${currentY + scrollEffect}px) rotate(${rotate}deg)`,
               }}
-              onClick={() =>
-                setSelectedImage({
-                  src: process.env.PUBLIC_URL + `/image${index + 1}.png`,
-                  description: imageDescriptions[index],
-                  name: imageName[index],
-                  job: job[index],
-                  index: index,
-                })
-              }
+onClick={() => {
+  if (scrollY >= section3Top + 150) {
+    setSelectedImage({
+      src: process.env.PUBLIC_URL + `/image${index + 1}.png`,
+      description: imageDescriptions[index],
+      name: imageName[index],
+      job: job[index],
+      index: index,
+    });
+  }
+}}
+            
             />
           );
         })}
@@ -279,12 +282,18 @@ const job =[
       {selectedImage !== null && (
         <div
           className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-[300]"
-          onClick={() => setSelectedImage(null)}
+          
         >
           <div
-            className="p-4 bg-white h-[400px] flex max-w-4xl w-full mx-4"
+            className="p-4 bg-white h-[400px] flex max-w-4xl w-full mx-4 relative"
             onClick={(e) => e.stopPropagation()}
           >
+          <img
+          src={process.env.PUBLIC_URL + '/close.png'}
+          alt="닫기"
+          onClick={() => setSelectedImage(null)}
+          className="absolute top-4 right-4 w-6 h-6 cursor-pointer"
+          />
             <div className="w-1/2 pr-12 flex items-center justify-center">
               <img
                 src={alternativeImages[selectedImage.index]}
@@ -302,6 +311,7 @@ const job =[
               <div className="text-gray-700 text-lg leading-relaxed">
                 {selectedImage.description}
               </div>
+
             </div>
           </div>
         </div>
