@@ -166,7 +166,7 @@ const job =[
 ]
 
   return (
-   <section id="merge-section" className="w-full h-[500vh] md:h-[600vh] lg:h-[500vh] flex items-start justify-center relative z-10">
+   <section id="merge-section" className="hidden lg:block w-full h-[500vh] flex items-start justify-center relative z-10">
       <img
     src={process.env.PUBLIC_URL + '/hospitalbg.png'}
     alt="병원 배경"
@@ -261,18 +261,17 @@ const job =[
               style={{
                 transform: `translate(${currentX}px, ${currentY + scrollEffect}px) rotate(${rotate}deg)`,
               }}
-onClick={() => {
-  if (scrollY >= section3Top + 150) {
-    setSelectedImage({
-      src: process.env.PUBLIC_URL + `/image${index + 1}.png`,
-      description: imageDescriptions[index],
-      name: imageName[index],
-      job: job[index],
-      index: index,
+        onClick={() => {
+          if (scrollY >= section3Top + 150) {
+          setSelectedImage({
+         src: process.env.PUBLIC_URL + `/image${index + 1}.png`,
+        description: imageDescriptions[index],
+        name: imageName[index],
+        job: job[index],
+        index: index,
     });
   }
-}}
-            
+}} 
             />
           );
         })}
@@ -292,7 +291,7 @@ onClick={() => {
           src={process.env.PUBLIC_URL + '/close.png'}
           alt="닫기"
           onClick={() => setSelectedImage(null)}
-          className="absolute top-4 right-4 w-6 h-6 cursor-pointer"
+          className="absolute top-4 right-8 w-6 h-6 cursor-pointer"
           />
             <div className="w-1/2 pr-12 flex items-center justify-center">
               <img

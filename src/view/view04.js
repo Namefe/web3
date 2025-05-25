@@ -90,7 +90,7 @@ const HospitalDocuments = () => {
   return (
     <section id="document-section" className="h-[700vh] bg-gray-100 relative">
       <div className="sticky top-0 h-screen flex items-center justify-between px-20">
-        <div className="text-8xl font-bold text-gray-800">
+        <div className="text-8xl font-bold w-[80px] text-gray-800">
           {currentIndex + 1}
         </div>
 
