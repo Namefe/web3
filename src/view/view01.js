@@ -239,14 +239,18 @@ const job =[
         </div>
 
         {/* Images */}
-        <div
-        className={`${
-          scrollY >= section3Top + 150  ? 'absolute' : 'fixed'
-        } top-0 flex flex-wrap justify-center items-center gap-6 mt-10 z-50`}
-        style={{
-          top: scrollY >= section3Top + 150 ? `${section3Top + 600}px` : '300px',
-        }}
-      >
+<div
+  className={`${
+    scrollY >= section3Top + 150 ? 'absolute' : 'fixed'
+  } left-1/2 transform -translate-x-1/2 
+    flex flex-nowrap items-center justify-center gap-4 z-50`}
+  style={{
+    top: scrollY >= section3Top + 150 ? `${section3Top + 500}px` : '50%',
+    transform: scrollY >= section3Top + 150 
+      ? 'translateX(-50%)' 
+      : 'translate(-50%, -50%)'
+  }}
+>
         {initialImagePositions.map((pos, index) => {
           const currentX = pos.x * (1 - progress) + finalImagePositions[index].x * progress2;
           const currentY = pos.y * (1 - progress) + finalImagePositions[index].y * progress2;

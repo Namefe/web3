@@ -133,11 +133,11 @@ const HospitalDocuments = () => {
           {currentIndex + 1}
         </div>
 
-        <div className="relative w-[700px] h-[500px] flex justify-center items-center">
+        <div className="relative w-[700px] h-[500px] overflow-hidden flex justify-center items-center">
           <img
             src="/box.png"
             alt="box"
-            className="absolute top-1/2 left-1/2 w-[300px] h-full object-contain z-30 transition-transform duration-300"
+            className="absolute top-[40%] left-1/2 w-[300px] h-full object-contain z-30 transition-transform duration-300"
             style={{
               opacity: boxOpacity,
               transform: `translate(-50%, ${boxTranslateY}) scale(${boxScale})`,
@@ -152,7 +152,7 @@ const HospitalDocuments = () => {
               style={{
                 transform: `translate(-50%, -50%) scale(${boxScale}) translateY(${calcTranslateY(index)})`,
                 transformOrigin: 'center center',
-                opacity: progress > 0 ? 1 : 0,
+                opacity: boxOpacity > 0.7 ? 1 : 0,
                 transition: 'transform 0.5s ease-out, opacity 0.5s ease-out'
               }}
             >

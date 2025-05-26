@@ -13,7 +13,7 @@ const View03 = () => {
       const sectionTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
 
-      if (scrollTop > sectionTop + sectionHeight * 0.1) {
+      if (scrollTop > sectionTop + sectionHeight * 0.05) {
         setShowRelation(true);
       } else {
         setShowRelation(false);
@@ -38,7 +38,7 @@ const View03 = () => {
     >
       {showRelation && (
         <motion.div
-          className="absolute left-[33%] top-[20%] text-white text-2xl font-bold"
+          className="absolute left-[23%] top-[18%] text-white text-2xl font-bold"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -49,7 +49,7 @@ const View03 = () => {
 
       {showRelation && (
         <motion.div
-          className="absolute left-[65%] top-[25%] text-white text-2xl font-bold"
+          className="absolute left-[62%] top-[31%] text-white text-2xl font-bold"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -60,7 +60,7 @@ const View03 = () => {
 
       {showRelation && (
         <motion.div
-          className="absolute left-[50%] top-[30%] text-white text-xl font-bold"
+          className="absolute left-[47%] top-[34%] text-white text-xl font-bold"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -70,7 +70,7 @@ const View03 = () => {
       )}
       {showRelation && (
         <motion.div
-          className="absolute left-[60%] top-[20%] text-white text-xl font-bold"
+          className="absolute left-[73%] top-[19%] text-white text-xl font-bold"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -80,7 +80,7 @@ const View03 = () => {
       )}
       {showRelation && (
         <motion.div
-          className="absolute left-[80%] top-[25%] text-white text-xl font-bold"
+          className="absolute left-[80%] top-[30%] text-white text-xl font-bold"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -90,7 +90,7 @@ const View03 = () => {
       )}
       {showRelation && (
         <motion.div
-          className="absolute left-[30%] top-[30%] text-white text-xl font-bold"
+          className="absolute left-[23%] top-[33%] text-white text-xl font-bold"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
