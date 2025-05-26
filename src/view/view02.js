@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const View02 = () => {
   const [progress2, setProgress2] = useState(0);

@@ -242,7 +242,7 @@ const job =[
         <div
         className={`${
           scrollY >= section3Top + 150  ? 'absolute' : 'fixed'
-        } top-0 flex flex-wrap justify-center items-center gap-4 mt-10 z-50`}
+        } top-0 flex flex-wrap justify-center items-center gap-6 mt-10 z-50`}
         style={{
           top: scrollY >= section3Top + 150 ? `${section3Top + 600}px` : '300px',
         }}

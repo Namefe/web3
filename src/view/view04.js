@@ -45,9 +45,17 @@ const documents = [
 
 const HospitalDocuments = () => {
   const [progress, setProgress] = useState(0);
-  const [boxOpacity, setBoxOpacity] = useState(0);
-  const [boxScale, setBoxScale] = useState(1);
-  const [boxTranslateY, setBoxTranslateY] = useState('-50%');
+  const [scrollIndex, setScrollIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,27 +65,58 @@ const HospitalDocuments = () => {
       const scrollTop = window.scrollY;
       const sectionTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
+
       const p = (scrollTop - sectionTop) / (sectionHeight - window.innerHeight);
+      const clampedP = Math.min(Math.max(p, 0), 1);
 
-      const opacity = Math.min(Math.max(p / 0.2, 0), 1);
-      setBoxOpacity(opacity);
-
-      const scaleProgress = Math.min(Math.max((p - 0.2) / 0.3, 0), 1);
-      const newScale = 1 + scaleProgress * 0.3;
-      setBoxScale(newScale);
-
-      const translateProgress = Math.min(Math.max((p - 0.2) / 0.5, 0), 1);
-      const translateY = -50 + translateProgress * 70;
-      setBoxTranslateY(`${translateY}%`);
-
-      const docProgress = Math.min(Math.max((p - 0.7) / 0.3, 0), 1);
-      setProgress(docProgress * documents.length);
+      setProgress(clampedP * documents.length);
+      setScrollIndex(Math.round(clampedP * (documents.length - 1)));
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (isMobile) {
+    return (
+      <section
+        id="document-section"
+        className="bg-gray-100 px-4 py-10 overflow-hidden"
+        style={{ height: `${documents.length * 100}vh` }}
+      >
+        <div className="sticky top-0 h-screen flex items-center">
+          <div className="overflow-hidden w-full">
+            <div
+              className="flex transition-transform duration-500"
+              style={{ transform: `translateX(-${scrollIndex * 100}%)` }}
+            >
+              {documents.map((doc, index) => (
+                <div key={index} className="min-w-full px-4">
+                  <h2 className="text-2xl font-bold mb-4 text-center">{doc.title}</h2>
+                  <div className="flex justify-center flex-wrap gap-4 mb-4">
+                    {doc.images.map((img, i) => (
+                      <img
+                        key={i}
+                        src={img}
+                        alt={`doc-${index}-${i}`}
+                        className="w-[140px] h-[180px] object-cover rounded shadow"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-base text-gray-700 leading-relaxed text-center px-2">{doc.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // 데스크탑 버전 그대로 유지
+  const boxOpacity = Math.min(progress / 0.2, 1);
+  const boxScale = Math.min(1 + progress * 0.3, 1.3);
+  const boxTranslateY = `${-50 + Math.min((progress - 0.2) / 0.5, 1) * 70}%`;
   const calcTranslateY = (index) => {
     const local = progress - index;
     if (local < 0 || local > 1) return '100%';
