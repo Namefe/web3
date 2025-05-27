@@ -4,11 +4,11 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 w-full h-[100px] z-50 bg-transparent flex items-center justify-between px-6">
       <div>
-        <img src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" className="w-[150px] h-[100px]" />
+        <img src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" className="w-[75px] 2xl:w-[150px] h-[50px] 2xl:h-[100px]" />
       </div>
 
-      <div className="flex gap-20 mr-8 text-black">
-        <a href="#" className="relative inline-block group text-white font-bold text-[25px]">
+      <div className="flex gap-4 2xl:gap-20 mr-2 2xl:mr-8 text-black">
+        <a href="#" className="relative inline-block group text-white font-bold text-[15px] 2xl:text-[25px]">
           ABOUT
           <svg
             className="absolute top-1/2 left-1/2 w-[150%] h-[150%] -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -29,7 +29,7 @@ const Header = () => {
           </svg>
         </a>
 
-        <a href="#" className="relative inline-block group text-white font-bold text-[25px]">
+        <a href="#" className="relative inline-block group text-white font-bold text-[15px] 2xl:text-[25px]">
           CONTACT
           <svg
             className="absolute top-1/2 left-1/2 w-[100%] h-[100%] -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"

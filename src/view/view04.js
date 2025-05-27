@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const documents = [
   {
@@ -47,6 +47,9 @@ const HospitalDocuments = () => {
   const [progress, setProgress] = useState(0);
   const [scrollIndex, setScrollIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const sectionRef = useRef(null);
+  const [isFixed, setIsFixed] = useState(true);
+  const [fixedTop, setFixedTop] = useState(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,21 +62,30 @@ const HospitalDocuments = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const section = document.getElementById('document-section');
+      const section = sectionRef.current;
       if (!section) return;
 
       const scrollTop = window.scrollY;
       const sectionTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const sectionBottom = sectionTop + sectionHeight;
 
-      const p = (scrollTop - sectionTop) / (sectionHeight - window.innerHeight);
+      const p = (scrollTop - sectionTop) / (sectionHeight - windowHeight);
       const clampedP = Math.min(Math.max(p, 0), 1);
-
       setProgress(clampedP * documents.length);
       setScrollIndex(Math.round(clampedP * (documents.length - 1)));
+
+      if (scrollTop >= sectionTop && scrollTop + windowHeight <= sectionBottom) {
+        setIsFixed(true);
+      } else {
+        setIsFixed(false);
+        setFixedTop(sectionBottom - windowHeight);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -81,10 +93,18 @@ const HospitalDocuments = () => {
     return (
       <section
         id="document-section"
+        ref={sectionRef}
         className="bg-gray-100 px-4 py-10 overflow-hidden"
         style={{ height: `${documents.length * 100}vh` }}
       >
-        <div className="sticky top-0 h-screen flex items-center">
+        <div
+          className="w-full flex items-center"
+          style={{
+            position: isFixed ? 'fixed' : 'absolute',
+            top: isFixed ? 0 : `${fixedTop}px`,
+            height: '100vh',
+          }}
+        >
           <div className="overflow-hidden w-full">
             <div
               className="flex transition-transform duration-500"
@@ -113,7 +133,6 @@ const HospitalDocuments = () => {
     );
   }
 
-  // 데스크탑 버전 그대로 유지
   const boxOpacity = Math.min(progress / 0.2, 1);
   const boxScale = Math.min(1 + progress * 0.3, 1.3);
   const boxTranslateY = `${-50 + Math.min((progress - 0.2) / 0.5, 1) * 70}%`;
@@ -127,68 +146,77 @@ const HospitalDocuments = () => {
   const currentIndex = Math.floor(progress);
 
   return (
-    <section id="document-section" className="h-[700vh] bg-gray-100 relative">
+    <section ref={sectionRef} id="document-section" className="h-[700vh] bg-gray-100 relative">
       <div className="sticky top-0 h-screen flex items-center justify-between px-20">
-        <div className="text-8xl font-bold w-[80px] text-gray-800">
+        <div className="w-full max-w-screen-xl mx-auto flex justify-between items-center">
+        <div className="text-8xl font-bold w-[50px] text-gray-800">
           {currentIndex + 1}
         </div>
 
-        <div className="relative w-[700px] h-[500px] overflow-hidden flex justify-center items-center">
-          <img
-            src="/box.png"
-            alt="box"
-            className="absolute top-[40%] left-1/2 w-[300px] h-full object-contain z-30 transition-transform duration-300"
-            style={{
-              opacity: boxOpacity,
-              transform: `translate(-50%, ${boxTranslateY}) scale(${boxScale})`,
-              transformOrigin: 'center center'
-            }}
-          />
+<div className="relative w-[700px] h-[500px] overflow-hidden flex justify-center items-center">
+  <img
+    src="/box.png"
+    alt="box"
+    className="absolute top-[40%] left-1/2 w-[300px] h-full object-contain z-30 transition-transform duration-300"
+    style={{
+      opacity: boxOpacity,
+      transform: `translate(-50%, ${boxTranslateY}) scale(${boxScale})`,
+      transformOrigin: 'center center'
+    }}
+  />
 
-          {documents.map((doc, index) => (
-            <div
-              key={index}
-              className="absolute top-1/2 left-1/2 w-[60%] h-[80%] flex items-center justify-center z-20"
-              style={{
-                transform: `translate(-50%, -50%) scale(${boxScale}) translateY(${calcTranslateY(index)})`,
-                transformOrigin: 'center center',
-                opacity: boxOpacity > 0.7 ? 1 : 0,
-                transition: 'transform 0.5s ease-out, opacity 0.5s ease-out'
-              }}
-            >
-              <img src="/list.png" alt="document-bg" className="w-full h-full object-contain" />
+  {documents.map((doc, index) => (
+    <div
+      key={index}
+      className="absolute top-1/2 left-1/2 w-[60%] h-[80%] z-20"
+      style={{
+        transform: `translate(-50%, -50%) scale(${boxScale}) translateY(${calcTranslateY(index)})`,
+        transformOrigin: 'center center',
+        opacity: boxOpacity > 0.7 ? 1 : 0,
+        transition: 'transform 0.5s ease-out, opacity 0.5s ease-out'
+      }}
+    >
+      {/* ✅ list.png를 relative 컨테이너 안에 넣고 기준점으로 사용 */}
+      <div className="relative w-full h-full flex items-center justify-center">
+        <img
+          src="/list.png"
+          alt="document-bg"
+          className="absolute top-0 left-0 w-full h-full object-contain z-10"
+        />
 
-              <div className="absolute top-[20%] left-1/2 -translate-x-1/2 z-20 w-full h-full">
-                <div className="relative w-full h-full">
-                  {doc.images.map((img, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-[160px] h-[200px]"
-                      style={{
-                        top: `${-10 + i * 70}px`,
-                        left: `${120 + i * 20}px`,
-                        zIndex: 10 + i,
-                        transform: `rotate(${i % 2 === 0 ? -10 : 10}deg)`
-                      }}
-                    >
-                      <div className="absolute inset-[10%] z-20 flex items-center justify-center">
-                        <img
-                          src={img}
-                          alt={`doc-${index}-${i}`}
-                          className="w-full h-auto object-contain"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* ✅ 이미지 카드들을 list.png의 정중앙에 배치 */}
+<div className="absolute top-1/2 left-[70%] -translate-x-1/2 -translate-y-1/2 z-20">
+  <div className="relative w-[300px] h-[200px]">
+    {doc.images.map((img, i) => (
+      <div
+        key={i}
+        className="absolute w-[160px] h-[200px]"
+        style={{
+          top: `${i * 10}px`,
+          left: `${i * 20}px`,
+          zIndex: 10 + i,
+          transform: `rotate(${i % 2 === 0 ? -10 : 10}deg)`
+        }}
+      >
+        <img
+          src={img}
+          alt={`doc-${index}-${i}`}
+          className="w-full h-full object-cover rounded"
+        />
+      </div>
+    ))}
+  </div>
+</div>
+      </div>
+    </div>
+  ))}
+</div>
+
 
         <div className="w-[400px] text-gray-800">
-          <h2 className="text-4xl font-bold mb-4">{documents[currentIndex]?.title}</h2>
+          <h2 className="text-3xl font-bold mb-4">{documents[currentIndex]?.title}</h2>
           <p className="text-xl leading-relaxed">{documents[currentIndex]?.description}</p>
+        </div>
         </div>
       </div>
     </section>

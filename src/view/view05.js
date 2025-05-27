@@ -71,12 +71,13 @@ const SupportHover = () => {
       {/* 중앙 전단지와 주변 이미지 */}
       <div
         className="relative w-[300px] h-[400px]"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
+        
       >
         {/* 중앙 전단지 이미지 */}
         <motion.img
           src="/check.png"
+          onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
           alt="중증외상센터 홍보 전단지"
           className="w-full h-full relative top-[100px] object-contain hover:cursor-pointer"
           animate={{

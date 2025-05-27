@@ -24,7 +24,7 @@ const View02 = () => {
   return (
     <section
       id="scatter-section"
-      className="w-full h-[300vh]"
+      className="hidden lg:block w-full h-[300vh]"
         style={{
             backgroundImage: `url(${process.env.PUBLIC_URL + '/sec2bg.png'})`,
             // backgroundSize: 'cover',
@@ -34,6 +34,9 @@ const View02 = () => {
             position: 'relative',
         }}
     >
+      <div>
+        이건 웹용인거임 암튼 그런거임 ㅇㅇ
+      </div>
     </section>
   );
 };

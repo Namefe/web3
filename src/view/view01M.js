@@ -82,7 +82,7 @@ const View01M = () => {
               const currentY = y * (1 - progress);
               return (
                 <span key={`line1-${index}`} className="inline-block" style={{ transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`, transition: 'transform 0.3s ease-out' }}>
-                  <img src={process.env.PUBLIC_URL + '/' + file} alt={`letter-${index}`} className="w-12 h-12 object-contain" />
+                  <img src={process.env.PUBLIC_URL + '/' + file} alt={`letter-${index}`} className="w-8 h-8 object-contain" />
                 </span>
               );
             })}
@@ -114,7 +114,7 @@ const View01M = () => {
         </div>
       </section>
 
-      <div
+      {/* <div
         ref={section2Ref}
         className={`${
           isFixed ? 'absolute top-[120vh]' : 'fixed top-[30vh]'
@@ -143,7 +143,7 @@ const View01M = () => {
             />
           ))}
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
