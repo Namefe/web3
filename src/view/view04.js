@@ -176,7 +176,6 @@ const HospitalDocuments = () => {
         transition: 'transform 0.5s ease-out, opacity 0.5s ease-out'
       }}
     >
-      {/* ✅ list.png를 relative 컨테이너 안에 넣고 기준점으로 사용 */}
       <div className="relative w-full h-full flex items-center justify-center">
         <img
           src="/list.png"
@@ -184,7 +183,6 @@ const HospitalDocuments = () => {
           className="absolute top-0 left-0 w-full h-full object-contain z-10"
         />
 
-        {/* ✅ 이미지 카드들을 list.png의 정중앙에 배치 */}
 <div className="absolute top-1/2 left-[70%] -translate-x-1/2 -translate-y-1/2 z-20">
   <div className="relative w-[300px] h-[200px]">
     {doc.images.map((img, i) => (

@@ -37,6 +37,13 @@ const View01M = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth", 
+  });
+};
+
   const line1Files = ['우.png', '린.png', '계.png', '속.png', '뛰.png', '어.png', '야.png', '한.png', '다.png'];
   const line2Files = ['넷2.png', '플2.png', '릭2.png', '스2.png', '시2.png', '리2.png', '즈2.png', '중.png', '증.png', '외.png', '상.png', '센.png', '터.png'];
   const line3Files = ['o2.png', 'n2.png', 'l2.png', 'y2.png', 'o2.png', 'n2.png', 'n.png', 'e.png', 't.png', 'f.png', 'l.png', 'i.png', 'x.png'];
@@ -112,7 +119,24 @@ const View01M = () => {
             })}
           </div>
         </div>
-      </section>
+        <div 
+        onClick={scrollToTop} 
+        className="z-[9999] fixed bottom-4 right-4 flex flex-col items-center hover:cursor-pointer">
+        <img
+          src={process.env.PUBLIC_URL + '/top.png'}
+          alt="top"
+          className="
+            w-[40px] h-[40px]
+            sm:w-[50px] sm:h-[50px]
+            md:w-[60px] md:h-[60px]
+            lg:w-[70px] lg:h-[70px]
+            xl:w-[80px] xl:h-[80px]
+            object-contain
+          "
+        />
+        <p className="text-[10px] sm:text-[12px] md:text-[14px] text-black">TOP</p>
+      </div>
+            </section>
 
       {/* <div
         ref={section2Ref}
