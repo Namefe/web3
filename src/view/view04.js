@@ -183,15 +183,15 @@ const HospitalDocuments = () => {
           className="absolute top-0 left-0 w-full h-full object-contain z-10"
         />
 
-<div className="absolute top-1/2 left-[70%] -translate-x-1/2 -translate-y-1/2 z-20">
+<div className="absolute top-1/2 left-[80%] -translate-x-1/2 -translate-y-1/2 z-20">
   <div className="relative w-[300px] h-[200px]">
     {doc.images.map((img, i) => (
       <div
         key={i}
-        className="absolute w-[160px] h-[200px]"
+        className="absolute w-[160px] h-[100px]"
         style={{
-          top: `${i * 10}px`,
-          left: `${i * 20}px`,
+          top: `${i * 100}px`,
+          left: `${i * 10}px`,
           zIndex: 10 + i,
           transform: `rotate(${i % 2 === 0 ? -10 : 10}deg)`
         }}
@@ -199,7 +199,7 @@ const HospitalDocuments = () => {
         <img
           src={img}
           alt={`doc-${index}-${i}`}
-          className="w-full h-full object-cover rounded"
+          className="w-full h-full object-cover "
         />
       </div>
     ))}

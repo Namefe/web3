@@ -34,9 +34,7 @@ const View02 = () => {
             position: 'relative',
         }}
     >
-      <div>
-        이건 웹용인거임 암튼 그런거임 ㅇㅇ
-      </div>
+
     </section>
   );
 };

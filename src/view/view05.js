@@ -41,7 +41,6 @@ const SupportHover = () => {
       animate={controls}
       transition={{ duration: 1 }}
     >
-      {/* 상단 텍스트 SVG */}
       <motion.svg
         ref={svgRef}
         viewBox="0 0 450 50"
@@ -68,12 +67,10 @@ const SupportHover = () => {
         </g>
       </motion.svg>
 
-      {/* 중앙 전단지와 주변 이미지 */}
       <div
         className="relative w-[300px] h-[400px]"
         
       >
-        {/* 중앙 전단지 이미지 */}
         <motion.img
           src="/check.png"
           onMouseEnter={() => setIsHovering(true)}
@@ -121,7 +118,6 @@ const SupportHover = () => {
         })}
       </div>
 
-      {/* 커서 효과 */}
       {isHovering && (
         <div
           className="fixed pointer-events-none z-50 flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 via-yellow-500 to-pink-500 text-white text-base font-semibold shadow-xl animate-pulse"

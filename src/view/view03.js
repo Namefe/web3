@@ -5,7 +5,6 @@ const View03 = () => {
   const [showRelation, setShowRelation] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
-  // 스크롤에 따른 요소 등장
   useEffect(() => {
     const handleScroll = () => {
       const section = document.getElementById("section03");
@@ -26,7 +25,6 @@ const View03 = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 창 크기 감지하여 모바일/웹 판단
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
