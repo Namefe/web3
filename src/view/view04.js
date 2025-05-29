@@ -183,7 +183,7 @@ const HospitalDocuments = () => {
           className="absolute top-0 left-0 w-full h-full object-contain z-10"
         />
 
-<div className="absolute top-1/2 left-[80%] -translate-x-1/2 -translate-y-1/2 z-20">
+<div className="absolute top-1/2 left-[65%] -translate-x-1/2 -translate-y-1/2 z-20">
   <div className="relative w-[300px] h-[200px]">
     {doc.images.map((img, i) => (
       <div

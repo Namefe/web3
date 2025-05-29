@@ -6,40 +6,49 @@ const View01 = () => {
   const [scrollY, setScrollY] = useState(0);
   const [section3Top, setSection3Top] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [stopScrollY, setStopScrollY] = useState(null);
 
-  useEffect(() => {
+useEffect(() => {
+  const handleScroll = () => {
     const section3 = document.getElementById('section03');
-    if (section3) {
-      setSection3Top(section3.offsetTop);
+    const scrollTop = window.scrollY;
+
+    // 기존 progress 계산 유지
+    const section1 = document.getElementById('merge-section');
+    const section2 = document.getElementById('scatter-section');
+    const offsetTop1 = section1.offsetTop;
+    const height1 = section1.offsetHeight;
+    const relativeY1 = scrollTop - offsetTop1;
+    const effectiveHeight1 = height1 * 0.6;
+    const p1 = Math.min(Math.max(relativeY1 / effectiveHeight1, 0), 1);
+    setProgress(p1);
+    setScrollY(scrollTop);
+
+    if (section2) {
+      const offsetTop2 = section2.offsetTop;
+      const height2 = section2.offsetHeight;
+      const relativeY2 = scrollTop - (offsetTop2 - 300);
+      const effectiveHeight2 = height2 * 0.2;
+      const p2 = Math.min(Math.max(relativeY2 / effectiveHeight2, 0), 1);
+      setProgress2(p2);
     }
 
-    const handleScroll = () => {
-      const section1 = document.getElementById('merge-section');
-      const section2 = document.getElementById('scatter-section');
-      const scrollTop = window.scrollY;
+    if (section3 && stopScrollY === null) {
+      const triggerOffset = 200; // 언제 고정시킬지 결정
+      const sectionTop = section3.offsetTop;
 
-      const offsetTop1 = section1.offsetTop;
-      const height1 = section1.offsetHeight;
-      const relativeY1 = scrollTop - offsetTop1;
-      const effectiveHeight1 = height1 * 0.6;
-      const p1 = Math.min(Math.max(relativeY1 / effectiveHeight1, 0), 1);
-      setProgress(p1);
-      setScrollY(scrollTop);
-
-      if (section2) {
-        const offsetTop2 = section2.offsetTop;
-        const height2 = section2.offsetHeight;
-        const triggerOffset = 300;
-        const relativeY2 = scrollTop - (offsetTop2 - triggerOffset);
-        const effectiveHeight2 = height2 * 0.2;
-        const p2 = Math.min(Math.max(relativeY2 / effectiveHeight2, 0), 1);
-        setProgress2(p2);
+      if (scrollTop >= sectionTop + triggerOffset) {
+        setStopScrollY(sectionTop + triggerOffset);
       }
-    };
+    }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    setScrollY(scrollTop);
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, [stopScrollY]);
+
 
   const scrollToTop = () => {
   window.scrollTo({
@@ -245,47 +254,54 @@ const job =[
         </div>
         </div>
 
-        {/* Images */}
+                {/* Images */}
 <div
   className={`${
-    scrollY >= section3Top + 150 ? 'absolute' : 'fixed'
-  } left-1/2 transform -translate-x-1/2 
-    flex flex-nowrap items-center justify-center gap-4 z-50`}
+    stopScrollY !== null && scrollY >= stopScrollY ? 'absolute' : 'fixed'
+  } left-1/2 transform -translate-x-1/2 flex flex-nowrap items-center justify-center gap-4 z-50`}
   style={{
-    top: scrollY >= section3Top + 150 ? `${section3Top + 500}px` : '50%',
-    transform: scrollY >= section3Top + 150 
-      ? 'translateX(-50%)' 
-      : 'translate(-50%, -50%)'
+    top:
+      stopScrollY !== null && scrollY >= stopScrollY
+        ? `${stopScrollY - section3Top + window.innerHeight * 0.4}px`
+        : '40%',
+    transform: 'translateX(-50%)',
   }}
 >
-        {initialImagePositions.map((pos, index) => {
-          const currentX = pos.x * (1 - progress) + finalImagePositions[index].x * progress2;
-          const currentY = pos.y * (1 - progress) + finalImagePositions[index].y * progress2;
-          const rotate = initialImageRotations[index] * (1 - progress) + finalImageRotations[index] * progress2;
+  {initialImagePositions.map((pos, index) => {
+    const isFixed = stopScrollY !== null && scrollY >= stopScrollY;
 
-          return (
-            <img
-              key={`image-${index}`}
-              src={process.env.PUBLIC_URL + `/image${index + 1}.png`}
-              alt={`image-${index + 1}`}
-              className="w-32 h-auto object-cover transition-transform duration-75 cursor-pointer"
-              style={{
-                transform: `translate(${currentX}px, ${currentY + scrollEffect}px) rotate(${rotate}deg)`,
-              }}
-        onClick={() => {
-          if (scrollY >= section3Top + 150) {
-          setSelectedImage({
-         src: process.env.PUBLIC_URL + `/image${index + 1}.png`,
-        description: imageDescriptions[index],
-        name: imageName[index],
-        job: job[index],
-        index: index,
-    });
+    const progressValue = isFixed ? 1 : progress;
+    const progress2Value = isFixed ? 1 : progress2;
+
+    const currentX =
+      pos.x * (1 - progressValue) + finalImagePositions[index].x * progress2Value;
+    const currentY =
+      pos.y * (1 - progressValue) + finalImagePositions[index].y * progress2Value;
+    const rotate =
+      initialImageRotations[index] * (1 - progressValue) +
+      finalImageRotations[index] * progress2Value;
+
+    return (
+<img
+  key={`image-${index}`}
+  src={process.env.PUBLIC_URL + `/image${index + 1}.png`}
+  alt={`image-${index + 1}`}
+  className="w-32 h-auto object-cover transition-transform duration-300 cursor-pointer"
+  style={{
+    transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
+    opacity: 1,
+  }}
+  onClick={() =>
+    setSelectedImage({
+      index,
+      name: imageName[index],
+      job: job[index],
+      description: imageDescriptions[index],
+    })
   }
-}} 
-            />
-          );
-        })}
+/>
+    );
+  })}
       </div>
 
       {/* Modal */}

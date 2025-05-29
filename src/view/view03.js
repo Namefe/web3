@@ -70,7 +70,7 @@ const View03 = () => {
           </motion.div>
 
           <motion.div
-            className="hidden lg:block absolute left-[47%] top-[34%] text-white text-xl font-bold"
+            className="hidden lg:block absolute left-[47%] top-[34%] text-white text-2xl font-bold"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -79,7 +79,7 @@ const View03 = () => {
           </motion.div>
 
           <motion.div
-            className="hidden lg:block absolute left-[73%] top-[19%] text-white text-xl font-bold"
+            className="hidden lg:block absolute left-[73%] top-[19%] text-white text-2xl font-bold"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -88,7 +88,7 @@ const View03 = () => {
           </motion.div>
 
           <motion.div
-            className="hidden lg:block absolute left-[80%] top-[30%] text-white text-xl font-bold"
+            className="hidden lg:block absolute left-[80%] top-[30%] text-white text-2xl font-bold"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -97,7 +97,7 @@ const View03 = () => {
           </motion.div>
 
           <motion.div
-            className="hidden lg:block absolute left-[23%] top-[33%] text-white text-xl font-bold"
+            className="hidden lg:block absolute left-[23%] top-[33%] text-white text-2xl font-bold"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
