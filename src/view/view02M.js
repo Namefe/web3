@@ -86,7 +86,7 @@ const imageDescriptions = [
   return (
     <section
       ref={sectionRef}
-      className="block lg:hidden w-full h-[500vh] flex items-center justify-center relative"
+      className="block lg:hidden w-full h-[500vh] relative"
       style={{
         backgroundImage: `url(${process.env.PUBLIC_URL + '/longboard.png'})`,
         backgroundSize: 'cover',

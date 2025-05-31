@@ -1,4 +1,30 @@
 ##
+250531
+
+글자폰트 크기, 전부 동일
+
+sec1
+중증외상센터 글만 쪼개져있기
+사진은 애드빌런즈처럼 동일하게 프레임안에
+스크롤다운
+
+sec2
+중증외상센터가 합쳐졌을때
+나머지 글자 fadeIn
+https://www.reshot.com/free-svg-icons/hospital/
+주사기나 낙서 fadeIn
+
+sec3
+배경 fadeIn
+컴퓨터 fadeIn
+사진들 흔들리게
+
+https://www.reshot.com/free-svg-icons/hospital/
+주사기나 테이프 낙서 fadeIn
+
+
+
+##
 250524
 도착전까지는 팝업 안나오게
 팝업닫기버튼

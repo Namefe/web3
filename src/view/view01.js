@@ -182,12 +182,12 @@ const job =[
 ]
 
   return (
-   <section id="merge-section" className="hidden lg:block w-full h-[500vh] flex items-start justify-center relative z-10">
-      <img
+   <section id="merge-section" className="hidden lg:block w-full h-[500vh] relative z-10 bg-[#e1d4c4]">
+      {/* <img
     src={process.env.PUBLIC_URL + '/hospitalbg.png'}
     alt="병원 배경"
     className="absolute top-0 left-0 w-full h-full object-cover z-0"
-  />
+  /> */}
       <div className="sticky top-[10%] flex flex-col items-center space-y-4">
 
         {/* Line 1 */}
