@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 const View03 = () => {
   const [showRelation, setShowRelation] = useState(false);
@@ -33,12 +33,15 @@ const View03 = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const backgroundImage = isMobile
-    ? `url(${process.env.PUBLIC_URL + "/noboard.png"})`
-    : `url(${process.env.PUBLIC_URL + "/board.jpg"})`;
+  const backgroundImage =
+  `url(${process.env.PUBLIC_URL + '/sec2bg.png'})`;
+
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: '-100px' }); // 조금 일찍 감지됨
 
   return (
     <section
+    ref={ref}
       id="section03"
       style={{
         backgroundImage,
@@ -51,6 +54,22 @@ const View03 = () => {
     >
       {showRelation && (
         <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{
+          duration: 1.5,
+          ease: [0.25, 0.1, 0.25, 1]
+        }}
+        style={{
+          backgroundImage: `url(${process.env.PUBLIC_URL + '/board2.png'})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+        }}
+      >
           <motion.div
             className="hidden lg:block absolute left-[23%] top-[18%] text-white text-2xl font-bold"
             initial={{ opacity: 0, y: 30 }}
@@ -104,8 +123,10 @@ const View03 = () => {
           >
             마취과의 유일한 희망
           </motion.div>
+          </motion.div>
         </>
       )}
+      
     </section>
   );
 };

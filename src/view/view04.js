@@ -157,7 +157,7 @@ const HospitalDocuments = () => {
   <img
     src="/box.png"
     alt="box"
-    className="absolute top-[40%] left-1/2 w-[300px] h-full object-contain z-30 transition-transform duration-300"
+    className="absolute top-[30%] left-[60%] w-[400px] h-full object-contain z-30 transition-transform duration-300"
     style={{
       opacity: boxOpacity,
       transform: `translate(-50%, ${boxTranslateY}) scale(${boxScale})`,
@@ -176,15 +176,15 @@ const HospitalDocuments = () => {
         transition: 'transform 0.5s ease-out, opacity 0.5s ease-out'
       }}
     >
-      <div className="relative w-full h-full flex items-center justify-center">
+      <div className="relative w-[500px] h-full flex items-center justify-center">
         <img
-          src="/list.png"
+          src="/list (2).png"
           alt="document-bg"
           className="absolute top-0 left-0 w-full h-full object-contain z-10"
         />
 
-<div className="absolute top-1/2 left-[65%] -translate-x-1/2 -translate-y-1/2 z-20">
-  <div className="relative w-[300px] h-[200px]">
+<div className="absolute top-[100px] left-[30%] -translate-x-1/2  z-20" >
+  <div className="relative ">
     {doc.images.map((img, i) => (
       <div
         key={i}
@@ -193,7 +193,7 @@ const HospitalDocuments = () => {
           top: `${i * 100}px`,
           left: `${i * 10}px`,
           zIndex: 10 + i,
-          transform: `rotate(${i % 2 === 0 ? -10 : 10}deg)`
+          transform: `rotate(${i % 2 === 0 ? -10 : 10}deg)`,
         }}
       >
         <img

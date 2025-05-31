@@ -9,7 +9,7 @@ h-[30px] sm:h-[40px] md:h-[50px] lg:h-[70px] xl:h-[85px] 2xl:h-[100px]" />
       </div>
 
       <div className="flex gap-4 2xl:gap-20 mr-2 2xl:mr-8 text-black">
-        <a href="#" className="relative inline-block group text-white font-bold text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[22px] 2xl:text-[25px]
+        <a href="#" className="relative inline-block group text-white font-fowell text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[22px] 2xl:text-[25px]
 ">
           ABOUT
           <svg
@@ -31,7 +31,7 @@ h-[30px] sm:h-[40px] md:h-[50px] lg:h-[70px] xl:h-[85px] 2xl:h-[100px]" />
           </svg>
         </a>
 
-        <a href="#" className="relative inline-block group text-white font-bold text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[22px] 2xl:text-[25px]
+        <a href="#" className="relative inline-block group text-white font-fowell text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[22px] 2xl:text-[25px]
 ">
           CONTACT
           <svg
