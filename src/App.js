@@ -15,6 +15,17 @@ function App() {
     <>
     <ClickEffect/>
     <Header/>
+{/* 
+
+<div ref={ref} className="relative">
+  <ScrollImage/> 
+  <View01/>
+  <View02/>
+  <View03/>
+</div>
+
+*/}
+
       <View01/>
       <View01M/>
       <View02/>
