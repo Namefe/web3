@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 
 const View03 = () => {
   const [showRelation, setShowRelation] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isFixed, setIsFixed] = useState(true);
+const [boxStopY, setBoxStopY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,9 +41,38 @@ const View03 = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' }); // 조금 일찍 감지됨
 
+    const sectionRef = useRef(null);
+const { scrollYProgress } = useScroll({
+  target: sectionRef,
+  offset: ["start start", "end start"],
+});
+useEffect(() => {
+  const section04 = document.getElementById("section04");
+  if (!section04) return;
+
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+    const section04Top = section04.offsetTop;
+
+    if (scrollY + window.innerHeight / 2 >= section04Top) {
+      setIsFixed(false); // 고정 해제
+      setBoxStopY(section04Top - window.innerHeight / 2); // 박스 멈출 위치 기억
+    } else {
+      setIsFixed(true); // 계속 fixed 상태 유지
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+    const boxScale = useTransform(scrollYProgress, [0, 1], [1, 3]);
+const boxY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+const boxOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
+
   return (
     <section
-    ref={ref}
+     ref={sectionRef}
       id="section03"
       style={{
         backgroundImage,
@@ -50,7 +81,7 @@ const View03 = () => {
         backgroundRepeat: "no-repeat",
         position: "relative",
       }}
-      className="w-screen h-[300vh]"
+      className="w-screen h-[300vh] relative"
     >
       {showRelation && (
         <>
@@ -126,7 +157,27 @@ const View03 = () => {
           </motion.div>
         </>
       )}
-      
+<motion.div
+  style={{
+    scale: boxScale,
+    opacity: boxOpacity,
+    transformOrigin: "center center",
+    ...(isFixed
+      ? {}
+      : { position: "absolute", top: `${boxStopY}px` })
+  }}
+  className={`z-50 w-[200px] h-[200px] pointer-events-none 
+    ${isFixed
+      ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      : "left-1/2 -translate-x-1/2"}
+  `}
+>
+  <img
+    src="/box.png"
+    alt="box"
+    className="w-full h-full object-contain"
+  />
+</motion.div>
     </section>
   );
 };

@@ -7,56 +7,63 @@ const View01 = () => {
   const [section3Top, setSection3Top] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
   const [stopScrollY, setStopScrollY] = useState(null);
+  const [showScrollDown, setShowScrollDown] = useState(true);
+  const [showLines13, setShowLines13] = useState(false); // 반드시 여기 위에 있어야 됨
 
-useEffect(() => {
-  const handleScroll = () => {
-    const section3 = document.getElementById('section03');
-    const scrollTop = window.scrollY;
+  // ✅ useEffect는 return 이전에 항상 실행
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setScrollY(scrollTop);
 
-    // 기존 progress 계산 유지
-    const section1 = document.getElementById('merge-section');
-    const section2 = document.getElementById('scatter-section');
-    const offsetTop1 = section1.offsetTop;
-    const height1 = section1.offsetHeight;
-    const relativeY1 = scrollTop - offsetTop1;
-    const effectiveHeight1 = height1 * 0.6;
-    const p1 = Math.min(Math.max(relativeY1 / effectiveHeight1, 0), 1);
-    setProgress(p1);
-    setScrollY(scrollTop);
+      const section1 = document.getElementById('merge-section');
+      const section2 = document.getElementById('scatter-section');
+      const section3 = document.getElementById('section03');
 
-    if (section2) {
-      const offsetTop2 = section2.offsetTop;
-      const height2 = section2.offsetHeight;
-      const relativeY2 = scrollTop - (offsetTop2 - 300);
-      const effectiveHeight2 = height2 * 0.2;
-      const p2 = Math.min(Math.max(relativeY2 / effectiveHeight2, 0), 1);
-      setProgress2(p2);
-    }
-
-    if (section3 && stopScrollY === null) {
-      const triggerOffset = 200; // 언제 고정시킬지 결정
-      const sectionTop = section3.offsetTop;
-
-      if (scrollTop >= sectionTop + triggerOffset) {
-        setStopScrollY(sectionTop + triggerOffset);
+      if (section1) {
+        const offsetTop1 = section1.offsetTop;
+        const height1 = section1.offsetHeight;
+        const relativeY1 = scrollTop - offsetTop1;
+        const effectiveHeight1 = height1 * 0.6;
+        const p1 = Math.min(Math.max(relativeY1 / effectiveHeight1, 0), 1);
+        setProgress(p1);
       }
-    }
 
-    setScrollY(scrollTop);
-  };
+      if (section2) {
+        const offsetTop2 = section2.offsetTop;
+        const height2 = section2.offsetHeight;
+        const relativeY2 = scrollTop - (offsetTop2 - 300);
+        const effectiveHeight2 = height2 * 0.2;
+        const p2 = Math.min(Math.max(relativeY2 / effectiveHeight2, 0), 1);
+        setProgress2(p2);
+      }
 
-  window.addEventListener('scroll', handleScroll);
-  return () => window.removeEventListener('scroll', handleScroll);
-}, [stopScrollY]);
+      if (section3 && stopScrollY === null) {
+        const triggerOffset = 200;
+        const sectionTop = section3.offsetTop;
+        if (scrollTop >= sectionTop + triggerOffset) {
+          setStopScrollY(sectionTop + triggerOffset);
+        }
+      }
 
+      if (scrollTop <= 10) {
+        setShowScrollDown(true);
+      } else {
+        setShowScrollDown(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [stopScrollY, showScrollDown]);
+
+  useEffect(() => {
+    setShowLines13(progress > 0.98);
+  }, [progress]);
 
   const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth", 
-  });
-};
-
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const line1 = [ 
    <img src={process.env.PUBLIC_URL + '/우.png'} alt="우" className="inline-block w-6 h-6" />,
    <img src={process.env.PUBLIC_URL + '/린.png'} alt="린" className="inline-block w-6 h-6" />, 
@@ -179,30 +186,31 @@ const job =[
   "한국대학교 병원 외상외과 교수 겸 중증외상센터장","한국대학교병원 외상외과 전임의","한국대학교 중증외상센터 시니어 간호사","한국대학교병원 마취통증의학과 전공의","한국대학교병원 외과 과장 겸 대장항문외과 과장","보건복지부 장관","한국대학교병원 기회조정실장 겸 감염내과 교수"
 ]
 
+
   return (
    <section id="merge-section" className="hidden lg:block w-full h-[200vh] relative z-10 bg-[#e1d4c4]">
       <div className="sticky top-[10%] flex flex-col items-center space-y-4">
 
-        {/* Line 1 */}
-        {/* <div className="flex space-x-2">
-          {line1.map((letter, index) => {
-            const { x, y } = initialPositionsLine1[index];
-            const rotate = initialRotationsLine1[index] * (1 - progress);
-            const currentX = x * (1 - progress);
-            const currentY = y * (1 - progress);
-            return (
-              <span
-                key={`line1-${index}`}
-                className="font-medical text-6xl tracking-wide text-white"
-                style={{
-                  transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
-                }}
-              >
-                {letter}
-              </span>
-            );
-          })}
-        </div>
+{/* Line 1 */}
+<div className={`flex space-x-2 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
+  {line1.map((letter, index) => {
+    const { x, y } = initialPositionsLine1[index];
+    const rotate = initialRotationsLine1[index] * (1 - progress);
+    const currentX = x * (1 - progress);
+    const currentY = y * (1 - progress);
+    return (
+      <span
+        key={`line1-${index}`}
+        className="font-medical text-6xl tracking-wide text-white"
+        style={{
+          transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
+        }}
+      >
+        {letter}
+      </span>
+    );
+  })}
+</div>
 
         {/* Line 2 */}
         <div className="flex ">
@@ -226,26 +234,28 @@ const job =[
         </div> 
 
 
-        {/* Line 3 */}
-        {/* <div className="flex space-x-2">
-          {line3.map((letter, index) => {
-            const { x, y } = initialPositionsLine3[index];
-            const rotate = initialRotationsLine3[index] * (1 - progress);
-            const currentX = x * (1 - progress);
-            const currentY = y * (1 - progress);
-            return (
-              <span
-                key={`line3-${index}`}
-                className="font-medical text-6xl  text-white"
-                style={{
-                  transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
-                }}
-              >
-                {letter}
-              </span>
-            );
-          })}
-        </div> */}
+{/* Line 3 */}
+{showLines13 && (
+<div className={`flex space-x-2 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
+    {line3.map((letter, index) => {
+      const { x, y } = initialPositionsLine3[index];
+      const rotate = initialRotationsLine3[index] * (1 - progress);
+      const currentX = x * (1 - progress);
+      const currentY = y * (1 - progress);
+      return (
+        <span
+          key={`line3-${index}`}
+          className="font-medical text-6xl text-white"
+          style={{
+            transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
+          }}
+        >
+          {letter}
+        </span>
+      );
+    })}
+  </div>
+)}
         </div>
 
                 {/* Images */}
@@ -281,7 +291,7 @@ const job =[
   key={`image-${index}`}
   src={process.env.PUBLIC_URL + `/clickimage${index + 1}.png`}
   alt={`image-${index + 1}`}
-  className="w-32 h-auto object-cover transition-transform duration-300 cursor-pointer"
+  className="w-32 h-auto object-cover transition-transform duration-300 cursor-pointer "
   style={{
     transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
     opacity: 1,
@@ -299,8 +309,8 @@ const job =[
     );
   })}
       </div>
-
-      <div className='flex flex-col justify-center items-center absolute left-1/2 translate-x-[-50%] bottom-[53%] gap-5'>
+  {showScrollDown && (
+      <div className='animate-float flex flex-col justify-center items-center absolute left-1/2 translate-x-[-50%] top-[23%] gap-5 transition-opacity duration-200'>
         <svg className='w-[150px] h-[21px]'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 21" fill='none' >
           <path d="M145.547 17.1406C145.547 17.0312 145.531 16.9766 145.5 16.9766C145.406 16.9766 145.336 17.0312 145.289 17.1406C145.289 17.2031 145.312 17.25 145.359 17.2812C145.484 17.2812 145.547 17.2344 145.547 17.1406ZM140.039 3.125C140.039 2.89062 139.953 2.82812 139.781 2.9375C139.594 3.03125 139.531 3.13281 139.594 3.24219C139.609 3.30469 139.68 3.33594 139.805 3.33594C139.961 3.33594 140.039 3.26562 140.039 3.125ZM137.766 1.20312C138.031 1.10938 138.195 1.0625 138.258 1.0625C138.289 1.0625 138.609 1.10938 139.219 1.20312C139.641 1.20312 140.023 1.39062 140.367 1.76562C140.695 2.1875 141.492 3.67969 142.758 6.24219C143.055 6.78906 143.234 7.14062 143.297 7.29688C144.891 10.5312 145.727 12.1484 145.805 12.1484C145.914 12.1484 145.969 10.7969 145.969 8.09375C146.016 4.90625 146.047 3.27344 146.062 3.19531C146.125 2.74219 146.281 2.34375 146.531 2C146.781 1.65625 147.094 1.48438 147.469 1.48438C148 1.48438 148.289 1.80469 148.336 2.44531C148.383 3.19531 148.406 4.32812 148.406 5.84375C148.406 8.40625 148.531 11.1172 148.781 13.9766C148.969 16.1328 149.062 17.6016 149.062 18.3828V18.5703C148.984 18.8984 148.633 19.2578 148.008 19.6484C147.398 20.0234 146.922 20.2109 146.578 20.2109C145.547 20.2109 144.523 19.3672 143.508 17.6797C143.133 17.0547 142.383 15.5859 141.258 13.2734C140.148 10.9453 139.438 9.38281 139.125 8.58594L138.398 6.6875L138.141 7.74219C137.703 9.89844 137.406 11.7031 137.25 13.1562C137.062 14.8438 136.914 15.8203 136.805 16.0859C136.68 16.3828 136.398 16.5312 135.961 16.5312C135.523 16.5312 135.305 16.4609 135.305 16.3203C135.305 16.2109 135.312 16.1406 135.328 16.1094C135.438 15.6875 135.555 14.6562 135.68 13.0156C135.789 11.5625 136.062 9.27344 136.5 6.14844C136.828 3.71094 137.094 2.22656 137.297 1.69531C137.406 1.46094 137.562 1.29688 137.766 1.20312Z" fill='white'/>
           <path d="M125.109 2.09375C125.109 1.21875 125.398 0.78125 125.977 0.78125C126.383 0.78125 126.766 0.96875 127.125 1.34375C127.484 1.70313 127.773 2.10938 127.992 2.5625C128.461 3.57813 128.938 4.82812 129.422 6.3125C130.109 8.3125 130.461 9.32031 130.477 9.33594C130.57 9.33594 130.742 8.74219 130.992 7.55469C131.242 6.49219 131.602 5.25781 132.07 3.85156C132.508 2.55469 132.93 1.8125 133.336 1.625C133.367 1.59375 133.453 1.57813 133.594 1.57813C133.875 1.57813 134.078 1.99219 134.203 2.82031C134.25 3.17969 134.273 3.4375 134.273 3.59375C134.273 4.03125 134.062 5.71094 133.641 8.63281C133.234 11.4141 132.938 13.2422 132.75 14.1172C132.609 14.7734 132.398 15.3281 132.117 15.7812C131.492 16.7031 130.789 17.1641 130.008 17.1641C129.57 17.1641 129.117 17.0234 128.648 16.7422C127.961 16.3203 127.375 15.4531 126.891 14.1406C126.484 13.0156 126.008 10.9688 125.461 8L125.367 7.41406L124.969 8.58594C124.078 11.3984 123.539 13.4375 123.352 14.7031C123.258 15.4375 123.172 15.875 123.094 16.0156C122.984 16.2031 122.75 16.4219 122.391 16.6719C121.922 16.9688 121.555 17.1172 121.289 17.1172C121.023 17.1172 120.695 17.0078 120.305 16.7891C119.82 16.5234 119.445 15.9766 119.18 15.1484C118.898 14.2578 118.461 12.2344 117.867 9.07812C117.164 5.375 116.812 3.35156 116.812 3.00781C116.812 2.82031 117.203 2.52344 117.984 2.11719L119.156 1.46094L119.602 1.95312C119.898 2.29688 120.312 3.30469 120.844 4.97656C121.375 6.66406 121.82 8.42188 122.18 10.25C122.305 10.7969 122.422 11.2031 122.531 11.4688C122.703 11.4688 123.18 10.0781 123.961 7.29688C124.727 4.5625 125.109 2.82813 125.109 2.09375Z" fill='white'/>
@@ -317,6 +327,7 @@ const job =[
           <path d="M23.9765 0.986872C17.4106 -0.750799 10.5993 -0.149742 4.34792 2.44328C3.99509 2.58969 3.87619 3.19075 4.34792 3.28707C10.676 4.58165 17.1959 4.82439 23.5968 3.97289C25.4262 3.73016 27.2365 3.3911 29.039 3.00581C29.6105 2.88251 29.6105 1.96937 29.039 1.84993C25.2191 1.03311 21.3149 0.898254 17.4222 1.06008C13.5294 1.2219 9.86679 1.54169 6.13897 2.06954C4.41312 2.31228 2.66427 2.8016 1.42933 4.10774C1.04581 4.5123 1.21072 5.19812 1.75532 5.35224C8.70089 7.30182 16.0491 7.87205 23.2095 6.98973C25.2383 6.73929 27.2441 6.36941 29.2346 5.91477C29.7102 5.80688 29.76 5.13648 29.365 4.90145C26.0859 2.92875 22.1011 3.37954 18.4615 3.64925C14.3348 3.94977 10.1276 4.16939 6.05843 4.96309C4.02193 5.35994 1.99311 6.03035 0.294108 7.25559C-0.120094 7.55611 -0.120094 8.27276 0.443682 8.41532C7.59251 10.1954 15.0635 10.7733 22.4041 10.2917C24.4636 10.1568 26.5193 9.92952 28.5596 9.62899C28.8434 9.58661 29.0083 9.24755 28.9738 8.99326C28.9316 8.68502 28.6977 8.5232 28.4062 8.48852C21.288 7.62932 13.959 7.76032 6.86382 8.80446C4.98841 9.07802 3.14367 9.49799 1.40248 10.2686C1.2299 10.3456 1.14936 10.5537 1.14169 10.7271C1.05348 12.4262 3.66142 12.3646 4.74679 12.4802C6.72575 12.6882 8.70472 12.8539 10.6914 12.9733C14.6915 13.2161 18.7031 13.2777 22.7109 13.1506C24.9814 13.0774 27.2518 12.9464 29.5146 12.7576C30.1129 12.7075 30.3506 11.7442 29.668 11.621C25.6487 10.912 21.5527 10.9467 17.5027 11.3628C13.4527 11.7789 9.3989 12.4378 5.42178 13.2893C3.9644 13.6014 2.23089 14.2679 1.87421 15.9093C1.78601 16.31 2.05063 16.6143 2.43799 16.6529C9.70188 17.3888 17.077 17.3233 24.3064 16.2907C24.9507 16.1982 24.7091 15.3005 24.1645 15.2389C18.9371 14.6532 13.6521 15.1965 8.67788 16.9341C8.21765 17.096 8.18314 17.7625 8.67788 17.9089C13.3722 19.2998 18.2966 19.3307 23.1481 19.2844V18.275C17.426 18.3828 11.7269 19.061 6.15814 20.4056C5.63272 20.5328 5.71326 21.234 6.15814 21.3997C8.75075 22.3475 11.6502 21.9468 14.3425 21.8158C17.3071 21.6694 20.2756 21.523 23.2402 21.3766V20.3132C19.1825 20.8256 15.1287 21.3535 11.0749 21.8774C10.4114 21.9622 10.3654 22.9293 11.0749 22.9524C13.8631 23.041 16.6513 23.0988 19.4433 23.1797L19.3206 22.2666C16.4403 23.0218 13.5563 23.7615 10.6722 24.5013C10.1928 24.6246 10.3193 25.3104 10.7834 25.3374C13.4872 25.4838 16.1757 25.8074 18.8412 26.2852L18.7453 25.5608C16.8315 26.5125 14.795 27.1521 12.6895 27.5027C12.2523 27.5759 12.3942 28.2117 12.7892 28.2386C14.7605 28.3773 16.7011 28.6702 18.6226 29.1287L18.5267 28.385C16.6705 29.2481 14.6761 29.8222 12.6358 30.0071C12.0375 30.0611 12.0145 30.9511 12.6358 30.9627C14.2389 30.9896 15.8459 31.163 17.4183 31.4751L17.192 30.6159C16.3176 31.5522 15.2936 32.2842 14.1315 32.8198C13.7327 33.0047 13.8784 33.5981 14.2466 33.7098C14.4422 33.7714 15.1555 34.0604 14.9599 34.3186C14.5918 34.804 15.4125 35.2779 15.773 34.7963C16.4595 33.887 15.2668 33.0163 14.5036 32.7658L14.6186 33.6558C15.8612 33.1049 16.9734 32.3189 17.9131 31.3364C18.1662 31.0744 18.0741 30.5581 17.6868 30.4772C16.0146 30.1266 14.3386 29.9725 12.632 30.0033V30.9588C14.8334 30.6814 16.9466 30.0803 18.9332 29.0824C19.2362 28.9283 19.171 28.4082 18.8373 28.3388C16.843 27.9265 14.818 27.6376 12.7892 27.4873L12.8889 28.2232C15.0597 27.8688 17.1614 27.1906 19.1442 26.2428C19.4433 26.1003 19.3743 25.5801 19.0483 25.5185C16.3176 24.9829 13.5563 24.6477 10.7796 24.482L10.8908 25.3181C13.7787 24.5938 16.6666 23.8694 19.5584 23.1566C20.08 23.0295 19.9457 22.2666 19.4356 22.2435C16.6474 22.124 13.8592 21.9815 11.0672 21.8697V22.9447C15.121 22.4207 19.1787 21.9044 23.2325 21.3727C23.8845 21.288 23.9305 20.2708 23.2325 20.3093C20.3292 20.4557 17.426 20.606 14.5266 20.7524C11.8726 20.8872 8.98469 21.3265 6.42277 20.4018V21.3958C11.8918 20.0512 17.5065 19.3114 23.1405 19.2844C23.7886 19.2844 23.7886 18.2788 23.1405 18.275C18.381 18.2557 13.5486 18.275 8.93484 16.9341V17.9089C13.7327 16.2136 18.9639 15.5972 24.011 16.2907L24.1529 15.2389C16.9274 16.0865 9.66736 16.2329 2.42649 15.4816L2.99026 16.2252C3.2664 14.9576 4.80815 14.5954 5.89735 14.3719C7.73825 13.9944 9.58682 13.6553 11.4392 13.3317C15.2169 12.6767 19.0291 12.1835 22.8682 12.1912C25.0427 12.1912 27.2096 12.3646 29.3497 12.7383L29.5031 11.6017C22.1126 12.2182 14.6723 12.2297 7.27803 11.621C6.23868 11.5362 5.20318 11.436 4.16767 11.3281C3.83784 11.2935 2.16186 11.3012 2.18487 10.7271L1.92407 11.1856C4.97306 9.77925 8.53214 9.49028 11.8343 9.21287C15.3511 8.91234 18.8949 8.87382 22.4194 9.08187C24.4176 9.20131 26.4081 9.40167 28.3947 9.65211L28.2413 8.51164C21.1346 9.52111 13.8746 9.45946 6.78328 8.36523C4.76213 8.05314 2.76015 7.64858 0.769674 7.19009L0.919248 8.34982C3.88386 6.12668 7.79194 5.81844 11.351 5.437C13.4029 5.21739 15.4585 5.044 17.5142 4.88603C19.3858 4.73962 21.265 4.55083 23.1405 4.55854C25.1041 4.56624 27.0792 4.84365 28.7936 5.85697L28.924 4.84365C22.0858 6.45418 14.8372 6.57362 7.93385 5.31371C5.97789 4.95539 4.04111 4.48533 2.13501 3.91124L2.461 5.15574C3.48117 4.1193 4.89252 3.7263 6.28471 3.49513C7.96069 3.21386 9.66736 3.08286 11.3549 2.90948C15.029 2.5319 18.7223 2.25449 22.4194 2.37778C24.5211 2.44713 26.6305 2.64363 28.7015 3.00195V1.84607C22.6189 3.41422 16.1834 3.79566 9.93966 3.21001C8.13328 3.04048 6.3384 2.78234 4.55886 2.43943V3.28322C10.5341 0.778813 17.4567 0.424344 23.6812 2.05799C24.3716 2.23907 24.663 1.16796 23.9765 0.986872Z" fill="white"/>
         </svg>
       </div>
+)}
 
       {/* Modal */}
       {selectedImage !== null && (

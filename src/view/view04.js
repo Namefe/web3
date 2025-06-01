@@ -92,7 +92,7 @@ const HospitalDocuments = () => {
   if (isMobile) {
     return (
       <section
-        id="document-section"
+        id="section04"
         ref={sectionRef}
         className="bg-gray-100 px-4 py-10 overflow-hidden"
         style={{ height: `${documents.length * 100}vh` }}
@@ -154,16 +154,6 @@ const HospitalDocuments = () => {
         </div>
 
 <div className="relative w-[700px] h-[500px] overflow-hidden flex justify-center items-center">
-  <img
-    src="/box.png"
-    alt="box"
-    className="absolute top-[30%] left-[60%] w-[400px] h-full object-contain z-30 transition-transform duration-300"
-    style={{
-      opacity: boxOpacity,
-      transform: `translate(-50%, ${boxTranslateY}) scale(${boxScale})`,
-      transformOrigin: 'center center'
-    }}
-  />
 
   {documents.map((doc, index) => (
     <div
