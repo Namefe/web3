@@ -16,7 +16,7 @@ const [boxStopY, setBoxStopY] = useState(0);
       const sectionTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
 
-      if (scrollTop > sectionTop + sectionHeight * 0.05) {
+      if (scrollTop > sectionTop - window.innerHeight * 0.4) {
         setShowRelation(true);
       } else {
         setShowRelation(false);
@@ -86,6 +86,7 @@ const boxOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
       {showRelation && (
         <>
       <motion.div
+      ref={ref}
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{
@@ -158,19 +159,8 @@ const boxOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
         </>
       )}
 <motion.div
-  style={{
-    scale: boxScale,
-    opacity: boxOpacity,
-    transformOrigin: "center center",
-    ...(isFixed
-      ? {}
-      : { position: "absolute", top: `${boxStopY}px` })
-  }}
-  className={`z-50 w-[200px] h-[200px] pointer-events-none 
-    ${isFixed
-      ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      : "left-1/2 -translate-x-1/2"}
-  `}
+
+  className={`z-50 w-[200px] h-[200px] absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none `}
 >
   <img
     src="/box.png"
