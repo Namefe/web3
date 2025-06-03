@@ -10,7 +10,6 @@ const View01 = () => {
   const [showScrollDown, setShowScrollDown] = useState(true);
   const [showLines13, setShowLines13] = useState(false); // 반드시 여기 위에 있어야 됨
 
-  // ✅ useEffect는 return 이전에 항상 실행
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
@@ -106,12 +105,6 @@ const View01 = () => {
     <img src={process.env.PUBLIC_URL + '/x.png'} alt="X" className="inline-block" />,
   ]
 
-  const initialPositionsLine1 = [
-    { x: -620, y: -100 }, { x: -380, y: 100 }, { x: -570, y: 300 }, { x: -520, y: 350 },
-    { x: -200, y: -100 }, { x: -150, y: 10 }, { x: 420, y: -90 }, { x: 480, y: 180 },
-    { x: -150, y: -30 }, 
-  ];
-  const initialRotationsLine1 = [154, -150, 80, -52, 35, -110, 135, -84, 122];
 
   const initialPositionsLine2 = [
     { x: -200, y: -150 },
@@ -130,13 +123,6 @@ const View01 = () => {
   ];
   const initialRotationsLine2 = [12, -6, 10, 7, -14, 9, -11, 6, -13, 8, 10, -9, 4];
 
-  const initialPositionsLine3 = [
-    { x: 120, y: -170 }, { x: 150, y: 130 }, { x: 180, y: -150 }, { x: 90, y: 40 },
-    { x: 210, y: 90 }, { x: 240, y: -110 }, { x: 270, y: 70 }, { x: 300, y: -140 },
-    { x: 330, y: 60 }, { x: 360, y: -120 }, { x: 0, y: 40 }, { x: 390, y: 40 },
-    { x: 390, y: -30 }, 
-  ];
-  const initialRotationsLine3 = [12, -6, 10, 7, -14, 9, -11, 6, -13, 8, 10, -9, 4];
 
   const initialImagePositions = [
     { x: -200, y: -200 },
@@ -186,6 +172,16 @@ const job =[
   "한국대학교 병원 외상외과 교수 겸 중증외상센터장","한국대학교병원 외상외과 전임의","한국대학교 중증외상센터 시니어 간호사","한국대학교병원 마취통증의학과 전공의","한국대학교병원 외과 과장 겸 대장항문외과 과장","보건복지부 장관","한국대학교병원 기회조정실장 겸 감염내과 교수"
 ]
 
+const initialImageSizes = [
+  { width: 120, height: 160 },
+  { width: 160, height: 200 },
+  { width: 140, height: 140 },
+  { width: 100, height: 150 },
+  { width: 160, height: 100 },
+  { width: 180, height: 170 },
+  { width: 120, height: 130 },
+
+];
 
   return (
    <section id="merge-section" className="hidden lg:block w-full h-[200vh] relative z-10 bg-[#e1d4c4]">
@@ -193,25 +189,15 @@ const job =[
 
 {/* Line 1 */}
 <div className={`flex space-x-2 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
-  {line1.map((letter, index) => {
-    const { x, y } = initialPositionsLine1[index];
-    const rotate = initialRotationsLine1[index] * (1 - progress);
-    const currentX = x * (1 - progress);
-    const currentY = y * (1 - progress);
-    return (
-      <span
-        key={`line1-${index}`}
-        className="font-medical text-6xl tracking-wide text-white"
-        style={{
-          transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
-        }}
-      >
-        {letter}
-      </span>
-    );
-  })}
+  {line1.map((letter, index) => (
+    <span
+      key={`line1-${index}`}
+      className="font-medical text-6xl tracking-wide text-white"
+    >
+      {letter}
+    </span>
+  ))}
 </div>
-
         {/* Line 2 */}
         <div className="flex ">
           {line2.map((letter, index) => {
@@ -235,34 +221,80 @@ const job =[
 
 
 {/* Line 3 */}
-{showLines13 && (
-<div className={`flex space-x-2 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
-    {line3.map((letter, index) => {
-      const { x, y } = initialPositionsLine3[index];
-      const rotate = initialRotationsLine3[index] * (1 - progress);
-      const currentX = x * (1 - progress);
-      const currentY = y * (1 - progress);
-      return (
-        <span
-          key={`line3-${index}`}
-          className="font-medical text-6xl text-white"
-          style={{
-            transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
-          }}
-        >
-          {letter}
-        </span>
-      );
-    })}
+<div
+  className={`flex space-x-2 transition-all duration-1000 ease-out ${
+    showLines13 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+  }`}
+>
+  {line3.map((letter, index) => (
+    <span
+      key={`line3-${index}`}
+      className="font-medical text-6xl text-white transition-all duration-1000 ease-out"
+    >
+      {letter}
+    </span>
+  ))}
+</div>
+{/* svg*/}
+<div className='flex justify-center items-center mt-10'>
+  <div>
+  <svg>
+    <g>
+      <path d="M48,16c0-.51.35.06-7.24-8.61C40.34,6.88,40.57,7,34,7V6a5,5,0,0,0-5-5H19a5,5,0,0,0-5,5V7H8c-.64,0-.21-.28-7.75,8.34C-.1,15.74,0,15.59,0,24a1,1,0,0,0,1,1V46c0,1.44-2.06,1,45,1,1.43,0,1,0,1-22a1,1,0,0,0,1-1C48,15.18,48,16.26,48,16ZM46,23H41c0-3.64.93-3-7-3-1.2,0-1,1.17-1,3H15c0-1.85.2-3-1-3-7.63,0-7-.78-7,3H2V17H46ZM35,22h4c0,6.53.7,6-3,6a1,1,0,0,1-1-1ZM9,22h4c0,6.53.7,6-3,6a1,1,0,0,1-1-1ZM16,6a3,3,0,0,1,3-3H29a3,3,0,0,1,3,3V7H16ZM8.45,9H14v3a1,1,0,0,0,2,0V9H32v3a1,1,0,0,0,2,0V9h5.55l5.25,6H3.2ZM45,45H3V25H7v2a3,3,0,0,0,3,3h2a3,3,0,0,0,3-3V25H33v2a3,3,0,0,0,3,3h2a3,3,0,0,0,3-3V25h4Z"/>
+      <path d="M27,32c0-4.69.76-4-5-4-1.34,0-1,1.56-1,4H18a1,1,0,0,0-1,1c0,5.75-.72,5,4,5,0,4.68-.76,4,5,4,1.34,0,1-1.56,1-4h3a1,1,0,0,0,1-1C31,31.25,31.72,32,27,32Zm2,4c-4.57,0-4-.61-4,4H23c0-4.57.61-4-4-4V34c4.57,0,4,.61,4-4h2c0,4.57-.61,4,4,4Z" />
+    </g>
+  </svg>
   </div>
-)}
+<div>
+<svg>
+  <g>
+    <path d="M43,4H41.9a5,5,0,0,0-9.8,0H31a5,5,0,0,0-5,5V25a5,5,0,0,0,4,4.9v3A1.14,1.14,0,0,0,31.15,34h.79c-.58,5.26-5.64,9.21-11.94,7.77v-11c0-2.74,2-3.17,2-6.6V13a3,3,0,0,0-4-2.82V7a3,3,0,0,0-4.12-2.78A3,3,0,0,0,8,5V6.18A3,3,0,0,0,4,9v7a4,4,0,0,0-4,4c0,4.35-.23,5.18.88,6.29C4.91,30.33,4,28.08,4,47a1,1,0,0,0,2,0C6,27.92,7,29.55,2.29,24.88,1.9,24.48,2,24.52,2,20a2,2,0,0,1,2-2v4a1,1,0,0,0,2,0V9A1,1,0,0,1,8,9v8a1,1,0,0,0,2,0V5a1,1,0,0,1,2,0V17a1,1,0,0,0,2,0V7a1,1,0,0,1,2,0V17a1,1,0,0,0,2,0V13a1,1,0,0,1,2,0V24.2c0,2.74-2,3.17-2,6.6V41.05a9.07,9.07,0,0,1-4.12-4.2A3,3,0,0,0,16,34V30a3,3,0,0,0-3-3H11a3,3,0,0,0-3,3v4a3,3,0,0,0,3,3h.76A11.07,11.07,0,0,0,18,43.24V47a1,1,0,0,0,2,0V43.81c7.7,1.42,13.39-3.65,14-9.81h.9A1.14,1.14,0,0,0,36,32.85V30h2v3a1,1,0,0,0,1,1h1v1a1,1,0,0,0,2,0V34h1a1,1,0,0,0,1-1V29.9A5,5,0,0,0,48,25V9A5,5,0,0,0,43,4ZM11,35c-1.33,0-1-1.38-1-5,0-1.2,1.17-1,3-1,1.33,0,1,1.38,1,5a1,1,0,0,1-.78,1A16.36,16.36,0,0,1,13,31a1,1,0,0,0-2,0v2C11,35.2,11.45,35,11,35Zm23-3H32V30h2Zm8,0H40V30h2Zm4-7a3,3,0,0,1-3,3H31a3,3,0,0,1-3-3V9a3,3,0,0,1,3-3c1.86,0,3,.2,3-1,0-4,6-4,6,0,0,1.2,1.17,1,3,1a3,3,0,0,1,3,3Z"/>
+    <path d="M43,8H31a1,1,0,0,0-1,1V25a1,1,0,0,0,1,1H43a1,1,0,0,0,1-1V9A1,1,0,0,0,43,8ZM32,24V22h1a1,1,0,0,0,0-2H32V18h2a1,1,0,0,0,0-2H32V14h1a1,1,0,0,0,0-2H32V10H42v6H38a1,1,0,0,0,0,2h4v6Z"/>
+    <path d="M37,6a1,1,0,0,0,0-2A1,1,0,0,0,37,6Z"/>
+  </g>
+</svg>
+</div>
+<div>
+  <svg>
+    <g>
+      <path d="M24,42,7.66,25.66a11.32,11.32,0,0,1,0-16L8,9.32a11.32,11.32,0,0,1,16,0h0a11.32,11.32,0,0,1,16,0l.33.33a11.32,11.32,0,0,1,0,16Z" fill='none' stroke='currentColor'/>
+    </g>
+    </svg>
+</div>
+<div>
+  <svg viewBox="0 0 50 50" width="200" height="200">
+    <g fill="none" stroke="black" stroke-width="1">
+      <line x1="4" y1="44" x2="12.57" y2="35.43" />
+      <polygon points="18 35 13 35 13 30 30 13 35 18 18 35" />
+      <line x1="39" y1="4" x2="44" y2="9" />
+      <line x1="40" y1="5" x2="31" y2="14" />
+      <line x1="43" y1="8" x2="34" y2="17" />
+      <line x1="25" y1="25" x2="26" y2="26" />
+      <line x1="20.5" y1="29.5" x2="21.5" y2="30.5" />
+      <line x1="28.5" y1="21.5" x2="29.5" y2="22.5" />
+      <rect x="-224" y="-88" width="700" height="700" />
+    </g>
+  </svg>
+</div>
+<div>
+  <svg viewBox="0 0 200 100" className="absolute left-0 top-0 w-40 h-20" fill="none" stroke="yellow" strokeWidth="3">
+  <path d="M10 10 Q 50 30, 90 10 Q 130 -10, 170 20" />
+</svg>
+<svg viewBox="0 0 200 100" className="absolute left-[10%] top-[20%] w-28 h-16" fill="none" stroke="white" strokeWidth="2">
+  {/* 낙서 별 */}
+  <path d="M10,30 L20,10 L30,30 L10,20 L30,20 Z" />
+  {/* 물결 */}
+  <path d="M50,50 Q60,40 70,50 Q80,60 90,50" />
+</svg>
+</div>
+</div>
         </div>
 
                 {/* Images */}
 <div
   className={`${
     stopScrollY !== null && scrollY >= stopScrollY ? 'absolute' : 'fixed'
-  } left-1/2 transform -translate-x-1/2 flex flex-nowrap items-end justify-center   z-50`}
+  } left-1/2 transform -translate-x-1/2 flex flex-nowrap items-end justify-center z-50`}
   style={{
     top:
       stopScrollY !== null && scrollY >= stopScrollY
@@ -271,44 +303,51 @@ const job =[
     transform: 'translateX(-50%)',
   }}
 >
-  {initialImagePositions.map((pos, index) => {
-    const isFixed = stopScrollY !== null && scrollY >= stopScrollY;
+{initialImagePositions.map((pos, index) => {
+  const isFixed = stopScrollY !== null && scrollY >= stopScrollY;
 
-    const progressValue = isFixed ? 1 : progress;
-    const progress2Value = isFixed ? 1 : progress2;
+  const progressValue = isFixed ? 1 : progress;
+  const progress2Value = isFixed ? 1 : progress2;
 
-    const currentX =
-      pos.x * (1 - progressValue) + finalImagePositions[index].x * progress2Value;
-    const currentY =
-      pos.y * (1 - progressValue) + finalImagePositions[index].y * progress2Value;
-    const rotate =
-      initialImageRotations[index] * (1 - progressValue) +
-      finalImageRotations[index] * progress2Value;
+  const currentX =
+    pos.x * (1 - progressValue) + finalImagePositions[index].x * progress2Value;
+  const currentY =
+    pos.y * (1 - progressValue) + finalImagePositions[index].y * progress2Value;
+  const rotate =
+    initialImageRotations[index] * (1 - progressValue) +
+    finalImageRotations[index] * progress2Value;
 
-    return (
-      <div>
-<img
-  key={`image-${index}`}
-  src={process.env.PUBLIC_URL + `/clickimage${index + 1}.png`}
-  alt={`image-${index + 1}`}
-  className="w-32 h-auto object-cover transition-transform duration-300 cursor-pointer "
-  style={{
-    transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
-    opacity: 1,
-  }}
-  onClick={() =>
-    setSelectedImage({
-      index,
-      name: imageName[index],
-      job: job[index],
-      description: imageDescriptions[index],
-    })
-  }
-/>
+  const size = initialImageSizes[index]; 
+
+  return (
+    <div
+      key={`wrapper-${index}`}
+      className="relative overflow-hidden"
+      style={{
+        width: `${size.width}px`,
+        height: `${size.height}px`,
+        transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
+        transition: 'transform 0.3s ease',
+      }}
+    >
+      <img
+        src={process.env.PUBLIC_URL + `/clickimage${index + 1}.png`}
+        alt={`image-${index + 1}`}
+        className="w-full h-full object-cover cursor-pointer"
+        onClick={() =>
+          setSelectedImage({
+            index,
+            name: imageName[index],
+            job: job[index],
+            description: imageDescriptions[index],
+          })
+        }
+      />
+    </div>
+  );
+})}
 </div>
-    );
-  })}
-      </div>
+
   {showScrollDown && (
       <div className='animate-float flex flex-col justify-center items-center absolute left-1/2 translate-x-[-50%] top-[23%] gap-5 transition-opacity duration-200'>
         <svg className='w-[150px] h-[21px]'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 21" fill='none' >
