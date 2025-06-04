@@ -16,7 +16,7 @@ const [boxStopY, setBoxStopY] = useState(0);
       const sectionTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
 
-      if (scrollTop > sectionTop - window.innerHeight * 0.4) {
+      if (scrollTop > sectionTop - window.innerHeight * 0.3) {
         setShowRelation(true);
       } else {
         setShowRelation(false);
@@ -85,23 +85,19 @@ const boxOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
     >
       {showRelation && (
         <>
-      <motion.div
-      ref={ref}
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{
-          duration: 1.5,
-          ease: [0.25, 0.1, 0.25, 1]
-        }}
-        style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL + '/board2.png'})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          width: '100%',
-          height: '100%',
-          position: 'relative',
-        }}
-      >
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }} // 테스트용: 강제 표시
+    transition={{ duration: 1.5 }}
+    style={{
+      backgroundImage: `url(${process.env.PUBLIC_URL + '/board2.png'})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      width: '100%',
+      height: '100%',
+    }}
+  >
           <motion.div
             className="hidden lg:block absolute left-[23%] top-[18%] text-white text-2xl font-bold"
             initial={{ opacity: 0, y: 30 }}

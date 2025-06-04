@@ -133,7 +133,7 @@ const View01 = () => {
     { x: 200, y: -100 },
     { x: 150, y: 400 },
   ];
-  const initialImageRotations = [15, -10, 12, -8, 10, -6, 9];
+  const initialImageRotations = [-90, 120, -60, 180, -120, 90, -150];
 
   const finalImagePositions = [
     { x: 400, y: -200 },
@@ -185,59 +185,52 @@ const initialImageSizes = [
 
   return (
    <section id="merge-section" className="hidden lg:block w-full h-[200vh] relative z-10 bg-[#e1d4c4]">
-      <div className="sticky top-[10%] flex flex-col items-center space-y-4">
-
+<div className="sticky top-[10%] flex flex-col items-center space-y-4">
 {/* Line 1 */}
-<div className={`flex space-x-2 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
-  {line1.map((letter, index) => (
-    <span
-      key={`line1-${index}`}
-      className="font-medical text-6xl tracking-wide text-white"
-    >
-      {letter}
-    </span>
-  ))}
-</div>
+  <div className={`flex space-x-2 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
+    {line1.map((letter, index) => (
+      <span key={`line1-${index}`} className="font-medical text-6xl tracking-wide text-white">
+        {letter}
+      </span>
+    ))}
+  </div>
         {/* Line 2 */}
-        <div className="flex ">
-          {line2.map((letter, index) => {
-            const { x, y } = initialPositionsLine2[index];
-            const rotate = initialRotationsLine2[index] * (1 - progress);
-            const currentX = x * (1 - progress);
-            const currentY = y * (1 - progress);
-            return (
-              <span
-              className='inline-block'
-                key={`line2-${index}`}
-                style={{
-                  transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,  letterSpacing: '-2em',
-                }}
-              >
-                {letter}
-              </span>
-            );
-          })}
-        </div> 
+  <div className="flex">
+    {line2.map((letter, index) => {
+      const { x, y } = initialPositionsLine2[index];
+      const rotate = initialRotationsLine2[index] * (1 - progress);
+      const currentX = x * (1 - progress);
+      const currentY = y * (1 - progress);
+      return (
+        <span
+          className="inline-block"
+          key={`line2-${index}`}
+          style={{
+            transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
+            letterSpacing: '-2em',
+          }}
+        >
+          {letter}
+        </span>
+      );
+    })}
+  </div>
 
 
 {/* Line 3 */}
-<div
-  className={`flex space-x-2 transition-all duration-1000 ease-out ${
-    showLines13 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-  }`}
->
-  {line3.map((letter, index) => (
-    <span
-      key={`line3-${index}`}
-      className="font-medical text-6xl text-white transition-all duration-1000 ease-out"
-    >
-      {letter}
-    </span>
-  ))}
-</div>
+  <div className={`flex space-x-2 transition-all duration-1000 ease-out ${showLines13 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+    {line3.map((letter, index) => (
+      <span key={`line3-${index}`} className="font-medical text-6xl text-white">
+        {letter}
+      </span>
+    ))}
+  </div>
 {/* svg*/}
-<div className='flex justify-center items-center mt-10'>
-  <div>
+<div
+  className={`flex justify-center items-center mt-10 transition-opacity duration-1000 ease-out ${
+    showLines13 ? 'opacity-100' : 'opacity-0'
+  }`}
+>  <div>
   <svg>
     <g>
       <path d="M48,16c0-.51.35.06-7.24-8.61C40.34,6.88,40.57,7,34,7V6a5,5,0,0,0-5-5H19a5,5,0,0,0-5,5V7H8c-.64,0-.21-.28-7.75,8.34C-.1,15.74,0,15.59,0,24a1,1,0,0,0,1,1V46c0,1.44-2.06,1,45,1,1.43,0,1,0,1-22a1,1,0,0,0,1-1C48,15.18,48,16.26,48,16ZM46,23H41c0-3.64.93-3-7-3-1.2,0-1,1.17-1,3H15c0-1.85.2-3-1-3-7.63,0-7-.78-7,3H2V17H46ZM35,22h4c0,6.53.7,6-3,6a1,1,0,0,1-1-1ZM9,22h4c0,6.53.7,6-3,6a1,1,0,0,1-1-1ZM16,6a3,3,0,0,1,3-3H29a3,3,0,0,1,3,3V7H16ZM8.45,9H14v3a1,1,0,0,0,2,0V9H32v3a1,1,0,0,0,2,0V9h5.55l5.25,6H3.2ZM45,45H3V25H7v2a3,3,0,0,0,3,3h2a3,3,0,0,0,3-3V25H33v2a3,3,0,0,0,3,3h2a3,3,0,0,0,3-3V25h4Z"/>
@@ -280,11 +273,21 @@ const initialImageSizes = [
   <svg viewBox="0 0 200 100" className="absolute left-0 top-0 w-40 h-20" fill="none" stroke="yellow" strokeWidth="3">
   <path d="M10 10 Q 50 30, 90 10 Q 130 -10, 170 20" />
 </svg>
-<svg viewBox="0 0 200 100" className="absolute left-[10%] top-[20%] w-28 h-16" fill="none" stroke="white" strokeWidth="2">
-  {/* 낙서 별 */}
-  <path d="M10,30 L20,10 L30,30 L10,20 L30,20 Z" />
-  {/* 물결 */}
-  <path d="M50,50 Q60,40 70,50 Q80,60 90,50" />
+<svg
+  viewBox="0 0 200 100"
+  className="absolute left-[10%] top-[20%] w-52 h-32"
+  fill="none"
+  stroke="white"
+  strokeWidth="2.5"
+>
+  {/* 날카로운 별 (거칠게) */}
+  <path d="M10,60 L20,20 L30,60 L5,35 L35,35 Z" />
+
+  {/* 찢어진 번개같은 선 */}
+  <path d="M50,70 L55,50 L60,70 L65,50 L70,70" />
+
+  {/* 좀 더 낙서같은 불규칙 선 */}
+  <path d="M80,50 Q90,20 100,50 Q110,80 120,40 Q130,10 140,60" />
 </svg>
 </div>
 </div>
