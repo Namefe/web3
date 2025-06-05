@@ -1,28 +1,61 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
 const View03 = () => {
   const [showRelation, setShowRelation] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  const [isFixed, setIsFixed] = useState(true);
-const [boxStopY, setBoxStopY] = useState(0);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const sectionRef = useRef(null);
+  const sectionTopRef = useRef(0);
+
+  const documents = [
+    { img: "/scrollimage1.png", description: "첫 번째 이야기: 주인공의 귀환" },
+    { img: "/scrollimage2.png", description: "두 번째 이야기: 팀과의 갈등" },
+    { img: "/scrollimage3.png", description: "세 번째 이야기: 위기의 수술" },
+    { img: "/scrollimage4.png", description: "네 번째 이야기: 감정의 변화" },
+    { img: "/scrollimage5.png", description: "다섯 번째 이야기: 새로운 출발" },
+  ];
+
+  const { scrollY, scrollYProgress } = useScroll();
+
+  useEffect(() => {
+    const section = document.getElementById("section03");
+    if (section) sectionTopRef.current = section.offsetTop;
+  }, []);
+
+  const boxTop = useTransform(scrollY, (y) => {
+    const scrollOffset = y - sectionTopRef.current;
+    return `${Math.min(scrollOffset, 300)}px`; // 최대 300px까지만 올라감
+  });
+
+  const boxScale = useTransform(scrollY, (y) => {
+    const scrollOffset = y - sectionTopRef.current;
+    return scrollOffset < 300 ? 1 + scrollOffset / 600 : 1.5;
+  });
+
+  const textOpacity = useTransform(scrollY, (y) => {
+    const showStart = sectionTopRef.current + 300;
+    const showEnd = sectionTopRef.current + 400;
+    return y < showStart ? 0 : y > showEnd ? 1 : (y - showStart) / 100;
+  });
+
+  const rawIndex = useTransform(scrollYProgress, [0.35, 0.5, 0.65, 0.8, 0.95], [0, 1, 2, 3, 4]);
+  useMotionValueEvent(rawIndex, "change", (latest) => {
+    setCurrentIdx(Math.floor(latest));
+  });
 
   useEffect(() => {
     const handleScroll = () => {
       const section = document.getElementById("section03");
       if (!section) return;
-
       const scrollTop = window.scrollY;
       const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-
       if (scrollTop > sectionTop - window.innerHeight * 0.3) {
         setShowRelation(true);
       } else {
         setShowRelation(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -35,135 +68,76 @@ const [boxStopY, setBoxStopY] = useState(0);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const backgroundImage =
-  `url(${process.env.PUBLIC_URL + '/sec2bg.png'})`;
-
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: '-100px' }); // 조금 일찍 감지됨
-
-    const sectionRef = useRef(null);
-const { scrollYProgress } = useScroll({
-  target: sectionRef,
-  offset: ["start start", "end start"],
-});
-useEffect(() => {
-  const section04 = document.getElementById("section04");
-  if (!section04) return;
-
-  const handleScroll = () => {
-    const scrollY = window.scrollY;
-    const section04Top = section04.offsetTop;
-
-    if (scrollY + window.innerHeight / 2 >= section04Top) {
-      setIsFixed(false); // 고정 해제
-      setBoxStopY(section04Top - window.innerHeight / 2); // 박스 멈출 위치 기억
-    } else {
-      setIsFixed(true); // 계속 fixed 상태 유지
-    }
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-
-    const boxScale = useTransform(scrollYProgress, [0, 1], [1, 3]);
-const boxY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-const boxOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
-
   return (
     <section
-     ref={sectionRef}
+      ref={sectionRef}
       id="section03"
+      className="w-screen h-[600vh] relative bg-black text-white overflow-hidden"
       style={{
-        backgroundImage,
+        backgroundImage: `url(${process.env.PUBLIC_URL + '/sec2bg.png'})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        position: "relative",
       }}
-      className="w-screen h-[300vh] relative"
     >
+      {/* 등장 텍스트 */}
       {showRelation && (
-        <>
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }} // 테스트용: 강제 표시
-    transition={{ duration: 1.5 }}
-    style={{
-      backgroundImage: `url(${process.env.PUBLIC_URL + '/board2.png'})`,
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-      width: '100%',
-      height: '100%',
-    }}
-  >
-          <motion.div
-            className="hidden lg:block absolute left-[23%] top-[18%] text-white text-2xl font-bold"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            생명의 은인 
-          </motion.div>
-
-          <motion.div
-            className="hidden lg:block absolute left-[62%] top-[31%] text-white text-2xl font-bold"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            조폭
-          </motion.div>
-
-          <motion.div
-            className="hidden lg:block absolute left-[47%] top-[34%] text-white text-2xl font-bold"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            노예 1호
-          </motion.div>
-
-          <motion.div
-            className="hidden lg:block absolute left-[73%] top-[19%] text-white text-2xl font-bold"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            낙하산 인사
-          </motion.div>
-
-          <motion.div
-            className="hidden lg:block absolute left-[80%] top-[30%] text-white text-2xl font-bold"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            병원 적자의 원흉
-          </motion.div>
-
-          <motion.div
-            className="hidden lg:block absolute left-[23%] top-[33%] text-white text-2xl font-bold"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            마취과의 유일한 희망
-          </motion.div>
-          </motion.div>
-        </>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.5 }}
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: `url(${process.env.PUBLIC_URL + '/board2.png'})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center'
+          }}
+        >
+          <motion.div className="hidden lg:block absolute left-[23%] top-[18%] text-white text-2xl font-bold">생명의 은인</motion.div>
+          <motion.div className="hidden lg:block absolute left-[62%] top-[31%] text-white text-2xl font-bold">조폭</motion.div>
+          <motion.div className="hidden lg:block absolute left-[47%] top-[34%] text-white text-2xl font-bold">노예 1호</motion.div>
+          <motion.div className="hidden lg:block absolute left-[73%] top-[19%] text-white text-2xl font-bold">낙하산 인사</motion.div>
+          <motion.div className="hidden lg:block absolute left-[80%] top-[30%] text-white text-2xl font-bold">병원 적자의 원흉</motion.div>
+          <motion.div className="hidden lg:block absolute left-[23%] top-[33%] text-white text-2xl font-bold">마취과의 유일한 희망</motion.div>
+        </motion.div>
       )}
-<motion.div
 
-  className={`z-50 w-[200px] h-[200px] absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none `}
->
-  <img
-    src="/box.png"
-    alt="box"
-    className="w-full h-full object-contain"
-  />
-</motion.div>
+      {/* 배경 페이드 인 */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        style={{
+          opacity: textOpacity,
+          backgroundImage: `url(${process.env.PUBLIC_URL + '/board2.png'})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+        }}
+      />
+
+      {/* 박스 이동 및 텍스트 */}
+      <motion.div
+        className="absolute left-1/2 -translate-x-1/2 z-50"
+        style={{ top: boxTop, scale: boxScale }}
+      >
+        <div className="relative w-[200px] h-[200px] flex justify-center items-center">
+          <img src="/box.png" alt="box" className="w-full h-full object-contain" />
+
+          <motion.div
+            className="absolute left-full ml-8 w-[300px] text-lg text-white"
+            style={{ opacity: textOpacity }}
+          >
+            {documents[currentIdx]?.description}
+          </motion.div>
+
+          <motion.div
+            className="absolute right-full mr-8 text-5xl font-bold text-white"
+            style={{ opacity: textOpacity }}
+          >
+            {currentIdx + 1}
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 };
