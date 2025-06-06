@@ -81,20 +81,19 @@ const View03 = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5 }}
-          className="absolute inset-0 z-0"
+          className="absolute top-20 inset-0 z-0"
           style={{
             backgroundImage: `url(${process.env.PUBLIC_URL + '/board2.png'})`,
-            backgroundSize: 'cover',
+            backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center'
           }}
         >
-          <motion.div className="hidden lg:block absolute left-[23%] top-[18%] text-white text-2xl font-bold">생명의 은인</motion.div>
-          <motion.div className="hidden lg:block absolute left-[62%] top-[31%] text-white text-2xl font-bold">조폭</motion.div>
-          <motion.div className="hidden lg:block absolute left-[47%] top-[34%] text-white text-2xl font-bold">노예 1호</motion.div>
-          <motion.div className="hidden lg:block absolute left-[73%] top-[19%] text-white text-2xl font-bold">낙하산 인사</motion.div>
-          <motion.div className="hidden lg:block absolute left-[80%] top-[30%] text-white text-2xl font-bold">병원 적자의 원흉</motion.div>
-          <motion.div className="hidden lg:block absolute left-[23%] top-[33%] text-white text-2xl font-bold">마취과의 유일한 희망</motion.div>
+          <motion.div className="hidden lg:block absolute left-[22%] top-[5%] text-white text-2xl font-bold">생명의 은인</motion.div>
+          <motion.div className="hidden lg:block absolute left-[62%] top-[12%] text-white text-2xl font-bold">조폭</motion.div>
+          <motion.div className="hidden lg:block absolute left-[46%] top-[14%] text-white text-2xl font-bold">노예 1호</motion.div>
+          <motion.div className="hidden lg:block absolute left-[73%] top-[6%] text-white text-2xl font-bold">낙하산 인사</motion.div>
+          <motion.div className="hidden lg:block absolute left-[79%] top-[12%] text-white text-2xl font-bold">병원 적자의 원흉</motion.div>
+          <motion.div className="hidden lg:block absolute left-[23%] top-[13%] text-white text-2xl font-bold">마취과의 유일한 희망</motion.div>
         </motion.div>
       )}
 
