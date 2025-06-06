@@ -23,13 +23,9 @@ const View03 = () => {
     if (section) sectionTopRef.current = section.offsetTop;
   }, []);
 
-  const boxTop = useTransform(scrollY, (y) => {
-    const scrollOffset = y - sectionTopRef.current;
-    return `${Math.min(scrollOffset, 300)}px`; // 최대 300px까지만 올라감
-  });
-
   const boxScale = useTransform(scrollY, (y) => {
-    const scrollOffset = y - sectionTopRef.current;
+    const scrollOffset = y - sectionTopRef.current - window.innerHeight * 0.3;
+    if (scrollOffset < 0) return 1;
     return scrollOffset < 300 ? 1 + scrollOffset / 600 : 1.5;
   });
 
@@ -80,7 +76,6 @@ const View03 = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* 등장 텍스트 */}
       {showRelation && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -103,40 +98,22 @@ const View03 = () => {
         </motion.div>
       )}
 
-      {/* 배경 페이드 인 */}
+      {/* 박스 + 숫자 + 텍스트 */}
       <motion.div
-        className="absolute inset-0 z-0"
-        style={{
-          opacity: textOpacity,
-          backgroundImage: `url(${process.env.PUBLIC_URL + '/board2.png'})`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        }}
-      />
-
-      {/* 박스 이동 및 텍스트 */}
-      <motion.div
-        className="absolute left-1/2 -translate-x-1/2 z-50"
-        style={{ top: boxTop, scale: boxScale }}
+        className="absolute left-1/2 bottom-[10%] -translate-x-1/2 z-50 flex items-center gap-4"
+        style={{ scale: boxScale }}
       >
-        <div className="relative w-[200px] h-[200px] flex justify-center items-center">
+        <motion.div className="text-5xl font-bold text-white" style={{ opacity: textOpacity }}>
+          {currentIdx + 1}
+        </motion.div>
+
+        <div className="w-[200px] h-[200px] flex justify-center items-center">
           <img src="/box.png" alt="box" className="w-full h-full object-contain" />
-
-          <motion.div
-            className="absolute left-full ml-8 w-[300px] text-lg text-white"
-            style={{ opacity: textOpacity }}
-          >
-            {documents[currentIdx]?.description}
-          </motion.div>
-
-          <motion.div
-            className="absolute right-full mr-8 text-5xl font-bold text-white"
-            style={{ opacity: textOpacity }}
-          >
-            {currentIdx + 1}
-          </motion.div>
         </div>
+
+        <motion.div className="w-[300px] text-lg text-white" style={{ opacity: textOpacity }}>
+          {documents[currentIdx]?.description}
+        </motion.div>
       </motion.div>
     </section>
   );

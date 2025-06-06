@@ -24,7 +24,7 @@ const View02 = () => {
   return (
     <section
       id="scatter-section"
-      className="hidden lg:block w-full h-[300vh]"
+      className=" w-full h-[300vh]"
         style={{
             backgroundImage: `url(${process.env.PUBLIC_URL + '/sec2bg.png'})`,
             // backgroundSize: 'cover',

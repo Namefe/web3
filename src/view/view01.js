@@ -8,8 +8,7 @@ const View01 = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [stopScrollY, setStopScrollY] = useState(null);
   const [showScrollDown, setShowScrollDown] = useState(true);
-  const [showLines13, setShowLines13] = useState(false); // 반드시 여기 위에 있어야 됨
-
+  const [showLines13, setShowLines13] = useState(false); 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
@@ -184,7 +183,7 @@ const initialImageSizes = [
 ];
 
   return (
-   <section id="merge-section" className="hidden lg:block w-full h-[200vh] relative z-10 bg-[#e1d4c4]">
+   <section id="merge-section" className=" w-full h-[200vh]  relative z-10 bg-[#e1d4c4]">
 <div className="sticky top-0 flex flex-col items-center space-y-4">
 {/* Line 1 */}
   <div className={`flex space-x-2 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
