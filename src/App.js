@@ -8,6 +8,8 @@ import View03 from './view/view03';
 import View05 from './view/view05';
 
 function App() {
+
+
   return (
     <>
     <ClickEffect/>
@@ -23,10 +25,13 @@ function App() {
 
 */}
 
+    <div className='hidden lg:block'>
       <View01/>
       <View02/>
       <View03/>
       <View05/>
+    </div>
+
       <Footer/>
     </>
   );
