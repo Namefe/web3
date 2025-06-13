@@ -1,6 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
+
+
+
 const View01 = () => {
   const [progress, setProgress] = useState(0);
   const [progress2, setProgress2] = useState(0);
@@ -12,6 +15,10 @@ const View01 = () => {
   const [showLines13, setShowLines13] = useState(false); 
   const [shouldFix, setShouldFix] = useState(true);
 const [mergeSectionBottom, setMergeSectionBottom] = useState(0);
+
+
+
+
 
 useEffect(() => {
   const section = document.getElementById('merge-section');
@@ -220,7 +227,7 @@ useEffect(() => {
 
 
   return (
-   <section id="merge-section" className=" w-full h-[300vh]  relative z-10 bg-[#e1d4c4]">
+   <section id="merge-section" className=" w-full h-[500vh]  relative z-10 bg-[#e1d4c4]">
   <div className="sticky top-0 h-screen flex items-center justify-center">
   <div
   style={{
@@ -339,73 +346,31 @@ useEffect(() => {
         strokeDasharray={pathLength}
         strokeDashoffset={pathLength * (1 - progress)}
         style={{
-          strokeDashoffset: pathLength * (1 - progress), // 또는 그냥 progress
+          strokeDashoffset: pathLength * (1 - progress), 
           transition: 'stroke-dashoffset 0.3s linear'
         }}    d="M-213.361 204.185C-152.982 168.666 -92.0973 135.219 -31.214 102.428C9.78047 80.3492 60.4721 53.6428 102.361 33.4119C105.367 31.9601 163.32 4.54798 174.466 2.57728C176.248 2.26213 178.711 5.78129 177.456 7.77815C171.952 16.5327 164.548 22.7942 157.632 29.3527C129.823 55.7268 79.5725 97.2959 52.5415 118.613C5.66551 155.581 -27.596 179.003 -74.8047 212.959C-85.6642 220.77 -118.19 244.246 -107.097 237.352C-33.9975 191.921 -82.0797 218.726 7.32995 164.378C27.5195 152.106 47.7242 139.76 68.2213 129.121C78.8366 123.611 89.9135 115.485 100.503 116.017C104.134 116.2 98.274 126.652 95.3928 130.486C86.3212 142.558 75.7362 152.25 65.5832 162.486C43.3631 184.888 20.0043 204.849 -2.06476 227.561C-14.3963 240.251 -12.3868 240.21 -0.58191 233.531C19.9386 221.92 40.0986 208.523 60.5849 196.735C72.012 190.159 114.763 165.926 129.006 160.22C132.365 158.874 138.905 154.795 139.094 159.257C139.329 164.809 133.038 168.627 129.53 172.581C121.924 181.153 113.784 188.71 105.874 196.698C98.7261 203.916 72.0752 229.791 63.5518 240.499C52.6147 254.239 58.2741 253.058 70.7302 251.417C91.3312 248.702 139.581 235.634 155.862 231.405C160.668 230.157 230.633 210.712 244.517 209.747C246.481 209.61 250.402 212.648 248.686 214.384C240.656 222.508 231.142 226.653 222.245 232.279C198.663 247.189 174.547 259.75 151.12 275.304C127.932 290.7 156.511 278.511 162.074 276.479C186.631 267.51 211.089 257.263 235.627 248.037C244.874 244.56 254.116 240.922 263.394 237.976C267.161 236.781 271.287 234.339 274.709 235.631C276.146 236.173 272.822 239.684 271.419 241.006C265.949 246.164 260.074 250.293 254.361 254.816C242.613 264.117 219.215 281.914 207.537 291.643C202.277 296.025 196.373 299.405 192.015 305.473C190.883 307.049 192.845 310.057 194.316 310.049C206.762 309.984 255.708 293.055 259.557 291.796C292.067 281.161 323.216 270.372 355.614 258.874C364.244 255.811 372.836 251.998 381.49 249.48C382.518 249.181 379.782 251.515 378.794 252.13C370.192 257.477 361.426 262.048 352.805 267.311"/>
-</svg>
-  </div>
-  </div>
-  </div>
+      </svg>
+        </div>
+        </div>
+        </div>
                 {/* Images */}
-{/* <div
-  className={`${
-    stopScrollY !== null && scrollY >= stopScrollY ? 'absolute' : 'fixed'
-  } left-1/2 transform -translate-x-1/2 flex flex-nowrap items-end justify-center z-50`}
-  style={{
-    top:
-      stopScrollY !== null && scrollY >= stopScrollY
-        ?  `${stopScrollY - section3Top - 200}px`
-        : '50%',
-    transform:
-      stopScrollY !== null && scrollY >= stopScrollY
-        ? 'translateX(-50%)'
-        : 'translate(-50%, -50%)',
-  }}
->
-{initialImagePositions.map((pos, index) => {
-  const isFixed = stopScrollY !== null && scrollY >= stopScrollY;
-
-  const progressValue = isFixed ? 1 : progress;
-  const progress2Value = isFixed ? 1 : progress2;
-
-  const currentX =
-    pos.x * (1 - progressValue) + finalImagePositions[index].x * progress2Value;
-  const currentY =
-    pos.y * (1 - progressValue) + finalImagePositions[index].y * progress2Value;
-  const rotate =
-    initialImageRotations[index] * (1 - progressValue) +
-    finalImageRotations[index] * progress2Value;
-
-  const size = initialImageSizes[index]; 
-
-  return (
-    <div
-      key={`wrapper-${index}`}
-      className="relative overflow-hidden"
-      style={{
-        width: `${size.width}px`,
-        height: `${size.height}px`,
-        transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
-        transition: 'transform 0.3s ease',
-      }}
-    >
-      <img
-        src={process.env.PUBLIC_URL + `/clickimage${index + 1}.png`}
-        alt={`image-${index + 1}`}
-        className="w-full h-full object-cover cursor-pointer"
-        onClick={() =>
-          setSelectedImage({
-            index,
-            name: imageName[index],
-            job: job[index],
-            description: imageDescriptions[index],
-          })
-        }
-      />
-    </div>
-  );
-})}
-</div> */}
+          {/* <div className="relative min-h-[500vh] bg-yellow-300 z-50">
+            {alternativeImages.map((src, i) => (
+              <div
+                key={i}
+                ref={(el) => {
+                  if (el) imageRefs.current[i] = el;
+                }}
+                className={`w-[300px] h-[300px] mx-auto my-[80vh] ${progress < 1 ? "opacity-0" : "opacity-100"}`}
+              >
+                <img
+                  src={src}
+                  alt={`image-${i + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div> */}
 
   {showScrollDown && (
       <div className='animate-float flex flex-col justify-center items-center absolute top-[800px] gap-3 transition-opacity duration-200'>

@@ -62,7 +62,7 @@ const SupportHover = () => {
           <motion.path d="M0 0H10C15 0 15 10 10 10H0Z M0 10L10 30" transform="translate(365, 3) rotate(-2)" />
         </g>
       </motion.svg>
-        <svg viewBox="0 0 448 330" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute top-[200px] left-[20%] -translate-x-1/2 w-[448px] h-auto"> 
+        <svg viewBox="0 0 448 330" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute top-[300px] left-[20%] -translate-x-1/2 w-[448px] h-auto"> 
         <g>
           <path d="M40.5532 2.6443C36.5416 9.07626 32.4428 15.4567 28.5585 21.9674C26.4265 25.5411 21.0731 31.3584 21.6614 36.2334" stroke="white" strokeWidth={5} strokeLinecap="round"/>
           <path d="M38.4014 3.79906C45.0817 3.26707 50.5235 8.44282 44.9134 14.443C42.3224 17.2141 38.8521 17.9994 35.323 18.7644C31.8972 19.5069 29.3538 18.7619 33.6524 21.4429C36.4783 23.2054 40.1152 24.8421 39.9724 28.7475C39.852 32.0391 37.5273 34.9473 35.8557 37.6275C32.7329 42.6344 24.8034 41.6811 20.3467 38.9015" stroke="white" strokeWidth={5} strokeLinecap="round"/>
