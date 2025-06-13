@@ -51,7 +51,7 @@ const documents = [
   });
 
   const boxScale = useTransform(scrollYProgress, [0.5, 0.7], [1, 1.8]);
-  const boxY = useTransform(scrollYProgress, [0.5, 0.7], [200, 0]);
+  const boxY = useTransform(scrollYProgress, [0.7, 0.75], [500, 0]);
   const boxTextOpacity = useTransform(scrollYProgress, [0.75, 0.8], [0, 1]);
   const opacity = useTransform(scrollYProgress, [0.2, 0.4, 0.6, 0.8], [0, 1, 1, 0]);
   const translatey = useTransform(scrollYProgress, [0.3, 0.4, 0.6, 0.7], [30, 0, 0, -600]);
@@ -102,7 +102,7 @@ const documents = [
     }
 
     setBoxFullyFixed(progress >= 0.7);
-    if (progress >= 0.95) setUnlockScroll(true);
+    if (progress >= 0.98) setUnlockScroll(true);
   });
 
   return (
@@ -134,83 +134,88 @@ const documents = [
         </motion.div>
       </div>
 
-      {showBox && (
-        <>
-          <div className="h-[600vh]" />
-          <motion.div style={{ opacity: hideOpacity }}>
-            <motion.div className="fixed left-1/2 bottom-[-15%] -translate-x-1/2 z-50">
-              <div className="w-[300px] h-[300px] mx-auto flex justify-center items-center relative">
+{showBox && (
+  <>
+    <div className="h-[700vh]" />
+
+    {/* 박스 전체 컨테이너 */}
+    <motion.div style={{ opacity: hideOpacity }}>
+      <motion.div className="fixed top-[80%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[300]">
+        <div className="w-[300px] h-[300px] mx-auto flex justify-center items-center relative">
+          {/* 박스 이미지 */}
+          <motion.img
+            src={process.env.PUBLIC_URL + "/box.png"}
+            alt="box"
+            className="w-full h-full object-contain"
+            style={{ scale: boxScale, y: boxY }}
+          />
+
+          {/* 내부 문서 & 커버 이미지 */}
+          {boxFullyFixed &&
+            docMotion.map((motionStyle, index) => (
+              <React.Fragment key={index}>
+                {/* 커버 박스 이미지 */}
                 <motion.img
-                  src={process.env.PUBLIC_URL + "/box.png"}
-                  alt="box"
-                  className="w-full h-full object-contain"
-                  style={{ scale: boxScale, y: boxY }}
+                  src={process.env.PUBLIC_URL + "/list (2).png"}
+                  alt="cover"
+                  style={{
+                    width: "500px",
+                    height: "300px",
+                    y: motionStyle.y,
+                    x: 0,
+                    opacity: motionStyle.opacity,
+                  }}
+                  className="absolute z-10 object-cover"
                 />
-{boxFullyFixed &&
-  docMotion.map((motionStyle, index) => (
-    <React.Fragment key={index}>
-      {/*  커버 박스 이미지 */}
-        <motion.img
-          src={process.env.PUBLIC_URL + "/list (2).png"}
-          alt="cover"
-          style={{
-            width: "800px",
-            height: "300px",
-            y: motionStyle.y,
-            x: 0,
-            opacity: motionStyle.opacity,
-          }}
-          className="absolute z-10 object-cover"
-        />
 
-      {/* 📄 내부 문서 이미지 2장 */}
-      {documents[index].img.map((src, i) => (
-        <motion.img
-          key={`${index}-${i}`}
-          src={process.env.PUBLIC_URL + src}
-          alt={`doc-${index}-${i}`}
-          className="absolute w-[300px] h-[200px] object-contain z-20"
-          style={{
-            y: motionStyle.y,
-            x: i === 0 ? -40 : 40,
-            rotate: i === 0 ? -4 : 4,
-            opacity: motionStyle.opacity,
-          }}
-        />
-      ))}
-    </React.Fragment>
-  ))}
-              </div>
-            </motion.div>
+                {/* 내부 문서 이미지 2장 */}
+                {documents[index].img.map((src, i) => (
+                  <motion.img
+                    key={`${index}-${i}`}
+                    src={process.env.PUBLIC_URL + src}
+                    alt={`doc-${index}-${i}`}
+                    className="absolute w-[300px] h-[200px] object-contain z-20"
+                    style={{
+                      y: motionStyle.y,
+                      x: i === 0 ? -40 : 40,
+                      rotate: i === 0 ? -4 : 4,
+                      opacity: motionStyle.opacity,
+                    }}
+                  />
+                ))}
+              </React.Fragment>
+            ))}
+        </div>
+      </motion.div>
 
-          {boxFullyFixed && (
-            <>
-              {/* 왼쪽 숫자 */}
-              <motion.div
-                className="fixed left-[20%] bottom-[30%] z-50 text-black text-5xl font-bold"
-                style={{ opacity: boxTextOpacity }}
-              >
-                {currentIdx + 1}
-              </motion.div>
+      {/* 왼쪽 숫자 */}
+      {boxFullyFixed && (
+        <>
+          <motion.div
+            className="fixed left-[20%] top-1/2 -translate-y-1/2 z-50 text-black text-5xl font-bold"
+            style={{ opacity: boxTextOpacity }}
+          >
+            {currentIdx + 1}
+          </motion.div>
 
-              {/* 오른쪽 텍스트 */}
-              <motion.div
-                className="fixed right-[10%] bottom-[30%] z-50 text-black text-right max-w-[300px]"
-                style={{ opacity: boxTextOpacity }}
-              >
-                <div className="text-3xl text-center font-bold mb-4">
-                  {documents[currentIdx]?.title}
-                </div>
-                <div className="text-xl text-center font-medium">
-                  {documents[currentIdx]?.content}
-                </div>
-              </motion.div>
-            </>
-          )}
-
+          {/* 오른쪽 설명 텍스트 */}
+          <motion.div
+            className="fixed right-[10%] top-1/2 -translate-y-1/2 z-50 text-black text-right max-w-[300px]"
+            style={{ opacity: boxTextOpacity }}
+          >
+            <div className="text-3xl text-center font-bold mb-4">
+              {documents[currentIdx]?.title}
+            </div>
+            <div className="text-xl text-center font-medium">
+              {documents[currentIdx]?.content}
+            </div>
           </motion.div>
         </>
       )}
+    </motion.div>
+  </>
+)}
+
     </section>
   );
 };

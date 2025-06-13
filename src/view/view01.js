@@ -31,7 +31,6 @@ useEffect(() => {
     const scrollTop = window.scrollY;
     const windowHeight = window.innerHeight;
 
-    // 기준: section bottom이 화면에 들어오면 fixed 해제
     if (scrollTop + windowHeight >= mergeSectionBottom) {
       setShouldFix(false);
     } else {
@@ -242,13 +241,17 @@ useEffect(() => {
     flexDirection: 'column',
     alignItems: 'center',
   }}
->  {/* Line 1 */}
+> 
+
+ {/* Line 1 */}
 <div className={`flex space-x-1 mb-4 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
     {line1.map((img, index) => (
       <div key={`line1-${index}`}>{img}</div>
     ))}
   </div>
-        {/* Line 2 */}
+
+
+  {/* Line 2 */}
 <div className="flex flex-wrap justify-center gap-1 relative z-10">
     {line2.map((img, index) => {
       const { x, y } = initialPositionsLine2[index];
@@ -269,12 +272,16 @@ useEffect(() => {
       );
     })}
   </div>
+
+
 {/* Line 3 */}
 <div className={`flex flex-wrap justify-center mt-4 space-x-1 transition-opacity duration-1000 ${showLines13 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
     {line3.map((img, index) => (
       <div key={`line3-${index}`}>{img}</div>
     ))}
   </div>
+
+
   {/* ------------------SVG------------------------------------- */}
   <div
     className={`mt-6 transition-opacity duration-1000 ease-out ${
