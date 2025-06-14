@@ -67,10 +67,10 @@ const documents = [
     const mid = start + sectionSize * 0.6;
     const end = start + sectionSize;
 
-    return {
-      y: useTransform(scrollYProgress, [start, mid, end], [-200, -400, 0]),
-      opacity: useTransform(scrollYProgress, [start, mid, end], [0, 1, 0]),
-    };
+    // return {
+    //   y: useTransform(scrollYProgress, [start, mid, end], [-200, -400, 0]),
+    //   opacity: useTransform(scrollYProgress, [start, mid, end], [0, 1, 0]),
+    // };
   });
 
   useEffect(() => {
@@ -117,14 +117,14 @@ const documents = [
     >
       <div ref={ref} className="w-full h-full">
         <motion.div
-          className="w-screen h-screen fixed top-0 left-0 z-10 overflow-hidden"
-          style={{ opacity, y: translatey }}
+          className="w-screen h-screen fixed top-0 left-0 z-10"
+          // style={{ opacity, y: translatey }}
         >
-          <motion.img
+          {/* <motion.img
             src={process.env.PUBLIC_URL + "/board2.png"}
             alt="board"
-            className="w-full h-full object-contain"
-          />
+            className="w-full  relative -top-80"
+          /> */}
           <motion.div className="hidden lg:block absolute left-[22%] top-[5%] text-white text-2xl font-bold">생명의 은인</motion.div>
           <motion.div className="hidden lg:block absolute left-[62%] top-[12%] text-white text-2xl font-bold">조폭</motion.div>
           <motion.div className="hidden lg:block absolute left-[46%] top-[14%] text-white text-2xl font-bold">노예 1호</motion.div>
@@ -147,7 +147,7 @@ const documents = [
             src={process.env.PUBLIC_URL + "/box.png"}
             alt="box"
             className="w-full h-full object-contain"
-            style={{ scale: boxScale, y: boxY }}
+            // style={{ scale: boxScale, y: boxY }}
           />
 
           {/* 내부 문서 & 커버 이미지 */}
@@ -161,9 +161,9 @@ const documents = [
                   style={{
                     width: "500px",
                     height: "300px",
-                    y: motionStyle.y,
+                    // y: motionStyle.y,
                     x: 0,
-                    opacity: motionStyle.opacity,
+                    // opacity: motionStyle.opacity,
                   }}
                   className="absolute z-10 object-cover"
                 />
@@ -179,7 +179,7 @@ const documents = [
                       y: motionStyle.y,
                       x: i === 0 ? -40 : 40,
                       rotate: i === 0 ? -4 : 4,
-                      opacity: motionStyle.opacity,
+                      // opacity: motionStyle.opacity,
                     }}
                   />
                 ))}

@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const View02 = () => {
   const imageRefs = useRef([]);
+  const triggerRef = useRef(null);
 
   useEffect(() => {
     imageRefs.current.forEach((el, i) => {
@@ -14,36 +15,34 @@ const View02 = () => {
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: el,
-          start: 'top 90%',
-          end: 'top 50%',
+          trigger: triggerRef.current,
+          start: 'top 0%',
+          end: '+=100%',
           scrub: true,
         },
       });
 
-      tl.fromTo(
-        el,
-        {
-          y: 200,
+      tl.to(
+        el, {
+          y: 0,
           opacity: 0,
           skewY: -10,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          skewY: 5,
-          duration: 0.4,
-          ease: 'power3.out',
         }
       ).to(
-        el,
-        {
+        el, {
+          y: 0,
+          opacity: 1,
           skewY: 0,
-          duration: 0.3,
-          ease: 'power2.out',
         }
-      );
+      ).to(
+        el, {
+          y: 1000,
+        }
+      )
+      
     });
+
+    return 
   }, []);
 
   const images = [
@@ -77,14 +76,14 @@ const View02 = () => {
         backgroundAttachment: 'fixed',
       }}
     >
-      <div className="relative w-full h-[300vh]">
+      <div className="relative w-full h-[300vh]" ref={triggerRef}>
         {images.map((src, index) => (
           <img
             key={index}
             ref={(el) => (imageRefs.current[index] = el)}
             src={process.env.PUBLIC_URL + src}
             alt={`img${index + 1}`}
-            className="absolute w-[250px] h-auto object-cover"
+            className="absolute w-[250px] h-auto object-cover opacity-0"
             style={{
               top: positions[index].top,
               left: positions[index].left,
