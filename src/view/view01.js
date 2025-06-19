@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 
 
 
+
 const View01 = () => {
   const [progress, setProgress] = useState(0);
   const [progress2, setProgress2] = useState(0);
@@ -14,8 +15,10 @@ const View01 = () => {
   const [showScrollDown, setShowScrollDown] = useState(true);
   const [showLines13, setShowLines13] = useState(false); 
   const [shouldFix, setShouldFix] = useState(true);
-const [mergeSectionBottom, setMergeSectionBottom] = useState(0);
-
+  const [mergeSectionBottom, setMergeSectionBottom] = useState(0);
+  const containerRef = useRef(null);
+    const sectionRef = useRef(null);
+    const [reScatter, setReScatter] = useState(false);
 
 
 
@@ -41,6 +44,9 @@ useEffect(() => {
   window.addEventListener('scroll', handleScroll);
   return () => window.removeEventListener('scroll', handleScroll);
 }, [mergeSectionBottom]);
+
+
+
   
   useEffect(() => {
     const handleScroll = () => {
@@ -156,27 +162,6 @@ useEffect(() => {
   const initialRotationsLine2 = [40, -25, 35, 20, -45, 30, -38, 22, -42, 28, 35, -32, 18];
 
 
-  const initialImagePositions = [
-    { x: -200, y: -200 },
-    { x: 250, y: 150 },
-    { x: -400, y: 400 },
-    { x: 150, y: 150 },
-    { x: 300, y: 200 },
-    { x: 200, y: -100 },
-    { x: 150, y: 400 },
-  ];
-  const initialImageRotations = [-90, 120, -60, 180, -120, 90, -150];
-
-  const finalImagePositions = [
-    { x: 400, y: -200 },
-    { x: 270, y: 200 },
-    { x: 400, y: 80 },
-    { x: -400, y: 150 },
-    { x: -600, y: -300 },
-    { x: 200, y: -250 },
-    { x: 170, y: 50 },
-  ];
-  const finalImageRotations = [-10, 15, -12, 14, -8, 11, -9];
 
   const alternativeImages = [
   process.env.PUBLIC_URL + '/clickimage1.png',
@@ -218,20 +203,98 @@ const initialImageSizes = [
 const pathRef = useRef(null);
 const [pathLength, setPathLength] = useState(0);
 
+
 useEffect(() => {
   if (pathRef.current) {
     setPathLength(pathRef.current.getTotalLength());
   }
 }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const scrollRange = rect.height - windowHeight;
+
+      const scrolled = Math.min(
+        Math.max((windowHeight - rect.top) / scrollRange, 0),
+        1
+      );
+
+      setProgress(scrolled);
+
+      if (scrolled < 0.95) {
+        setReScatter(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const getStyle = (xStart, yStart, rStart, index) => {
+    const ratio = reScatter ? 1 : Math.max(0, 1 - progress * 1.1);
+    const x = xStart * ratio;
+    const y = yStart * ratio;
+    const r = rStart * ratio;
+    const overlap = index * -0 * (1 - ratio);
+
+    return {
+      transform: `translate(${x + overlap}px, ${y}px) rotate(${r}deg)`,
+      transition: "transform 0.4s ease-out",
+      zIndex: 10 + index,
+      width: `${sizes[index][0]}px`,
+      height: `${sizes[index][1]}px`,
+    };
+  };
+
+const transforms = [
+  [-200, -200, -10],
+  [250, -150, 10],
+  [-340, 180, 10],
+  [300, -220, -10],
+  [-500, 160, 10],
+  [220, -160, -10],
+  [100, 240, 10],
+];
+
+const sizes = [
+  [160, 240],
+  [130, 200],
+  [180, 260],
+  [150, 230],
+  [170, 250],
+  [120, 180],
+  [165, 245],
+];
+
+  useEffect(() => {
+    const nextSection = document.getElementById("next-section");
+    if (!nextSection) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setReScatter(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(nextSection);
+    return () => observer.disconnect();
+  }, []);
+
+const shouldShowTape = progress > 0.98;
 
   return (
-   <section id="merge-section" className=" w-full h-[500vh]  relative z-10 bg-[#e1d4c4]">
+   <section id="merge-section" ref={sectionRef} className=" w-full h-[500vh]  relative z-50 bg-[#E1D4C4]">
   <div className="sticky top-0 h-screen flex items-center justify-center">
   <div
   style={{
     position: shouldFix ? 'fixed' : 'absolute',
-    top: shouldFix ? '40%' : `${mergeSectionBottom - 600}px`, 
+    top: shouldFix ? '30%' : `${mergeSectionBottom - 600}px`, 
     left: '50%',
     transform: 'translateX(-50%)',
     width: '100%',
@@ -360,24 +423,31 @@ useEffect(() => {
         </div>
         </div>
         </div>
-                {/* Images */}
-          {/* <div className="relative min-h-[500vh] bg-yellow-300 z-50">
-            {alternativeImages.map((src, i) => (
-              <div
-                key={i}
-                ref={(el) => {
-                  if (el) imageRefs.current[i] = el;
-                }}
-                className={`w-[300px] h-[300px] mx-auto my-[80vh] ${progress < 1 ? "opacity-0" : "opacity-100"}`}
-              >
-                <img
-                  src={src}
-                  alt={`image-${i + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </div> */}
+          {/*------------------------------이미지---------------------------- */}
+<div className="fixed top-[60%] left-1/2 -translate-x-1/2 z-[90] flex justify-center items-end pointer-events-none gap-4">
+  <div style={getStyle(...transforms[0], 0)} className={`relative img1 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+    <img src={process.env.PUBLIC_URL + "/clickimage1.png"} alt="img1" className="w-full h-full object-cover" />
+  </div>
+  <div style={getStyle(...transforms[1], 1)} className={`relative img2 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+    <img src={process.env.PUBLIC_URL + "/clickimage2.png"} alt="img2" className="w-full h-full object-cover" />
+  </div>
+  <div style={getStyle(...transforms[2], 2)} className={`relative img3 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+    <img src={process.env.PUBLIC_URL + "/clickimage3.png"} alt="img3" className="w-full h-full object-cover" />
+  </div>
+  <div style={getStyle(...transforms[3], 3)} className={`relative img4 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+    <img src={process.env.PUBLIC_URL + "/clickimage4.png"} alt="img4" className="w-full h-full object-cover" />
+  </div>
+  <div style={getStyle(...transforms[4], 4)} className={`relative img5 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+    <img src={process.env.PUBLIC_URL + "/clickimage5.png"} alt="img5" className="w-full h-full object-cover" />
+  </div>
+  <div style={getStyle(...transforms[5], 5)} className={`relative img6 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+    <img src={process.env.PUBLIC_URL + "/clickimage6.png"} alt="img6" className="w-full h-full object-cover" />
+  </div>
+  <div style={getStyle(...transforms[6], 6)} className={`relative img7 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+    <img src={process.env.PUBLIC_URL + "/clickimage7.png"} alt="img7" className="w-full h-full object-cover" />
+  </div>
+</div>
+
 
   {showScrollDown && (
       <div className='animate-float flex flex-col justify-center items-center absolute top-[800px] gap-3 transition-opacity duration-200'>
@@ -398,6 +468,8 @@ useEffect(() => {
         </svg>
       </div>
 )}
+
+
 
       {/* Modal */}
      {selectedImage !== null && scrollY >= stopScrollY && (
@@ -460,7 +532,10 @@ useEffect(() => {
       <p className="text-[10px] sm:text-[12px] md:text-[14px] text-black">TOP</p>
     </div>
       </div>
+      
     </section>
+
+
   );
 };
 

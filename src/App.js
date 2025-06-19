@@ -31,7 +31,6 @@ function App() {
       <View03/>
       <View05/>
     </div>
-
       <Footer/>
     </>
   );

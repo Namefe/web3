@@ -3,3 +3,123 @@ html,body{
     @apply font-sans;
 }
 
+.img1::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-5deg);
+  width: 60px;
+  height: 30px;
+  background-image: url('./tape/after1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.img2::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(4deg);
+  width: 60px;
+  height: 30px;
+  background-image: url('./tape/after1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.img3::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 60px;
+  height: 30px;
+  background-image: url('./tape/after1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.img4::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(6deg);
+  width: 60px;
+  height: 30px;
+  background-image: url('./tape/after1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.img5::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-6deg);
+  width: 60px;
+  height: 30px;
+  background-image: url('./tape/after1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.img6::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(3deg);
+  width: 60px;
+  height: 30px;
+  background-image: url('./tape/after1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.img7::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 60px;
+  height: 30px;
+  background-image: url('./tape/after1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.img1::after,
+.img2::after,
+.img3::after,
+.img4::after,
+.img5::after,
+.img6::after,
+.img7::after {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* 이 클래스가 추가되면 테이프 등장 */
+.show-tape::after {
+  opacity: 1;
+}
