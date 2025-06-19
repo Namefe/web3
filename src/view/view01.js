@@ -23,6 +23,7 @@ const View01 = () => {
 
 
 
+
 useEffect(() => {
   const section = document.getElementById('merge-section');
   if (section) {
@@ -45,7 +46,26 @@ useEffect(() => {
   return () => window.removeEventListener('scroll', handleScroll);
 }, [mergeSectionBottom]);
 
+useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    const section3 = document.getElementById('section03'); // ✅ 여기에 정의
 
+    if (section3 && stopScrollY === null) {
+      const sectionTop = section3.offsetTop;
+      const targetYInsideSection = 300;
+
+      if (scrollTop >= sectionTop + targetYInsideSection) {
+        setStopScrollY(sectionTop + targetYInsideSection);
+      }
+    }
+
+    setScrollY(scrollTop);
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, [stopScrollY]);
 
   
   useEffect(() => {
@@ -77,6 +97,7 @@ useEffect(() => {
 
       if (section3 && stopScrollY === null) {
         const triggerOffset = 100;
+          const scrollTop = window.scrollY;
         const sectionTop = section3.offsetTop;
         if (scrollTop >= sectionTop + triggerOffset) {
           setStopScrollY(sectionTop + triggerOffset);
@@ -89,6 +110,7 @@ useEffect(() => {
         setShowScrollDown(false);
       }
     };
+
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -202,6 +224,7 @@ const initialImageSizes = [
 
 const pathRef = useRef(null);
 const [pathLength, setPathLength] = useState(0);
+
 
 
 useEffect(() => {
@@ -424,8 +447,27 @@ const shouldShowTape = progress > 0.98;
         </div>
         </div>
           {/*------------------------------이미지---------------------------- */}
-<div className="fixed top-[60%] left-1/2 -translate-x-1/2 z-[90] flex justify-center items-end pointer-events-none gap-4">
-  <div style={getStyle(...transforms[0], 0)} className={`relative img1 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+<div
+  style={
+    stopScrollY && scrollY >= stopScrollY
+      ? {
+          position: "absolute",
+          top: stopScrollY,
+          left: "50%",
+          transform: "translateX(-50%)",
+          transition: "top 0.4s ease-out, transform 0.4s ease-out",
+        }
+      : {
+          position: "fixed",
+          top: "60%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          transition: "top 0.4s ease-out, transform 0.4s ease-out",
+        }
+  }
+  className="z-[90] flex justify-center items-end pointer-events-none gap-4"
+>
+    <div style={getStyle(...transforms[0], 0)} className={`relative img1 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
     <img src={process.env.PUBLIC_URL + "/clickimage1.png"} alt="img1" className="w-full h-full object-cover" />
   </div>
   <div style={getStyle(...transforms[1], 1)} className={`relative img2 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
