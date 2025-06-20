@@ -197,23 +197,20 @@ useEffect(() => {
     <img src={process.env.PUBLIC_URL + '/i.png'} alt="I" className="inline-block " />,
     <img src={process.env.PUBLIC_URL + '/x.png'} alt="X" className="inline-block" />,
   ]
+const generateInitialPositions = (count) => {
+  return Array.from({ length: count }).map(() => ({
+    x: (Math.random() - 0.5) * window.innerWidth * 0.6,
+    y: (Math.random() - 0.5) * window.innerHeight * 0.4,
+  }));
+};
+
+const [initialPositionsLine2, setInitialPositionsLine2] = useState([]);
+
+useEffect(() => {
+  setInitialPositionsLine2(generateInitialPositions(line2.length));
+}, [line2.length]);
 
 
-  const initialPositionsLine2 = [
-    { x: -200, y: -150 },
-    { x: 0, y: 200 },
-    { x: 100, y: -170 },
-    { x: -220, y: 600 },
-    { x: 340, y: 50 },
-    { x: 460, y: -100 },
-    { x: 580, y: 400 },
-    { x: -400, y: 320 },
-    { x: -320, y: 300 },
-    { x: 240, y: -50 },
-    { x: 600, y: 600 },
-    { x: -100, y: 500 },
-    { x: 400, y: 0 },
-  ];
   const initialRotationsLine2 = [40, -25, 35, 20, -45, 30, -38, 22, -42, 28, 35, -32, 18];
 
 
@@ -280,21 +277,30 @@ useEffect(() => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const getStyle = (xStart, yStart, rStart, index) => {
-    const ratio = reScatter ? 1 : Math.max(0, 1 - progress * 1.1);
-    const x = xStart * ratio;
-    const y = yStart * ratio;
-    const r = rStart * ratio;
-    const overlap = index * -0 * (1 - ratio);
+const getStyle = (xStart, yStart, rStart, index) => {
+  const ratio = reScatter ? 1 : Math.max(0, 1 - progress * 1.1);
+  const x = xStart * ratio;
+  const y = yStart * ratio;
+  const r = rStart * ratio;
+  const overlap = index * -0 * (1 - ratio);
 
-    return {
-      transform: `translate(${x + overlap}px, ${y}px) rotate(${r}deg)`,
-      transition: "transform 0.4s ease-out",
-      zIndex: 10 + index,
-      width: `${sizes[index][0]}px`,
-      height: `${sizes[index][1]}px`,
-    };
+  const [w, h] = sizes[index];
+
+  const screenWidth = window.innerWidth;
+  const baseMin = 1024; 
+  const baseMax = 1920; 
+  const t = Math.min(1, Math.max(0, (screenWidth - baseMin) / (baseMax - baseMin)));
+  const scale = 0.6 + (1 - 0.6) * t; 
+
+  return {
+    transform: `translate(${x + overlap}px, ${y}px) rotate(${r}deg)`,
+    transition: "transform 0.4s ease-out",
+    zIndex: 10 + index,
+    width: `${w * scale}px`,
+    height: `${h * scale}px`,
   };
+};
+
 
 const transforms = [
   [-200, -200, -10],
@@ -363,24 +369,25 @@ const shouldShowTape = progress > 0.98;
 
   {/* Line 2 */}
 <div className="flex flex-wrap justify-center gap-1 relative z-10">
-    {line2.map((img, index) => {
-      const { x, y } = initialPositionsLine2[index];
-      const rotate = initialRotationsLine2[index] * (1 - progress);
-      const currentX = x * (1 - progress);
-      const currentY = y * (1 - progress);
-      return (
-        <div
-          key={`line2-${index}`}
-          className="inline-block"
-          style={{
-            transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
-            transition: 'transform 0s linear',
-          }}
-        >
-          {img}
-        </div>
-      );
-    })}
+{line2.map((img, index) => {
+  const { x, y } = initialPositionsLine2[index] || { x: 0, y: 0 };
+  const rotate = 10 * (1 - progress); 
+  const currentX = x * (1 - progress);
+  const currentY = y * (1 - progress);
+
+  return (
+    <div
+      key={`line2-${index}`}
+      className="inline-block"
+      style={{
+        transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
+        transition: 'transform 0s linear',
+      }}
+    >
+      {img}
+    </div>
+  );
+})}
   </div>
 
 

@@ -106,7 +106,7 @@ const opacityMotionValues = [
 
 useMotionValueEvent(scrollYProgress, "change", (p) => {
   setShowBoard(p < 0.6);
-  setBoxShowComplete(p > 0.7); // ✅ scale/y 끝난 시점으로 조정
+  setBoxShowComplete(p > 0.7); 
   if (p > 0.98) setUnlockScroll(true);
 
   const relativeProgress = (p - 0.7) / (0.95 - 0.7);
@@ -142,7 +142,7 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
         </motion.div>
       )}
 
-{/* 박스 본체 (항상 렌더링됨) */}
+{/* 박스 본체*/}
 <motion.div
   className={`${
     boxFixed
