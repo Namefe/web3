@@ -1,9 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-
-
-
-
+import { motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion';
 
 const View01 = () => {
   const [progress, setProgress] = useState(0);
@@ -16,11 +12,57 @@ const View01 = () => {
   const [showLines13, setShowLines13] = useState(false); 
   const [shouldFix, setShouldFix] = useState(true);
   const [mergeSectionBottom, setMergeSectionBottom] = useState(0);
-  const containerRef = useRef(null);
-    const sectionRef = useRef(null);
-    const [reScatter, setReScatter] = useState(false);
+  const sectionRef = useRef(null);
+  const [reScatter, setReScatter] = useState(false);
+  const [imageFixed, setImageFixed] = useState(true); // 처음엔 fixed
+  const section3Ref = useRef(null);
+const { scrollYProgress } = useScroll();
+  const [isFixed, setIsFixed] = useState(true);
+  const [stopTop, setStopTop] = useState(0);
 
+  const shouldWiggle = !isFixed && stopTop !== null;
 
+useEffect(() => {
+  const unsubscribe = scrollYProgress.on("change", (p) => {
+    const triggerStart = 0.54;
+
+    if (p > triggerStart && isFixed) {
+      const currentTop = document
+        .querySelector("#imageWrapper")
+        .getBoundingClientRect().top + window.scrollY;
+
+      console.log("🛑 fixed 해제됨! 현재 위치에 고정:", currentTop);
+
+      setStopTop(currentTop); 
+      setIsFixed(false);
+    }
+
+    if (p < triggerStart && !isFixed) {
+      console.log("✅ fixed 다시 적용");
+      setIsFixed(true);
+    }
+  });
+
+  return () => unsubscribe();
+}, [scrollYProgress, isFixed]);
+
+useEffect(() => {
+  const handleScroll = () => {
+    if (section3Ref.current) {
+      const sectionTop = section3Ref.current.offsetTop;
+      const scrollTop = window.scrollY;
+
+      if (scrollTop >= sectionTop) {
+        setImageFixed(true);
+      } else {
+        setImageFixed(false);
+      }
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
 
 
@@ -46,26 +88,16 @@ useEffect(() => {
   return () => window.removeEventListener('scroll', handleScroll);
 }, [mergeSectionBottom]);
 
+
 useEffect(() => {
   const handleScroll = () => {
-    const scrollTop = window.scrollY;
-    const section3 = document.getElementById('section03'); // ✅ 여기에 정의
-
-    if (section3 && stopScrollY === null) {
-      const sectionTop = section3.offsetTop;
-      const targetYInsideSection = 300;
-
-      if (scrollTop >= sectionTop + targetYInsideSection) {
-        setStopScrollY(sectionTop + targetYInsideSection);
-      }
-    }
-
-    setScrollY(scrollTop);
+    setScrollY(window.scrollY);
   };
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
-  window.addEventListener('scroll', handleScroll);
-  return () => window.removeEventListener('scroll', handleScroll);
-}, [stopScrollY]);
+
 
   
   useEffect(() => {
@@ -111,6 +143,7 @@ useEffect(() => {
       }
     };
 
+    
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -211,16 +244,7 @@ const job =[
   "한국대학교 병원 외상외과 교수 겸 중증외상센터장","한국대학교병원 외상외과 전임의","한국대학교 중증외상센터 시니어 간호사","한국대학교병원 마취통증의학과 전공의","한국대학교병원 외과 과장 겸 대장항문외과 과장","보건복지부 장관","한국대학교병원 기회조정실장 겸 감염내과 교수"
 ]
 
-const initialImageSizes = [
-  { width: 120, height: 160 },
-  { width: 160, height: 200 },
-  { width: 140, height: 140 },
-  { width: 100, height: 150 },
-  { width: 160, height: 100 },
-  { width: 180, height: 170 },
-  { width: 120, height: 130 },
 
-];
 
 const pathRef = useRef(null);
 const [pathLength, setPathLength] = useState(0);
@@ -302,7 +326,7 @@ const sizes = [
           setReScatter(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
 
     observer.observe(nextSection);
@@ -317,7 +341,7 @@ const shouldShowTape = progress > 0.98;
   <div
   style={{
     position: shouldFix ? 'fixed' : 'absolute',
-    top: shouldFix ? '30%' : `${mergeSectionBottom - 600}px`, 
+    top: shouldFix ? '10%' : `${mergeSectionBottom - 700}px`, 
     left: '50%',
     transform: 'translateX(-50%)',
     width: '100%',
@@ -447,48 +471,110 @@ const shouldShowTape = progress > 0.98;
         </div>
         </div>
           {/*------------------------------이미지---------------------------- */}
-<div
-  style={
-    stopScrollY && scrollY >= stopScrollY
-      ? {
-          position: "absolute",
-          top: stopScrollY,
-          left: "50%",
-          transform: "translateX(-50%)",
-          transition: "top 0.4s ease-out, transform 0.4s ease-out",
-        }
-      : {
-          position: "fixed",
-          top: "60%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          transition: "top 0.4s ease-out, transform 0.4s ease-out",
-        }
-  }
-  className="z-[90] flex justify-center items-end pointer-events-none gap-4"
+
+<motion.div
+  id="imageWrapper"
+  style={{
+    position: isFixed ? "fixed" : "absolute",
+    top: isFixed ? "40%" : `${stopTop}px`,
+    left: "50%",
+    transform: "translateX(-50%)",
+  }}
+  className="z-[90] flex justify-center items-end pointer-events-auto gap-4"
 >
-    <div style={getStyle(...transforms[0], 0)} className={`relative img1 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+    <div   
+    onClick={() => {
+    if (scrollY >= stopScrollY) {
+      setSelectedImage({
+        index: 0,
+        name: imageName[0],
+        job: job[0],
+        description: imageDescriptions[0],
+        img: alternativeImages[0],
+      });
+    }
+  }} style={getStyle(...transforms[0], 0)} className={`relative img1 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
     <img src={process.env.PUBLIC_URL + "/clickimage1.png"} alt="img1" className="w-full h-full object-cover" />
   </div>
-  <div style={getStyle(...transforms[1], 1)} className={`relative img2 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+  <div   onClick={() => {
+    if (scrollY >= stopScrollY) {
+      setSelectedImage({
+        index: 1,
+        name: imageName[1],
+        job: job[1],
+        description: imageDescriptions[1],
+        img: alternativeImages[1],
+      });
+    }
+  }} style={getStyle(...transforms[1], 1)} className={`relative img2 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
     <img src={process.env.PUBLIC_URL + "/clickimage2.png"} alt="img2" className="w-full h-full object-cover" />
   </div>
-  <div style={getStyle(...transforms[2], 2)} className={`relative img3 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+  <div   onClick={() => {
+    if (scrollY >= stopScrollY) {
+      setSelectedImage({
+        index: 2,
+        name: imageName[2],
+        job: job[2],
+        description: imageDescriptions[2],
+        img: alternativeImages[2],
+      });
+    }
+  }} style={getStyle(...transforms[2], 2)} className={`relative img3 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
     <img src={process.env.PUBLIC_URL + "/clickimage3.png"} alt="img3" className="w-full h-full object-cover" />
   </div>
-  <div style={getStyle(...transforms[3], 3)} className={`relative img4 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+  <div   onClick={() => {
+    if (scrollY >= stopScrollY) {
+      setSelectedImage({
+        index: 3,
+        name: imageName[3],
+        job: job[3],
+        description: imageDescriptions[3],
+        img: alternativeImages[3],
+      });
+    }
+  }} style={getStyle(...transforms[3], 3)} className={`relative img4 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
     <img src={process.env.PUBLIC_URL + "/clickimage4.png"} alt="img4" className="w-full h-full object-cover" />
   </div>
-  <div style={getStyle(...transforms[4], 4)} className={`relative img5 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+  <div   onClick={() => {
+    if (scrollY >= stopScrollY) {
+      setSelectedImage({
+        index: 4,
+        name: imageName[4],
+        job: job[4],
+        description: imageDescriptions[4],
+        img: alternativeImages[4],
+      });
+    }
+  }} style={getStyle(...transforms[4], 4)} className={`relative img5 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
     <img src={process.env.PUBLIC_URL + "/clickimage5.png"} alt="img5" className="w-full h-full object-cover" />
   </div>
-  <div style={getStyle(...transforms[5], 5)} className={`relative img6 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+  <div   onClick={() => {
+    if (scrollY >= stopScrollY) {
+      setSelectedImage({
+        index: 5,
+        name: imageName[5],
+        job: job[5],
+        description: imageDescriptions[5],
+        img: alternativeImages[5],
+      });
+    }
+  }} style={getStyle(...transforms[5], 5)} className={`relative img6 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
     <img src={process.env.PUBLIC_URL + "/clickimage6.png"} alt="img6" className="w-full h-full object-cover" />
   </div>
-  <div style={getStyle(...transforms[6], 6)} className={`relative img7 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
+  <div   onClick={() => {
+    if (scrollY >= stopScrollY) {
+      setSelectedImage({
+        index: 6,
+        name: imageName[6],
+        job: job[6],
+        description: imageDescriptions[6],
+        img: alternativeImages[6],
+      });
+    }
+  }} style={getStyle(...transforms[6], 6)} className={`relative img7 flex items-center justify-center ${shouldShowTape ? 'show-tape' : ''}`}>
     <img src={process.env.PUBLIC_URL + "/clickimage7.png"} alt="img7" className="w-full h-full object-cover" />
   </div>
-</div>
+</motion.div>
 
 
   {showScrollDown && (
@@ -514,8 +600,8 @@ const shouldShowTape = progress > 0.98;
 
 
       {/* Modal */}
-     {selectedImage !== null && scrollY >= stopScrollY && (
-        <div
+      {selectedImage !== null && scrollY >= stopScrollY && (
+            <div
           className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-[300]"  
         >
           <div

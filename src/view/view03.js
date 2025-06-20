@@ -86,7 +86,7 @@ const opacityMotionValues = [
   useEffect(() => {
     return scrollYProgress.on("change", (progress) => {
       const sectionStart = 0.7;
-      const sectionEnd = 0.95;
+      const sectionEnd = 0.98;
       const per = (sectionEnd - sectionStart) / documents.length;
 
       documents.forEach((_, index) => {
@@ -111,19 +111,22 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 
   const relativeProgress = (p - 0.7) / (0.95 - 0.7);
   const perDoc = 1 / documents.length;
-  const idx = Math.floor(relativeProgress / perDoc);
-  if (idx >= 0 && idx < documents.length) setCurrentIdx(idx);
+const idx = Math.min(
+  Math.floor(relativeProgress / perDoc),
+  documents.length - 1
+);
+setCurrentIdx(idx);
 });
 
 useMotionValueEvent(scrollYProgress, "change", (p) => {
   setBoxFixed(p > 0.55 && p < 0.9); // 중간에만 fixed
-  setBoxVisible(p < 0.98); // 마지막에 사라지게
+  setBoxVisible(p < 0.99); // 마지막에 사라지게
 });
 
   return (
     <section ref={sectionRef} id="section03" className="relative w-full h-[1000vh] bg-[#e1d4c4] ">
       {/* 배경 */}
-      <motion.div className="absolute inset-0 bg-[#e1d4c4] z-0" style={{ opacity: backgroundOpacity }} />
+      <motion.div  className="absolute inset-0 bg-[#e1d4c4] z-0" style={{ opacity: backgroundOpacity }} />
 
       {/* 보드 이미지 */}
       {showBoard && (
@@ -158,7 +161,6 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
     className="w-full h-full object-contain absolute z-10"
 />
 
-  {/* boxShowComplete가 되면 안의 이미지/텍스트 등장 */}
   {boxShowComplete && (
     <>
       {/* 문서 이미지 */}
@@ -179,7 +181,7 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
     }}
   />
 
-{/* 문서 이미지들 (위로 올라오는 효과) */}
+{/* 문서 이미지들  */}
 {documents[currentIdx].img.map((src, i) => (
   <motion.div
     key={`${currentIdx}-${i}`}
@@ -203,9 +205,9 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 
       {/* 왼쪽 숫자 */}
       <motion.div
-        initial={{ x: -80, opacity: 0 }}
+        initial={{ x: 0, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 1.2, delay: 0.2 }}
         className="absolute left-[-200px] top-[40%] -translate-y-1/2 text-white text-7xl font-bold z-20"
       >
         {currentIdx + 1}
@@ -213,9 +215,9 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 
       {/* 오른쪽 텍스트 */}
       <motion.div
-        initial={{ x: 80, opacity: 0 }}
+        initial={{ x: 0, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        transition={{ duration: 1.2, delay: 0.2 }}
         className="absolute right-[-340px] top-[40%] -translate-y-1/2 text-center text-white w-[300px] z-20"
       >
         <div className="text-2xl font-bold mb-6">{documents[currentIdx].title}</div>

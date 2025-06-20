@@ -26,7 +26,7 @@ html,body{
   transform: translateX(-50%) rotate(4deg);
   width: 60px;
   height: 30px;
-  background-image: url('./tape/after1.png');
+  background-image: url('./tape/after2.png');
   background-size: cover;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -41,7 +41,7 @@ html,body{
   transform: translateX(-50%) rotate(-3deg);
   width: 60px;
   height: 30px;
-  background-image: url('./tape/after1.png');
+  background-image: url('./tape/after3.png');
   background-size: cover;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -56,7 +56,7 @@ html,body{
   transform: translateX(-50%) rotate(6deg);
   width: 60px;
   height: 30px;
-  background-image: url('./tape/after1.png');
+  background-image: url('./tape/after4.png');
   background-size: cover;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -71,7 +71,7 @@ html,body{
   transform: translateX(-50%) rotate(-6deg);
   width: 60px;
   height: 30px;
-  background-image: url('./tape/after1.png');
+  background-image: url('./tape/after2.png');
   background-size: cover;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -86,7 +86,7 @@ html,body{
   transform: translateX(-50%) rotate(3deg);
   width: 60px;
   height: 30px;
-  background-image: url('./tape/after1.png');
+  background-image: url('./tape/after4.png');
   background-size: cover;
   background-repeat: no-repeat;
   pointer-events: none;
