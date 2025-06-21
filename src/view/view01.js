@@ -19,6 +19,7 @@ const View01 = () => {
 const { scrollYProgress } = useScroll();
   const [isFixed, setIsFixed] = useState(true);
   const [stopTop, setStopTop] = useState(0);
+  
 
   const shouldWiggle = !isFixed && stopTop !== null;
 
@@ -268,7 +269,7 @@ useEffect(() => {
 
       setProgress(scrolled);
 
-      if (scrolled < 0.95) {
+      if (scrolled < 1) {
         setReScatter(false);
       }
     };

@@ -6,6 +6,7 @@ const View02 = () => {
 
   return (
     <div
+    ref={nextSectionRef}
       id="next-section"
       className="w-full h-[300vh] bg-[#1a1721] relative overflow-hidden"
       style={{

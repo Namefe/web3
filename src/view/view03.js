@@ -167,14 +167,14 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 <motion.div
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
-  transition={{ delay: 0.8, duration: 0.6 }}
+  transition={{ delay: 1, duration: 1}}
   className="absolute inset-0 flex items-center justify-center"
 >
 {/* 박스 위 배경 커버 */}
   <motion.img
     src={process.env.PUBLIC_URL + "/imglist.png"}
     alt="imglist"
-    className="absolute w-[280px] h-[180px] object-contain z-10"
+    className="absolute w-[500px] h-[200px] object-contain z-0"
     style={{
       y: yMotionValues[currentIdx],
       opacity: opacityMotionValues[currentIdx],
@@ -185,12 +185,12 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 {documents[currentIdx].img.map((src, i) => (
   <motion.div
     key={`${currentIdx}-${i}`}
-    className="absolute w-[200px] h-[100px] bg-white shadow-md rounded-sm overflow-hidden z-10"
+    className="absolute w-[100px] h-[80px]  z-0"
     style={{
       y: yMotionValues[currentIdx],
       opacity: opacityMotionValues[currentIdx],
       rotate: i === 0 ? -5 : 5,
-      x: i === 0 ? -20 : 20,
+      x: i === 0 ? -50 : 50,
     }}
   >
     <img
