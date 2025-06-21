@@ -153,7 +153,7 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
   style={{
     scale: boxScale,
     y: 0,
-    opacity: boxOpacity,
+    opacity: 1,
   }}
 >
   <img
@@ -166,9 +166,9 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
     <>
       {/* 문서 이미지 */}
 <motion.div
-  // initial={{ opacity: 0 }}
-  // animate={{ opacity: 1 }}
-  // transition={{ delay: 1, duration: 1}}
+  initial={{ opacity: 1 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 1, duration: 1}}
   className="absolute inset-0 flex items-center justify-center"
 >
 {/* 박스 위 배경 커버 */}

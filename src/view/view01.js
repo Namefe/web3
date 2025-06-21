@@ -25,7 +25,7 @@ const { scrollYProgress } = useScroll();
 
 useEffect(() => {
   const unsubscribe = scrollYProgress.on("change", (p) => {
-    const triggerStart = 0.54;
+    const triggerStart = 0.48;
 
     if (p > triggerStart && isFixed) {
       const currentTop = document
@@ -158,17 +158,6 @@ useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const line1 = [ 
-   <img src={process.env.PUBLIC_URL + '/우.png'} alt="우" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/린.png'} alt="린" className="inline-block w-6 h-6" />, 
-   <img src={process.env.PUBLIC_URL + '/계.png'} alt="계" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/속.png'} alt="속" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/뛰.png'} alt="뛰" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/어.png'} alt="어" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/야.png'} alt="야" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/한.png'} alt="한" className="inline-block w-6 h-6" />,
-   <img src={process.env.PUBLIC_URL + '/다.png'} alt="다" className="inline-block w-6 h-6" />,
-   ];
-  const line2 = [
     <img src={process.env.PUBLIC_URL + '/넷2.png'} alt="넷" className="inline-block w-6 h-6" />,
     <img src={process.env.PUBLIC_URL + '/플2.png'} alt="플" className="inline-block w-6 h-6" />,
     <img src={process.env.PUBLIC_URL + '/릭2.png'} alt="릭" className="inline-block w-6 h-6" />,
@@ -176,6 +165,9 @@ useEffect(() => {
     <img src={process.env.PUBLIC_URL + '/시2.png'} alt="시" className="inline-block w-6 h-6" />,
     <img src={process.env.PUBLIC_URL + '/리2.png'} alt="리" className="inline-block w-6 h-6" />,
     <img src={process.env.PUBLIC_URL + '/즈2.png'} alt="즈" className="inline-block w-6 h-6" />,
+   ];
+  const line2 = [
+
     <img src={process.env.PUBLIC_URL + '/중.png'} alt="중" className="inline-block relative -top-2 left-6" />,
     <img src={process.env.PUBLIC_URL + '/증.png'} alt="증" className="inline-block relative left-1" />,
     <img src={process.env.PUBLIC_URL + '/외.png'} alt="외" className="inline-block relative top-1 -left-1" />,
@@ -184,19 +176,13 @@ useEffect(() => {
     <img src={process.env.PUBLIC_URL + '/터.png'} alt="터" className="inline-block relative -top-2 -left-8" />,
   ];
   const line3 = [
-    <img src={process.env.PUBLIC_URL + '/o2.png'} alt="O" className="inline-block w-8 h-8 " />,
-    <img src={process.env.PUBLIC_URL + '/n2.png'} alt="N" className="inline-block w-8 h-8" />,
-    <img src={process.env.PUBLIC_URL + '/l2.png'} alt="L" className="inline-block w-8 h-8 " />,
-    <img src={process.env.PUBLIC_URL + '/y2.png'} alt="Y" className="inline-block w-8 h-8 " />,
-    <img src={process.env.PUBLIC_URL + '/o2.png'} alt="O" className="inline-block w-8 h-8 " />,
-    <img src={process.env.PUBLIC_URL + '/n2.png'} alt="N" className="inline-block w-8 h-8 mr-4" />,
-    <img src={process.env.PUBLIC_URL + '/n.png'} alt="N" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/e.png'} alt="E" className="inline-block" />,
-    <img src={process.env.PUBLIC_URL + '/t.png'} alt="T" className="inline-block" />,
-    <img src={process.env.PUBLIC_URL + '/f.png'} alt="F" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/l.png'} alt="L" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/i.png'} alt="I" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/x.png'} alt="X" className="inline-block" />,
+    <img src={process.env.PUBLIC_URL + '/n.png'} alt="N" className="inline-block w-8 h-14 " />,
+    <img src={process.env.PUBLIC_URL + '/e.png'} alt="E" className="inline-block w-8 h-14" />,
+    <img src={process.env.PUBLIC_URL + '/t.png'} alt="T" className="inline-block w-8 h-14" />,
+    <img src={process.env.PUBLIC_URL + '/f.png'} alt="F" className="inline-block w-8 h-14" />,
+    <img src={process.env.PUBLIC_URL + '/l.png'} alt="L" className="inline-block w-8 h-14" />,
+    <img src={process.env.PUBLIC_URL + '/i.png'} alt="I" className="inline-block w-3 h-14" />,
+    <img src={process.env.PUBLIC_URL + '/x.png'} alt="X" className="inline-block w-8 h-14" />,
   ]
 const generateInitialPositions = (count) => {
   return Array.from({ length: count }).map(() => ({
@@ -278,50 +264,55 @@ useEffect(() => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-const getStyle = (xStart, yStart, rStart, index) => {
-  const ratio = reScatter ? 1 : Math.max(0, 1 - progress * 1.1);
-  const x = xStart * ratio;
-  const y = yStart * ratio;
-  const r = rStart * ratio;
-  const overlap = index * -0 * (1 - ratio);
-
-  const [w, h] = sizes[index];
-
-  const screenWidth = window.innerWidth;
-  const baseMin = 1024; 
-  const baseMax = 1920; 
-  const t = Math.min(1, Math.max(0, (screenWidth - baseMin) / (baseMax - baseMin)));
-  const scale = 0.6 + (1 - 0.6) * t; 
-
-  return {
-    transform: `translate(${x + overlap}px, ${y}px) rotate(${r}deg)`,
-    transition: "transform 0.4s ease-out",
-    zIndex: 10 + index,
-    width: `${w * scale}px`,
-    height: `${h * scale}px`,
+  const getStyle = (xStart, yStart, rStart, index) => {
+    const [xDest, yDest] = transformsDestination[index]; // 도착 위치
+    const [w, h] = sizes[index];
+  
+    const screenWidth = window.innerWidth;
+    const t = Math.min(1, Math.max(0, (screenWidth - 1024) / (1920 - 1024)));
+    const scale = 0.6 + (1 - 0.6) * t;
+  
+    let x, y, r;
+  
+    if (!reScatter) {
+      const ratio = Math.max(0, 1 - progress * 1.1);
+      x = xStart * ratio;
+      y = yStart * ratio;
+      r = rStart * ratio;
+    } else {
+      x = xDest;
+      y = yDest;
+      r = 0;
+    }
+  
+    return {
+      transform: `translate(${x}px, ${y}px) rotate(${r}deg)`,
+      transition: "transform 0.4s ease-out",
+      zIndex: 10 + index,
+      width: `${w * scale}px`,
+      height: `${h * scale}px`,
+    };
   };
-};
-
 
 const transforms = [
-  [-200, -200, -40],
+  [-200, -300, -40],
   [250, -150, 60],
-  [-340, 180, 40],
+  [-340, -180, 40],
   [300, -220, -80],
-  [-500, 160, 250],
+  [-500, -360, 250],
   [220, -160, -80],
-  [100, 240, 160],
+  [100, -340, 160],
 ];
 
 // 1. 사진의 마지막 도착지를 transformsDestination으로 적용
 const transformsDestination = [
-  [-200, -200, 0],
-  [250, -150,0],
-  [-340, 180,0],
-  [300, -220, 0],
-  [-500, 160, 0],
+  [-200, -500, 0],
+  [250, -450,0],
+  [-340, -380,0],
+  [300, -320, 0],
+  [-500, -160, 0],
   [220, -160, 0],
-  [100, 240, 0],
+  [100, -440, 0],
 ];
 
 const sizes = [
@@ -360,7 +351,7 @@ const shouldShowTape = progress > 0.98;
   style={{
     position: 'fixed',
     // top: shouldFix ? '10%' : `${mergeSectionBottom - 700}px`, 
-    opacity : shouldFix ? 1 : 0, // 2. useTransform으로 스크롤에 따라 변경
+    opacity : shouldFix ? 3 : 0, // 2. useTransform으로 스크롤에 따라 변경
     left: '50%',
     transform: 'translateX(-50%)',
     width: '100%',
@@ -373,16 +364,16 @@ const shouldShowTape = progress > 0.98;
 > 
 
  {/* Line 1 */}
-{/* <div className={`flex space-x-1 mb-4 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
+<div className={`flex space-x-1  mb-4 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
     {line1.map((img, index) => (
       <div key={`line1-${index}`}>{img}</div>
     ))}
-  </div> */}
+  </div> 
   {/* 
   
     3. 넷플릭스시리는 중증외상센터 텍스트 위로
     센터정렬중요!
-  */}
+ 
 
 
   {/* Line 2 */}
@@ -411,6 +402,7 @@ const shouldShowTape = progress > 0.98;
 
 {/* Line 3 */}
 <div className={`flex flex-wrap justify-center mt-4 space-x-1 transition-opacity duration-1000 ${showLines13 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+    <p className='font-bold text-5xl text-white mr-4'>ONLY ON</p>
     {line3.map((img, index) => (
       <div key={`line3-${index}`}>{img}</div>
     ))}

@@ -3,9 +3,9 @@
 [섹션 1]
 1. 사진의 마지막 도착지를 transformsDestination으로 적용
 2. useTransform으로 스크롤에 따라 변경
-3. 넷플릭스시리는 중증외상센터 텍스트 위로 센터정렬중요!
-4. https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg   넷플릭스 svg이걸로
-5. ONLY ON 텍스트로 <p></p>
+3. 넷플릭스시리는 중증외상센터 텍스트 위로 센터정렬중요! 했고
+4. https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg   넷플릭스 svg이걸로 했고
+5. ONLY ON 텍스트로 <p></p> 했고
 
 [ 섹션3 ]
 1. 박스도 Opacity로 나오게
