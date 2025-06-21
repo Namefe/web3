@@ -20,11 +20,11 @@ function App() {
       <View01/>
       <View02/>
       <View03/>
-      <View05/>
     </div>
     <div className='block lg:hidden'>
       <Mobile/>
     </div>
+    <View05/>
       <Footer/>
     </>
   );

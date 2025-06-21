@@ -37,6 +37,10 @@ const Mobile = () => {
     setInitialPositions(positions);
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <section ref={sectionRef} className="relative w-full h-[800vh] bg-[#e1d4c4] overflow-hidden">
       <motion.div style={{ opacity: progress }} className="sticky top-[9%] text-center text-xl font-bold z-20">
@@ -90,6 +94,24 @@ const Mobile = () => {
         <div className="text-black font-bold text-xl">{currentIdx + 1}</div>
         <div className="text-center text-black text-sm mt-2">문서 설명</div>
       </motion.div>
+
+      <div 
+    onClick={scrollToTop} 
+    className="z-[9999] fixed bottom-4 right-4 flex flex-col items-center hover:cursor-pointer gap-1">
+      <img
+        src={process.env.PUBLIC_URL + '/top.png'}
+        alt="top"
+        className="
+          w-[40px] h-[40px]
+          sm:w-[50px] sm:h-[50px]
+          md:w-[60px] md:h-[60px]
+          lg:w-[70px] lg:h-[70px]
+          xl:w-[80px] xl:h-[80px]
+          object-contain
+        "
+      />
+      <p className="text-[10px] sm:text-[12px] md:text-[14px] text-black">TOP</p>
+    </div>
     </section>
   );
 };
