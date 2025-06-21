@@ -203,26 +203,29 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 </motion.div>
 
 
-      {/* 왼쪽 숫자 */}
       <motion.div
-        initial={{ x: 0, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.2 }}
-        className="absolute left-[-200px] top-[40%] -translate-y-1/2 text-white text-7xl font-bold z-20"
-      >
-        {currentIdx + 1}
-      </motion.div>
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 1.2, delay: 0.2 }}
+  className=" absolute top-[40%] left-1/2 w-[900px] -translate-x-1/2 -translate-y-1/2 flex justify-between items-center z-20 "
+>
+  {/* 왼쪽 숫자 */}
+  <div className="text-white text-7xl font-bold">
+    {currentIdx + 1}
+  </div>
 
-      {/* 오른쪽 텍스트 */}
-      <motion.div
-        initial={{ x: 0, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.2 }}
-        className="absolute right-[-340px] top-[40%] -translate-y-1/2 text-center text-white w-[300px] z-20"
-      >
-        <div className="text-2xl font-bold mb-6">{documents[currentIdx].title}</div>
-        <div className="text-sm ">{documents[currentIdx].content}</div>
-      </motion.div>
+  
+
+  {/* 오른쪽 텍스트 */}
+  <div className="text-center text-white w-[300px]">
+    <div className="text-2xl font-bold mb-6">
+      {documents[currentIdx].title}
+    </div>
+    <div className="text-sm">
+      {documents[currentIdx].content}
+    </div>
+  </div>
+</motion.div>
     </>
   )}
 </motion.div>
