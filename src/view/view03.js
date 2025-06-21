@@ -50,11 +50,11 @@ const [boxVisible, setBoxVisible] = useState(true)
   });
 
 const boxScale = useTransform(scrollYProgress, [0.5, 0.6], [1, 1.5]);
-const boxY = useTransform(scrollYProgress, (p) => {
-  if (p < 0.5) return 0;
-  if (p >= 0.5 && p <= 0.6) return (p - 0.5) * 2000; // 점점 내려옴
-  return 200; // 고정
-}); 
+// const boxY = useTransform(scrollYProgress, (p) => {
+//   if (p < 0.5) return 0;
+//   if (p >= 0.5 && p <= 0.6) return (p - 0.5) * 2000; // 점점 내려옴
+//   return 200; // 고정
+// }); 
  const backgroundOpacity = useTransform(scrollYProgress, [0.1, 0.2], [0, 1]);
   const boardOpacity = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.6], [0, 0.5, 1, 0]);
   const boardY = useTransform(scrollYProgress, [0.2, 0.5], [0, -1300]);
@@ -144,11 +144,12 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 
 {/* 박스 본체*/}
 <motion.div
-  className={`${
-    boxFixed
-      ? "fixed left-[45%] bottom-[20%] w-[300px] h-[300px] -translate-x-1/2 z-50"
-      : "absolute left-[45%] bottom-[45%] -translate-x-1/2 w-[300px] h-[300px]"
-  } z-50 pointer-events-none`}
+  // className={`${
+  //   boxFixed
+  //     ? "fixed left-[45%] bottom-[20%] w-[300px] h-[300px] -translate-x-1/2 z-50"
+  //     : "absolute left-[45%] bottom-[45%] -translate-x-1/2 w-[300px] h-[300px]"
+  // } z-50 pointer-events-none`}
+  className=""
   style={{
     scale: boxScale,
     y: 0,
@@ -158,16 +159,16 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
   <img
     src={process.env.PUBLIC_URL + "/box.png"}
     alt="box"
-    className="w-full h-full object-contain absolute z-10"
+    className="object-contain fixed w-[500px] left-[50%] -bottom-[10%] -translate-x-1/2 z-50"
 />
 
   {boxShowComplete && (
     <>
       {/* 문서 이미지 */}
 <motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ delay: 1, duration: 1}}
+  // initial={{ opacity: 0 }}
+  // animate={{ opacity: 1 }}
+  // transition={{ delay: 1, duration: 1}}
   className="absolute inset-0 flex items-center justify-center"
 >
 {/* 박스 위 배경 커버 */}

@@ -176,12 +176,12 @@ useEffect(() => {
     <img src={process.env.PUBLIC_URL + '/시2.png'} alt="시" className="inline-block w-6 h-6" />,
     <img src={process.env.PUBLIC_URL + '/리2.png'} alt="리" className="inline-block w-6 h-6" />,
     <img src={process.env.PUBLIC_URL + '/즈2.png'} alt="즈" className="inline-block w-6 h-6" />,
-    <img src={process.env.PUBLIC_URL + '/중.png'} alt="중" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/증.png'} alt="증" className="inline-block" />,
-    <img src={process.env.PUBLIC_URL + '/외.png'} alt="외" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/상.png'} alt="상" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/중.png'} alt="중" className="inline-block relative -top-2 left-6" />,
+    <img src={process.env.PUBLIC_URL + '/증.png'} alt="증" className="inline-block relative left-1" />,
+    <img src={process.env.PUBLIC_URL + '/외.png'} alt="외" className="inline-block relative top-1 -left-1" />,
+    <img src={process.env.PUBLIC_URL + '/상.png'} alt="상" className="inline-block relative top-1 left-1" />,
     <img src={process.env.PUBLIC_URL + '/센.png'} alt="센" className="inline-block " />,
-    <img src={process.env.PUBLIC_URL + '/터.png'} alt="터" className="inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/터.png'} alt="터" className="inline-block relative -top-2 -left-8" />,
   ];
   const line3 = [
     <img src={process.env.PUBLIC_URL + '/o2.png'} alt="O" className="inline-block w-8 h-8 " />,
@@ -304,13 +304,24 @@ const getStyle = (xStart, yStart, rStart, index) => {
 
 
 const transforms = [
-  [-200, -200, -10],
-  [250, -150, 10],
-  [-340, 180, 10],
-  [300, -220, -10],
-  [-500, 160, 10],
-  [220, -160, -10],
-  [100, 240, 10],
+  [-200, -200, -40],
+  [250, -150, 60],
+  [-340, 180, 40],
+  [300, -220, -80],
+  [-500, 160, 250],
+  [220, -160, -80],
+  [100, 240, 160],
+];
+
+// 1. 사진의 마지막 도착지를 transformsDestination으로 적용
+const transformsDestination = [
+  [-200, -200, 0],
+  [250, -150,0],
+  [-340, 180,0],
+  [300, -220, 0],
+  [-500, 160, 0],
+  [220, -160, 0],
+  [100, 240, 0],
 ];
 
 const sizes = [
@@ -343,12 +354,13 @@ const sizes = [
 const shouldShowTape = progress > 0.98;
 
   return (
-   <section id="merge-section" ref={sectionRef} className=" w-full h-[500vh]  relative z-50 bg-[#E1D4C4]">
+   <section id="merge-section" ref={sectionRef} className=" w-full h-[300vh]  relative z-50 bg-[#E1D4C4]">
   <div className="sticky top-0 h-screen flex items-center justify-center">
   <div
   style={{
-    position: shouldFix ? 'fixed' : 'absolute',
-    top: shouldFix ? '10%' : `${mergeSectionBottom - 700}px`, 
+    position: 'fixed',
+    // top: shouldFix ? '10%' : `${mergeSectionBottom - 700}px`, 
+    opacity : shouldFix ? 1 : 0, // 2. useTransform으로 스크롤에 따라 변경
     left: '50%',
     transform: 'translateX(-50%)',
     width: '100%',
@@ -361,11 +373,16 @@ const shouldShowTape = progress > 0.98;
 > 
 
  {/* Line 1 */}
-<div className={`flex space-x-1 mb-4 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
+{/* <div className={`flex space-x-1 mb-4 transition-opacity duration-1000 ${showLines13 ? 'opacity-100' : 'opacity-0'}`}>
     {line1.map((img, index) => (
       <div key={`line1-${index}`}>{img}</div>
     ))}
-  </div>
+  </div> */}
+  {/* 
+  
+    3. 넷플릭스시리는 중증외상센터 텍스트 위로
+    센터정렬중요!
+  */}
 
 
   {/* Line 2 */}
@@ -484,7 +501,7 @@ const shouldShowTape = progress > 0.98;
   id="imageWrapper"
   style={{
     position: isFixed ? "fixed" : "absolute",
-    top: isFixed ? "40%" : `${stopTop}px`,
+    top: isFixed ? "80%" : `${stopTop}px`,
     left: "50%",
     transform: "translateX(-50%)",
   }}
@@ -610,14 +627,14 @@ const shouldShowTape = progress > 0.98;
       {/* Modal */}
       {selectedImage !== null && scrollY >= stopScrollY && (
             <div
-          className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-[300]"  
+          className="fixed inset-0 bg-black bg-opacity-70 w-full flex justify-center items-center z-[300]"  
         >
           <div
-            className=" h-[500px] flex  w-full mx-4 relative"
+            className=" flex w-full justify-center lg:gap-20 mx-4 relative"
             onClick={(e) => e.stopPropagation()}
           >
 
-            <div className="w-1/2 pr-12 flex items-center justify-center">
+            <div className="pr-12 flex items-center justify-center">
               <img
                 src={alternativeImages[selectedImage.index]}
                 alt="selected"
@@ -625,28 +642,28 @@ const shouldShowTape = progress > 0.98;
               />
             </div>
             <div className="relative w-fit h-fit">
-  <img
-    src={process.env.PUBLIC_URL + '/file.png'}
-    alt="file"
-    className="block"
-  />
-  <img
-    src={process.env.PUBLIC_URL + '/close.png'}
-    onClick={() => setSelectedImage(null)}
-    className="absolute top-[90px] right-10 w-6 h-6 cursor-pointer z-20"
-  />
-  <div className="absolute top-0 left-2 w-full h-full p-8 flex flex-col justify-center">
-    <h2 className="text-2xl font-bold text-gray-800 mb-4">
-      이름 : {selectedImage.name}
-    </h2>
-    <div className="text-gray-700 text-lg font-semibold mb-4 leading-relaxed">
-      직업 : {selectedImage.job}
-    </div>
-    <div className="text-gray-700 text-lg leading-relaxed">
-      {selectedImage.description}
-    </div>
-  </div>
-</div>
+              <img
+                src={process.env.PUBLIC_URL + '/file.png'}
+                alt="file"
+                className="block"
+              />
+              <img
+                src={process.env.PUBLIC_URL + '/close.png'}
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-[100px] right-12 w-8 h-8 cursor-pointer z-20"
+              />
+              <div className="absolute top-0 left-2 w-full h-full p-20 flex flex-col justify-center">
+                <h2 className="text-4xl font-bold text-[#e5501f] mb-4">
+                  {selectedImage.name}
+                </h2>
+                <div className="text-black text-lg font-semibold mb-4  leading-snug">
+                  {selectedImage.job}
+                </div>
+                <div className="text-black font-light leading-normal tracking-tight">
+                  {selectedImage.description}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

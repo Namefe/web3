@@ -109,7 +109,7 @@ const SupportHover = () => {
       </svg>
       <img src="/sec05_01.png" className="w-[40px] h-auto absolute top-[40%] left-[30%]"/>
 
-<div className="relative w-[300px] h-[450px] mx-auto">
+<div className="relative w-[600px] mx-auto">
   <motion.img
     src="/check.png"
     alt="중증외상센터 홍보 전단지"
