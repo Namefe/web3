@@ -49,17 +49,17 @@ const [boxVisible, setBoxVisible] = useState(true)
     offset: ["start start", "end end"],
   });
 
-const boxScale = useTransform(scrollYProgress, [0.5, 0.6], [1, 1.5]);
+const boxScale = useTransform(scrollYProgress, [0.5, 0.6], [1, 1.2]);
 // const boxY = useTransform(scrollYProgress, (p) => {
 //   if (p < 0.5) return 0;
 //   if (p >= 0.5 && p <= 0.6) return (p - 0.5) * 2000; // 점점 내려옴
 //   return 200; // 고정
 // }); 
+const boxY = useTransform(scrollYProgress, [0.5, 0.6], [0, 400]);
  const backgroundOpacity = useTransform(scrollYProgress, [0.1, 0.2], [0, 1]);
   const boardOpacity = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.6], [0, 0.5, 1, 0]);
   const boardY = useTransform(scrollYProgress, [0.2, 0.5], [0, -1300]);
-  const boxOpacity = useTransform(scrollYProgress, [0.95, 0.98], [1, 0]);
-
+const boxOpacity = useTransform(scrollYProgress, [0.4, 0.6, 0.95, 0.99], [0, 1, 1, 0]);
 
 const yMotionValues = [
   useMotionValue(100),
@@ -82,6 +82,7 @@ const opacityMotionValues = [
     if (p <= input[1]) return output[0] + ((p - input[0]) / (input[1] - input[0])) * (output[1] - output[0]);
     return output[1] + ((p - input[1]) / (input[2] - input[1])) * (output[2] - output[1]);
   };
+
 
   useEffect(() => {
     return scrollYProgress.on("change", (progress) => {
@@ -126,7 +127,7 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
   return (
     <section ref={sectionRef} id="section03" className="relative w-full h-[1000vh] bg-[#e1d4c4] ">
       {/* 배경 */}
-      <motion.div  className="absolute inset-0 bg-[#e1d4c4] z-0" style={{ opacity: backgroundOpacity }} />
+      <motion.div  className="absolute inset-0 bg-[#e1d4c4] z-0"  />
 
       {/* 보드 이미지 */}
       {showBoard && (
@@ -144,22 +145,22 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 
 {/* 박스 본체*/}
 <motion.div
-  // className={`${
-  //   boxFixed
-  //     ? "fixed left-[45%] bottom-[20%] w-[300px] h-[300px] -translate-x-1/2 z-50"
-  //     : "absolute left-[45%] bottom-[45%] -translate-x-1/2 w-[300px] h-[300px]"
-  // } z-50 pointer-events-none`}
-  className=""
   style={{
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     scale: boxScale,
-    y: 0,
-    opacity: 1,
+    y: boxY,
+    opacity: boxOpacity,
+    transformOrigin: "center center",
   }}
+  className="w-[500px]  flex items-center origin-center justify-center"
 >
   <img
     src={process.env.PUBLIC_URL + "/box.png"}
     alt="box"
-    className="object-contain fixed w-[500px] left-[50%] -bottom-[10%] -translate-x-1/2 z-50"
+    className="object-contain  -translate-x-1/2 -translate-y-1/2  z-50"
 />
 
   {boxShowComplete && (
@@ -169,13 +170,13 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
   initial={{ opacity: 1 }}
   animate={{ opacity: 1 }}
   transition={{ delay: 1, duration: 1}}
-  className="absolute inset-0 flex items-center justify-center"
+  className="absolute -translate-y-[400px] -translate-x-[250px] flex items-center justify-center"
 >
 {/* 박스 위 배경 커버 */}
   <motion.img
     src={process.env.PUBLIC_URL + "/imglist.png"}
     alt="imglist"
-    className="absolute w-[500px] h-[200px] object-contain z-0"
+    className=" w-[700px] h-[400px] object-cover z-0"
     style={{
       y: yMotionValues[currentIdx],
       opacity: opacityMotionValues[currentIdx],
@@ -186,12 +187,12 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 {documents[currentIdx].img.map((src, i) => (
   <motion.div
     key={`${currentIdx}-${i}`}
-    className="absolute w-[100px] h-[80px]  z-0"
+    className="absolute w-[200px] h-[100px]  z-10"
     style={{
       y: yMotionValues[currentIdx],
       opacity: opacityMotionValues[currentIdx],
       rotate: i === 0 ? -5 : 5,
-      x: i === 0 ? -50 : 50,
+      x: i === 0 ? -100 : 100,
     }}
   >
     <img
@@ -208,8 +209,10 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ duration: 1.2, delay: 0.2 }}
-  className=" absolute top-[40%] left-1/2 w-[900px] -translate-x-1/2 -translate-y-1/2 flex justify-between items-center z-20 "
+  className=" absolute top-[-10%]  w-screen h-[100px] -translate-x-[10%]  -translate-y-1/2 flex justify-center gap-[700px]  items-center z-20 "
 >
+
+
   {/* 왼쪽 숫자 */}
   <div className="text-white text-7xl font-bold">
     {currentIdx + 1}
@@ -218,7 +221,7 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
   
 
   {/* 오른쪽 텍스트 */}
-  <div className="text-center text-white w-[300px]">
+  <div className="text-center text-white w-[300px] flex-shrink-0 ">
     <div className="text-2xl font-bold mb-6">
       {documents[currentIdx].title}
     </div>

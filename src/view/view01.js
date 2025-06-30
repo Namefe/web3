@@ -5,7 +5,6 @@ const View01 = () => {
   const [progress, setProgress] = useState(0);
   const [progress2, setProgress2] = useState(0);
   const [scrollY, setScrollY] = useState(0);
-  const [section3Top, setSection3Top] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
   const [stopScrollY, setStopScrollY] = useState(null);
   const [showScrollDown, setShowScrollDown] = useState(true);
@@ -19,9 +18,17 @@ const View01 = () => {
 const { scrollYProgress } = useScroll();
   const [isFixed, setIsFixed] = useState(true);
   const [stopTop, setStopTop] = useState(0);
+
+  const subSectionRef = useRef(null);
+
+const { scrollYProgress: subScroll } = useScroll({
+  target: subSectionRef,
+  offset: ['start start', 'end end'], // 시작~끝 기준
+});
+
+const fadeOutOpacity = useTransform(subScroll, [ 0.9 , 1], [ 1, 0]);
   
 
-  const shouldWiggle = !isFixed && stopTop !== null;
 
 useEffect(() => {
   const unsubscribe = scrollYProgress.on("change", (p) => {
@@ -114,7 +121,7 @@ useEffect(() => {
         const offsetTop1 = section1.offsetTop;
         const height1 = section1.offsetHeight;
         const relativeY1 = scrollTop - offsetTop1;
-        const effectiveHeight1 = height1 * 0.6;
+        const effectiveHeight1 = height1 * 0.1;
         const p1 = Math.min(Math.max(relativeY1 / effectiveHeight1, 0), 1);
         setProgress(p1);
       }
@@ -143,9 +150,6 @@ useEffect(() => {
         setShowScrollDown(false);
       }
     };
-
-    
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [stopScrollY, showScrollDown]);
@@ -198,7 +202,6 @@ useEffect(() => {
 }, [line2.length]);
 
 
-  const initialRotationsLine2 = [40, -25, 35, 20, -45, 30, -38, 22, -42, 28, 35, -32, 18];
 
 
 
@@ -344,14 +347,15 @@ const sizes = [
 
 const shouldShowTape = progress > 0.98;
 
+
   return (
    <section id="merge-section" ref={sectionRef} className=" w-full h-[300vh]  relative z-50 bg-[#E1D4C4]">
+        <div ref={subSectionRef} className=" h-[300vh]">
   <div className="sticky top-0 h-screen flex items-center justify-center">
-  <div
+  <motion.div
   style={{
     position: 'fixed',
-    // top: shouldFix ? '10%' : `${mergeSectionBottom - 700}px`, 
-    opacity : shouldFix ? 3 : 0, // 2. useTransform으로 스크롤에 따라 변경
+    opacity : fadeOutOpacity , // 2. useTransform으로 스크롤에 따라 변경
     left: '50%',
     transform: 'translateX(-50%)',
     width: '100%',
@@ -486,6 +490,7 @@ const shouldShowTape = progress > 0.98;
       </svg>
         </div>
         </div>
+        </motion.div>
         </div>
           {/*------------------------------이미지---------------------------- */}
 
@@ -595,7 +600,7 @@ const shouldShowTape = progress > 0.98;
 
 
   {showScrollDown && (
-      <div className='animate-float flex flex-col justify-center items-center absolute top-[800px] gap-3 transition-opacity duration-200'>
+      <div className='animate-float flex flex-col justify-center items-center absolute top-[800px] left-1/2 -translate-x-1/2 gap-3 transition-opacity duration-200'>
         <svg className='w-[150px] h-[21px]'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 21" fill='none' >
           <path d="M145.547 17.1406C145.547 17.0312 145.531 16.9766 145.5 16.9766C145.406 16.9766 145.336 17.0312 145.289 17.1406C145.289 17.2031 145.312 17.25 145.359 17.2812C145.484 17.2812 145.547 17.2344 145.547 17.1406ZM140.039 3.125C140.039 2.89062 139.953 2.82812 139.781 2.9375C139.594 3.03125 139.531 3.13281 139.594 3.24219C139.609 3.30469 139.68 3.33594 139.805 3.33594C139.961 3.33594 140.039 3.26562 140.039 3.125ZM137.766 1.20312C138.031 1.10938 138.195 1.0625 138.258 1.0625C138.289 1.0625 138.609 1.10938 139.219 1.20312C139.641 1.20312 140.023 1.39062 140.367 1.76562C140.695 2.1875 141.492 3.67969 142.758 6.24219C143.055 6.78906 143.234 7.14062 143.297 7.29688C144.891 10.5312 145.727 12.1484 145.805 12.1484C145.914 12.1484 145.969 10.7969 145.969 8.09375C146.016 4.90625 146.047 3.27344 146.062 3.19531C146.125 2.74219 146.281 2.34375 146.531 2C146.781 1.65625 147.094 1.48438 147.469 1.48438C148 1.48438 148.289 1.80469 148.336 2.44531C148.383 3.19531 148.406 4.32812 148.406 5.84375C148.406 8.40625 148.531 11.1172 148.781 13.9766C148.969 16.1328 149.062 17.6016 149.062 18.3828V18.5703C148.984 18.8984 148.633 19.2578 148.008 19.6484C147.398 20.0234 146.922 20.2109 146.578 20.2109C145.547 20.2109 144.523 19.3672 143.508 17.6797C143.133 17.0547 142.383 15.5859 141.258 13.2734C140.148 10.9453 139.438 9.38281 139.125 8.58594L138.398 6.6875L138.141 7.74219C137.703 9.89844 137.406 11.7031 137.25 13.1562C137.062 14.8438 136.914 15.8203 136.805 16.0859C136.68 16.3828 136.398 16.5312 135.961 16.5312C135.523 16.5312 135.305 16.4609 135.305 16.3203C135.305 16.2109 135.312 16.1406 135.328 16.1094C135.438 15.6875 135.555 14.6562 135.68 13.0156C135.789 11.5625 136.062 9.27344 136.5 6.14844C136.828 3.71094 137.094 2.22656 137.297 1.69531C137.406 1.46094 137.562 1.29688 137.766 1.20312Z" fill='white'/>
           <path d="M125.109 2.09375C125.109 1.21875 125.398 0.78125 125.977 0.78125C126.383 0.78125 126.766 0.96875 127.125 1.34375C127.484 1.70313 127.773 2.10938 127.992 2.5625C128.461 3.57813 128.938 4.82812 129.422 6.3125C130.109 8.3125 130.461 9.32031 130.477 9.33594C130.57 9.33594 130.742 8.74219 130.992 7.55469C131.242 6.49219 131.602 5.25781 132.07 3.85156C132.508 2.55469 132.93 1.8125 133.336 1.625C133.367 1.59375 133.453 1.57813 133.594 1.57813C133.875 1.57813 134.078 1.99219 134.203 2.82031C134.25 3.17969 134.273 3.4375 134.273 3.59375C134.273 4.03125 134.062 5.71094 133.641 8.63281C133.234 11.4141 132.938 13.2422 132.75 14.1172C132.609 14.7734 132.398 15.3281 132.117 15.7812C131.492 16.7031 130.789 17.1641 130.008 17.1641C129.57 17.1641 129.117 17.0234 128.648 16.7422C127.961 16.3203 127.375 15.4531 126.891 14.1406C126.484 13.0156 126.008 10.9688 125.461 8L125.367 7.41406L124.969 8.58594C124.078 11.3984 123.539 13.4375 123.352 14.7031C123.258 15.4375 123.172 15.875 123.094 16.0156C122.984 16.2031 122.75 16.4219 122.391 16.6719C121.922 16.9688 121.555 17.1172 121.289 17.1172C121.023 17.1172 120.695 17.0078 120.305 16.7891C119.82 16.5234 119.445 15.9766 119.18 15.1484C118.898 14.2578 118.461 12.2344 117.867 9.07812C117.164 5.375 116.812 3.35156 116.812 3.00781C116.812 2.82031 117.203 2.52344 117.984 2.11719L119.156 1.46094L119.602 1.95312C119.898 2.29688 120.312 3.30469 120.844 4.97656C121.375 6.66406 121.82 8.42188 122.18 10.25C122.305 10.7969 122.422 11.2031 122.531 11.4688C122.703 11.4688 123.18 10.0781 123.961 7.29688C124.727 4.5625 125.109 2.82813 125.109 2.09375Z" fill='white'/>
