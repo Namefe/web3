@@ -55,7 +55,7 @@ const boxScale = useTransform(scrollYProgress, [0.5, 0.6], [1, 1.2]);
 //   if (p >= 0.5 && p <= 0.6) return (p - 0.5) * 2000; // 점점 내려옴
 //   return 200; // 고정
 // }); 
-const boxY = useTransform(scrollYProgress, [0.5, 0.6], [0, 400]);
+const boxY = useTransform(scrollYProgress, [0.5, 0.6], [0, 300]);
  const backgroundOpacity = useTransform(scrollYProgress, [0.1, 0.2], [0, 1]);
   const boardOpacity = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.6], [0, 0.5, 1, 0]);
   const boardY = useTransform(scrollYProgress, [0.2, 0.5], [0, -1300]);
@@ -155,7 +155,7 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
     opacity: boxOpacity,
     transformOrigin: "center center",
   }}
-  className="w-[500px]  flex items-center origin-center justify-center"
+  className="w-[300px] xl:w-[400px] 2xl:w-[500px]  flex items-center origin-center justify-center"
 >
   <img
     src={process.env.PUBLIC_URL + "/box.png"}
@@ -170,13 +170,13 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
   initial={{ opacity: 1 }}
   animate={{ opacity: 1 }}
   transition={{ delay: 1, duration: 1}}
-  className="absolute -translate-y-[400px] -translate-x-[250px] flex items-center justify-center"
+  className="w-[350px] xl:w-[500px] 2xl:w-[600px] h-[200px] xl:h-[300px] 2xl:h-[400px] absolute -translate-y-[180px] xl:-translate-y-[300px]  2xl:-translate-y-[400px] -translate-x-[155px] xl:-translate-x-[200px] 2xl:-translate-x-[250px] flex items-center justify-center"
 >
 {/* 박스 위 배경 커버 */}
   <motion.img
     src={process.env.PUBLIC_URL + "/imglist.png"}
     alt="imglist"
-    className=" w-[700px] h-[400px] object-cover z-0"
+    className="  object-cover z-0"
     style={{
       y: yMotionValues[currentIdx],
       opacity: opacityMotionValues[currentIdx],
@@ -187,12 +187,12 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
 {documents[currentIdx].img.map((src, i) => (
   <motion.div
     key={`${currentIdx}-${i}`}
-    className="absolute w-[200px] h-[100px]  z-10"
+    className="absolute w-[130px] xl:w-[200px] 2xl:w-[300px] h-[80px] xl:h-[150px] 2xl:h-[200px] z-10"
     style={{
       y: yMotionValues[currentIdx],
       opacity: opacityMotionValues[currentIdx],
       rotate: i === 0 ? -5 : 5,
-      x: i === 0 ? -100 : 100,
+      x: i === 0 ? -50 : 50,
     }}
   >
     <img
