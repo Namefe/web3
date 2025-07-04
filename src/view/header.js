@@ -5,7 +5,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 w-full h-[100px] z-[9999] bg-transparent flex items-center justify-between px-6">
       <div>
         <img src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" className="w-[50px] sm:w-[65px] md:w-[80px] lg:w-[100px] xl:w-[120px] 2xl:w-[150px]
-          h-[30px] sm:h-[40px] md:h-[50px] lg:h-[70px] xl:h-[85px] 2xl:h-[100px]" />
+          h-[40px] sm:h-[50px] md:h-[60px] lg:h-[70px] xl:h-[85px] 2xl:h-[100px]" />
                 </div>
 
                 <div className="flex gap-4 2xl:gap-20 mr-2 2xl:mr-8 text-black">

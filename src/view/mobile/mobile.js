@@ -1,230 +1,527 @@
-import React, { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import React, { useRef, useEffect, useState, } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import gsap from "gsap";
+import { useLayoutEffect } from "react";
 
-const Mobile = () => {
-  const [pathOpacity, setPathOpacity] = useState(1);
+const View01 = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [stopScrollY, setStopScrollY] = useState(null);
   const [showScrollDown, setShowScrollDown] = useState(true);
-  const [showPath, setShowPath] = useState(true);
+  const [showLines13, setShowLines13] = useState(false); 
   const sectionRef = useRef(null);
+  const [isFixed, setIsFixed] = useState(true);
+  const [stopTop, setStopTop] = useState(0);
+  const imageWrapperRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+
+
+
+
+
+  
 const { scrollYProgress } = useScroll({
   target: sectionRef,
-  offset: ["start end", "end start"],
+  offset: ["start start", "end end"],
 });
+const fadeOutOpacity = useTransform(scrollYProgress, [0, 0.2 , 0.99], [1, 1, 0]);
 
-// 1) 처음에 윗줄, 아랫줄 opacity 0 → 1
-const progress = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
-
-// 2) 이후 전체 fade out
-const fadeOut = useTransform(scrollYProgress, [0.4, 0.5], [1, 0]);
-
-// 3) 최종 opacity
-const combinedOpacity = useTransform(
-  [progress, fadeOut],
-  ([p, f]) => p * f
-);
-
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const boxScale = useTransform(scrollYProgress, [0.3, 0.35], [0.6, 1]);
-  const showBox = useTransform(scrollYProgress, [0.3, 0.35], [0, 1]);
-  const [scatterRatio, setScatterRatio] = useState(0);
-
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const clamped = Math.min(Math.max((v - 0.02) / (0.1 - 0.02), 0), 1);
-    setScatterRatio(clamped);
+useEffect(() => {
+  scrollYProgress.on("change", (p) => {
+    const newProgress = Math.min(1, Math.max(0, (p - 0.1) * 10));
+    setProgress(newProgress);
   });
-
-  const alignX = [-120, -60, -40, 0, 40, 60, 80];
-  const alignY = [-20, 10, -15, 5, -10, 15, -5];
+}, [scrollYProgress]);
 
 
-  const perDoc = 1 / 5;
-  useMotionValueEvent(scrollYProgress, "change", (p) => {
-    const idx = Math.min(Math.floor((p - 0.4) / perDoc), 4);
-    if (idx >= 0 && idx <= 4) setCurrentIdx(idx);
+useEffect(() => {
+  const unsubscribe = scrollYProgress.on("change", (p) => {
+    if (!imageWrapperRef.current) return; 
+    const triggerStart = 0.48;
+    if (p > triggerStart && isFixed) {
+      const currentTop = imageWrapperRef.current.getBoundingClientRect().top + window.scrollY;
+      setStopTop(currentTop);
+      setIsFixed(false);
+    }
+    if (p < triggerStart && !isFixed) setIsFixed(true);
   });
+  return () => unsubscribe();
+}, [scrollYProgress, isFixed]);
+
+
+  
+useEffect(() => {
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    setScrollY(scrollTop);
+    setShowScrollDown(scrollTop <= 10);
+  };
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
 
 
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const line1 = [ 
+    <img src={process.env.PUBLIC_URL + '/넷2.png'} alt="넷" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/플2.png'} alt="플" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/릭2.png'} alt="릭" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/스2.png'} alt="스" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/시2.png'} alt="시" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/리2.png'} alt="리" className="inline-block w-6 h-6" />,
+    <img src={process.env.PUBLIC_URL + '/즈2.png'} alt="즈" className="inline-block w-6 h-6" />,
+   ];
+  const line2 = [
 
+    <img src={process.env.PUBLIC_URL + '/중.png'} alt="중" className="w-12 h-12 inline-block relative top-0 left-4" />,
+    <img src={process.env.PUBLIC_URL + '/증.png'} alt="증" className="w-12 h-12 inline-block relative left-1" />,
+    <img src={process.env.PUBLIC_URL + '/외.png'} alt="외" className="w-12 h-12 inline-block relative top-0 -left-1" />,
+    <img src={process.env.PUBLIC_URL + '/상.png'} alt="상" className="w-12 h-12 inline-block relative top-0 left-0" />,
+    <img src={process.env.PUBLIC_URL + '/센.png'} alt="센" className="w-12 h-12 inline-block " />,
+    <img src={process.env.PUBLIC_URL + '/터.png'} alt="터" className="w-12 h-12 inline-block relative -top-0 -left-4" />,
+  ];
+  const line3 = [
+    <img src={process.env.PUBLIC_URL + '/n.png'} alt="N" className="inline-block w-6 h-10 " />,
+    <img src={process.env.PUBLIC_URL + '/e.png'} alt="E" className="inline-block w-6 h-10" />,
+    <img src={process.env.PUBLIC_URL + '/t.png'} alt="T" className="inline-block w-6 h-10" />,
+    <img src={process.env.PUBLIC_URL + '/f.png'} alt="F" className="inline-block w-6 h-10" />,
+    <img src={process.env.PUBLIC_URL + '/l.png'} alt="L" className="inline-block w-6 h-10" />,
+    <img src={process.env.PUBLIC_URL + '/i.png'} alt="I" className="inline-block w-3 h-10" />,
+    <img src={process.env.PUBLIC_URL + '/x.png'} alt="X" className="inline-block w-6 h-10" />,
+  ]
+const generateInitialPositions = (count) => {
+  return Array.from({ length: count }).map(() => ({
+    x: (Math.random() - 0.5) * window.innerWidth * 0.6,
+    y: (Math.random() - 0.5) * window.innerHeight * 0.4,
+  }));
+};
 
-
-const line2 = [
-  process.env.PUBLIC_URL + "/중.png",
-  process.env.PUBLIC_URL + "/증.png",
-  process.env.PUBLIC_URL + "/외.png",
-  process.env.PUBLIC_URL + "/상.png",
-  process.env.PUBLIC_URL + "/센.png",
-  process.env.PUBLIC_URL + "/터.png"
-];
-
-const initialTransforms = [
-  { x: -100, y: -80, rotate: 360 },
-  { x: 80, y: -70, rotate: -300 },
-  { x: -90, y: -260, rotate: 320 },
-  { x: 100, y: -170, rotate: -340 },
-  { x: -80, y: 90, rotate: 300 },
-  { x: 90, y: -60, rotate: -360 },
-];
-
-const images = [
-  { src: "/clickimage1.png", x: -150, y: -300, r: 340 },
-  { src: "/clickimage2.png", x: 140, y:  -400,  r: -320 },
-  { src: "/clickimage3.png", x: -130, y: 130, r: 300 },
-  { src: "/clickimage4.png", x: 160, y: -520, r: -300 },
-  { src: "/clickimage5.png", x: -140, y: -80,  r: 280 },
-  { src: "/clickimage6.png", x: 130, y: -50,  r: -260 },
-  { src: "/clickimage7.png", x: 120, y: -150, r: 240 },
-];
+const [initialPositionsLine2, setInitialPositionsLine2] = useState([]);
 
 useEffect(() => {
-  const handleScroll = () => {
-    const scrollTop = window.scrollY;
-    let opacity = 1 - scrollTop / 200;
-    if (opacity < 0) opacity = 0;
-    setPathOpacity(opacity);
-  };
+  setInitialPositionsLine2(generateInitialPositions(line2.length));
+}, [line2.length]);
 
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
+
+gsap.timeline()
+  .from("#imageWrapper > div", {
+    y: 100,
+    opacity: 0,
+    stagger: 0.3,
+    duration: 0.8,
+    ease: "power3.out"
+  })
+
+
+  const alternativeImages = [
+  process.env.PUBLIC_URL + '/clickimage1.png',
+  process.env.PUBLIC_URL + '/clickimage2.png',
+  process.env.PUBLIC_URL + '/clickimage3.png',
+  process.env.PUBLIC_URL + '/clickimage4.png',
+  process.env.PUBLIC_URL + '/clickimage5.png',
+  process.env.PUBLIC_URL + '/clickimage6.png',
+  process.env.PUBLIC_URL + '/clickimage7.png',
+];
+
+const imageDescriptions = [
+  "실력도, 돈도, 사명감도 있지만 싸가지가 없는 천재 외과의사. 다소 거친 표현을 상대방들에게 쓰지만, 환자를 끝까지 포기하지 않고 어떻게든 살려내려는 성격을 지니고 있다. 다소 겁이 없고, 위급상황에서도 초인적인 능력으로 신들린 스킬을 발휘하며, 과거 ‘국제 평화 의사회’ '블랙 윙즈(민간군사기업)' 에이스로도 활약했다. 한국대학병원의 중증외상팀을 심폐 소생하기 위해 등판한다.",
+  "백강혁의 현란한 수술 스킬에 반해 낚여버린 외상외과의 첫번째 제자. 항문외과 펠로우로 지내던 중 중증외상팀으로 스카웃된다. 허당미 넘치지만 실력만큼은 어디 내놔도 빠지지 않는 인물로, 백강혁을 따라 사선을 넘나드는 중증 환자들과 온몸을 내던진 사투를 벌이며 성장해 간다.",
+  "중증외상팀 5년 차 시니어 간호사. 책임감도 강하고 실력도 좋은 베테랑으로, 백강혁이 별명을 붙일 만큼 당차고 깡다구가 좋다. 그 누구보다 화끈하게 중증외상팀을 지키고자 고군분투한다.",
+  "백강혁도 인정한 마취통증의학과 레지던트. 환자의 상태를 세심하게 살피며, 어떤 상황에서도 감정의 동요 없이 무덤덤하고 침착하게 마취를 진행하는 센스가 남달라 첫 만남에 백강혁의 신뢰를 얻는다.",
+  "스펙에 자부심이 넘치는 항문외과 과장. 차기 기조실장 자리를 노리며 병원 내 입지를 다지던 그의 앞에 비주류 백강혁이 등장해 산통을 깨고, 애제자인 양재원마저 중증외상팀으로 빼앗겨버린다.",
+  "백강혁의 최고의 지원군으로, 백강혁을 한국대 외상외과 교수로 밀어주고 전폭적인 지원을 약속한다. 백강혁이 꾸준히 성과를 내면서 기대에 부응하자 지원으로 보답하기까지 한다. 그런 모습에 못마땅해 하는 최조은 원장과 홍재훈 기조실장의 표정은 덤. 마지막에는 한국대병원에 닥터헬기를 지원해주면서 중증외상센터에 대한 아낌없는 애정을 보여준다.",
+  "한국대병원 기획조정실장으로 차기 원장을 노리고 있다. 환자보다 병원 수익을 중시하여 매 분기마다 각 진료과의 적자/흑자 순위를 매겨 대대적으로 발표할 정도다. 병원에 커다란 적자를 안겨주는 백강혁과 중증외상센터를 눈엣가시로 여기면서 계속 몰아낼 궁리를 하고 있다.",
+];
+const imageName = [
+  "백강혁","양재훈","천장미","박경원","한유림","강명희","홍재림"
+]
+const job =[
+  "한국대학교 병원 외상외과 교수 겸 중증외상센터장","한국대학교병원 외상외과 전임의","한국대학교 중증외상센터 시니어 간호사","한국대학교병원 마취통증의학과 전공의","한국대학교병원 외과 과장 겸 대장항문외과 과장","보건복지부 장관","한국대학교병원 기회조정실장 겸 감염내과 교수"
+]
+
+
+useEffect(() => {
+  if (progress > 0.95) {
+    setShowLines13(true);
+  } else {
+    setShowLines13(false);
+  }
+}, [progress]);
+
+
+
+useLayoutEffect(() => {
+  gsap.from("#imageWrapper > div", {
+    y: 100,
+    opacity: 0,
+    stagger: 0.3,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#imageWrapper",
+      start: "top 80%", // viewport 80% 지점에 닿으면 시작
+    }
+  });
 }, []);
-  
+
+
+
+
+
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+
+      tl.from("#imageWrapper > div", {
+        y: 100,
+        opacity: 0,
+        stagger: 0.3,
+        duration: 0.8,
+        ease: "power3.out"
+      });
+    }, imageWrapperRef);
+
+    return () => ctx.revert();  // cleanup
+  }, []);
+
+
+const transforms = [
+  [300, -650, -40],
+  [125, -500, 60],
+  [-170, -90, 40],
+  [150, -110, -80],
+  [-250, -180, 250],
+  [110, -380, -80],
+  [-620, -570, 160],
+];
+
+const transformsDestination = [
+  [0, 0, 0],
+  [10, 120, 0],
+  [-10, 240, 0],
+  [15, 360, 0],
+  [-15, 480, 0],
+  [20, 600, 0],
+  [-20, 720, 0],
+];
+
+useLayoutEffect(() => {
+  const tl = gsap.timeline();
+
+  tl.from(".img1", {
+    y: 100,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+  })
+  .from(".img2", {
+    y: 100,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+  }, "-=0.5") // 약간 겹쳐서 등장
+  .from(".img3", {
+    y: 100,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+  }, "-=0.5")
+  .from(".img4", {
+    y: 100,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+  }, "-=0.5")
+  .from(".img5", {
+    y: 100,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+  }, "-=0.5")
+  .from(".img6", {
+    y: 100,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+  }, "-=0.5")
+  .from(".img7", {
+    y: 100,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out"
+  }, "-=0.5");
+
+  return () => {
+    tl.kill(); // 페이지 나갈 때 혹시 모르게 초기화
+  };
+}, []);
+
+
+
+
+
+const shouldShowTape = progress > 0.98;
+
+
 
   return (
-    <section ref={sectionRef} className="relative w-full h-[800vh] bg-[#e1d4c4] overflow-hidden">
+   <section id="merge-section"  className=" w-full h-[1000vh]  relative z-50 bg-[#E1D4C4]">
+        <div ref={sectionRef} className=" h-[500vh]">
+  <div className="sticky top-0 h-screen flex items-center justify-center">
+  <motion.div
+  style={{
+    position: 'fixed',
+    opacity : fadeOutOpacity , 
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: '100%',
+    zIndex: 50,
+    pointerEvents: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  }}
+> 
 
-{/* line2 + 설명 텍스트 묶음 */}
-<div className="fixed top-[35%] z-30 w-full flex flex-col  pointer-events-none">
-<motion.div
-  style={{ opacity: combinedOpacity }}
-  className="fixed top-[35%] z-30 w-full flex flex-col pointer-events-none"
+ {/* Line 1 */}
+<div
+  className="flex space-x-1 mb-4 transition-opacity duration-1000"
+  style={{ opacity: showLines13 ? 1 : 0 }}
 >
-  {/* 위쪽 */}
-  <div className="mb-2 text-center text-white text-xl font-bold">
-    넷플릭스시리즈
+  {line1.map((img, index) => (
+    <div key={`line1-${index}`}>{img}</div>
+  ))}
+</div>
+
+
+  {/* Line 2 */}
+<div className="flex flex-wrap justify-center gap-1 relative z-10">
+{line2.map((img, index) => {
+  const { x, y } = initialPositionsLine2[index] || { x: 0, y: 0 };
+  const rotate = 10 * (1 - progress); 
+  const currentX = x * (1 - progress);
+  const currentY = y * (1 - progress);
+
+  return (
+    <div
+      key={`line2-${index}`}
+      className="inline-block transition-transform duration-500 ease-out"
+      style={{
+        transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
+      }}
+    >
+      {img}
+    </div>
+  );
+})}
+</div>
+
+
+
+{/* Line 3 */}
+<div className={`flex flex-wrap justify-center mt-4 space-x-1 transition-opacity duration-1000 ${showLines13 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+    <p className='font-bold text-4xl text-white mr-4'>ONLY ON</p>
+    {line3.map((img, index) => (
+      <div key={`line3-${index}`}>{img}</div>
+    ))}
   </div>
 
-  {/* line2 */}
-  <div className="relative w-[350px] h-[40px] left-1/2 -translate-x-1/2 flex justify-center items-center">
-    {initialTransforms.map((pos, i) => {
-      const currentX = pos.x * (1 - scatterRatio) + i * 5 * scatterRatio;
-      const currentY = pos.y * (1 - scatterRatio);
-      const rotate = pos.rotate * (1 - scatterRatio);
 
-      return (
-        <motion.div
-          key={`line2-${i}`}
-          style={{
-            transform: `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`,
-            transition: "transform 0.3s ease-out",
-          }}
-        >
-          <img src={process.env.PUBLIC_URL + line2[i]} className="w-8 h-8" />
+  {/* ------------------SVG------------------------------------- */}
+<div
+  className={`absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ease-out ${
+    showLines13 ? 'opacity-100' : 'opacity-0'
+  }`}
+>
+  <div className="flex flex-wrap justify-center items-center gap-4 absolute top-2 left-1/2">
+    <svg className="w-6 h-6 inline-block" viewBox="0 0 50 50" fill="none">
+      <g>
+        <path d="M48,16c0-.51.35.06-7.24-8.61C40.34,6.88,40.57,7,34,7V6a5,5,0,0,0-5-5H19a5,5,0,0,0-5,5V7H8c-.64,0-.21-.28-7.75,8.34C-.1,15.74,0,15.59,0,24a1,1,0,0,0,1,1V46c0,1.44-2.06,1,45,1,1.43,0,1,0,1-22a1,1,0,0,0,1-1C48,15.18,48,16.26,48,16ZM46,23H41c0-3.64.93-3-7-3-1.2,0-1,1.17-1,3H15c0-1.85.2-3-1-3-7.63,0-7-.78-7,3H2V17H46ZM35,22h4c0,6.53.7,6-3,6a1,1,0,0,1-1-1ZM9,22h4c0,6.53.7,6-3,6a1,1,0,0,1-1-1ZM16,6a3,3,0,0,1,3-3H29a3,3,0,0,1,3,3V7H16ZM8.45,9H14v3a1,1,0,0,0,2,0V9H32v3a1,1,0,0,0,2,0V9h5.55l5.25,6H3.2ZM45,45H3V25H7v2a3,3,0,0,0,3,3h2a3,3,0,0,0,3-3V25H33v2a3,3,0,0,0,3,3h2a3,3,0,0,0,3-3V25h4Z"/>
+        <path d="M27,32c0-4.69.76-4-5-4-1.34,0-1,1.56-1,4H18a1,1,0,0,0-1,1c0,5.75-.72,5,4,5,0,4.68-.76,4,5,4,1.34,0,1-1.56,1-4h3a1,1,0,0,0,1-1C31,31.25,31.72,32,27,32Zm2,4c-4.57,0-4-.61-4,4H23c0-4.57.61-4-4-4V34c4.57,0,4,.61,4-4h2c0,4.57-.61,4,4,4Z" />
+      </g>
+    </svg>
+  </div>
+
+  <div className='absolute top-[300px] left-[700px]'>
+    <svg className="w-12 h-12 inline-block rotate-6" viewBox="0 0 50 50" fill="currentColor">
+      <g>
+        <path d="M43,4H41.9a5,5,0,0,0-9.8,0H31a5,5,0,0,0-5,5V25a5,5,0,0,0,4,4.9v3A1.14,1.14,0,0,0,31.15,34h.79c-.58,5.26-5.64,9.21-11.94,7.77v-11c0-2.74,2-3.17,2-6.6V13a3,3,0,0,0-4-2.82V7a3,3,0,0,0-4.12-2.78A3,3,0,0,0,8,5V6.18A3,3,0,0,0,4,9v7a4,4,0,0,0-4,4c0,4.35-.23,5.18.88,6.29C4.91,30.33,4,28.08,4,47a1,1,0,0,0,2,0C6,27.92,7,29.55,2.29,24.88,1.9,24.48,2,24.52,2,20a2,2,0,0,1,2-2v4a1,1,0,0,0,2,0V9A1,1,0,0,1,8,9v8a1,1,0,0,0,2,0V5a1,1,0,0,1,2,0V17a1,1,0,0,0,2,0V7a1,1,0,0,1,2,0V17a1,1,0,0,0,2,0V13a1,1,0,0,1,2,0V24.2c0,2.74-2,3.17-2,6.6V41.05a9.07,9.07,0,0,1-4.12-4.2A3,3,0,0,0,16,34V30a3,3,0,0,0-3-3H11a3,3,0,0,0-3,3v4a3,3,0,0,0,3,3h.76A11.07,11.07,0,0,0,18,43.24V47a1,1,0,0,0,2,0V43.81c7.7,1.42,13.39-3.65,14-9.81h.9A1.14,1.14,0,0,0,36,32.85V30h2v3a1,1,0,0,0,1,1h1v1a1,1,0,0,0,2,0V34h1a1,1,0,0,0,1-1V29.9A5,5,0,0,0,48,25V9A5,5,0,0,0,43,4Z"/>
+      </g>
+    </svg>
+  </div>
+
+  <div className='absolute top-0 left-[700px]'>
+    <svg className="w-10 h-10 inline-block" viewBox="0 0 50 50" fill="none">
+      <path d="M24,42,7.66,25.66a11.32,11.32,0,0,1,0-16L8,9.32a11.32,11.32,0,0,1,16,0h0a11.32,11.32,0,0,1,16,0l.33.33a11.32,11.32,0,0,1,0,16Z" fill='none' stroke='red' strokeWidth={5}/>
+    </svg>
+  </div>
+
+  <div className='absolute top-2 left-[500px]'>
+    <svg viewBox="0 0 50 50" width="200" height="200" fill="none">
+      <path d="M4 44 L12.57 35.43 M18 35 L13 35 L13 30 L30 13 L35 18 L18 35 M39 4 L44 9 M40 5 L31 14 M43 8 L34 17 M25 25 L26 26 M20.5 29.5 L21.5 30.5 M28.5 21.5 L29.5 22.5" stroke="black" strokeWidth="1"/>
+    </svg>
+  </div>
+
+  <div className='absolute top-[-70px] left-1/2 -translate-x-1/2'>
+    <svg>
+      <path 
+        d="..." 
+        fill="white" 
+      />
+    </svg>
+  </div>
+</div>
+
         </motion.div>
-      );
-    })}
+        </div>
+          {/*------------------------------이미지---------------------------- */}
+
+<motion.div
+  id="imageWrapper"
+  ref={imageWrapperRef}
+  className="z-[90] flex flex-col justify-center items-center gap-4 border border-dashed border-lime mt-[200vh]"
+>
+  {/* 이미지 1 */}
+  <div
+    onClick={() => {
+      if (scrollY >= stopScrollY) {
+        setSelectedImage({
+          index: 0,
+          name: imageName[0],
+          job: job[0],
+          description: imageDescriptions[0],
+          img: alternativeImages[0],
+        });
+      }
+    }}
+    className={`relative img1 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
+  >
+    <img src={alternativeImages[0]} alt="img1" className="w-full h-full object-cover" />
   </div>
 
-  {/* 아래쪽 */}
-  <div className="mt-2 text-center text-sm text-white">
-    ONLYON <div className="inline-block text-red-500 font-bold">NETFLIX</div>
+  {/* 이미지 2 */}
+  <div
+    onClick={() => {
+      if (scrollY >= stopScrollY) {
+        setSelectedImage({
+          index: 1,
+          name: imageName[1],
+          job: job[1],
+          description: imageDescriptions[1],
+          img: alternativeImages[1],
+        });
+      }
+    }}
+    className={`relative img2 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
+  >
+    <img src={alternativeImages[1]} alt="img2" className="w-full h-full object-cover" />
+  </div>
+
+  {/* 이미지 3 */}
+  <div
+    onClick={() => {
+      if (scrollY >= stopScrollY) {
+        setSelectedImage({
+          index: 2,
+          name: imageName[2],
+          job: job[2],
+          description: imageDescriptions[2],
+          img: alternativeImages[2],
+        });
+      }
+    }}
+    className={`relative img3 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
+  >
+    <img src={alternativeImages[2]} alt="img3" className="w-full h-full object-cover" />
+  </div>
+
+  {/* 이미지 4 */}
+  <div
+    onClick={() => {
+      if (scrollY >= stopScrollY) {
+        setSelectedImage({
+          index: 3,
+          name: imageName[3],
+          job: job[3],
+          description: imageDescriptions[3],
+          img: alternativeImages[3],
+        });
+      }
+    }}
+    className={`relative img4 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
+  >
+    <img src={alternativeImages[3]} alt="img4" className="w-full h-full object-cover" />
+  </div>
+
+  {/* 이미지 5 */}
+  <div
+    onClick={() => {
+      if (scrollY >= stopScrollY) {
+        setSelectedImage({
+          index: 4,
+          name: imageName[4],
+          job: job[4],
+          description: imageDescriptions[4],
+          img: alternativeImages[4],
+        });
+      }
+    }}
+    className={`relative img5 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
+  >
+    <img src={alternativeImages[4]} alt="img5" className="w-full h-full object-cover" />
+  </div>
+
+  {/* 이미지 6 */}
+  <div
+    onClick={() => {
+      if (scrollY >= stopScrollY) {
+        setSelectedImage({
+          index: 5,
+          name: imageName[5],
+          job: job[5],
+          description: imageDescriptions[5],
+          img: alternativeImages[5],
+        });
+      }
+    }}
+    className={`relative img6 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
+  >
+    <img src={alternativeImages[5]} alt="img6" className="w-full h-full object-cover" />
+  </div>
+
+  {/* 이미지 7 */}
+  <div
+    onClick={() => {
+      if (scrollY >= stopScrollY) {
+        setSelectedImage({
+          index: 6,
+          name: imageName[6],
+          job: job[6],
+          description: imageDescriptions[6],
+          img: alternativeImages[6],
+        });
+      }
+    }}
+    className={`relative img7 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
+  >
+    <img src={alternativeImages[6]} alt="img7" className="w-full h-full object-cover" />
   </div>
 </motion.div>
 
 
-<div className="relative w-full h-[300px] flex items-end justify-center">
-  <motion.div
-    style={{
-      x: images[0].x * (1 - scatterRatio) + (alignX[0] * scatterRatio) - 80,
-      y: images[0].y * (1 - scatterRatio) + alignY[0] * scatterRatio,
-      rotate: images[0].r * (1 - scatterRatio),
-    }}
-    className="absolute w-20 h-20"
-  >
-    <img src={process.env.PUBLIC_URL + images[0].src} className="w-full h-full object-cover" />
-  </motion.div>
-
-  <motion.div
-    style={{
-      x: images[1].x * (1 - scatterRatio) + (alignX[1] * scatterRatio) - 60,
-      y: images[1].y * (1 - scatterRatio) + alignY[1] * scatterRatio,
-      rotate: images[1].r * (1 - scatterRatio),
-    }}
-    className="absolute w-24 h-24"
-  >
-    <img src={process.env.PUBLIC_URL + images[1].src} className="w-full h-full object-cover" />
-  </motion.div>
-
-  <motion.div
-    style={{
-      x: images[2].x * (1 - scatterRatio) + (alignX[2] * scatterRatio) - 40,
-      y: images[2].y * (1 - scatterRatio) + alignY[2] * scatterRatio,
-      rotate: images[2].r * (1 - scatterRatio),
-    }}
-    className="absolute w-16 h-20 "
-  >
-    <img src={process.env.PUBLIC_URL + images[2].src} className="w-full h-full object-cover" />
-  </motion.div>
-
-  <motion.div
-    style={{
-      x: images[3].x * (1 - scatterRatio) + (alignX[3] * scatterRatio),
-      y: images[3].y * (1 - scatterRatio) + alignY[3] * scatterRatio,
-      rotate: images[3].r * (1 - scatterRatio),
-      transform: `translateZ(0)`,
-      willChange: 'transform'
-    }}
-    className="absolute w-28 h-28 z-20"
-  >
-    <img src={process.env.PUBLIC_URL + images[3].src} className="w-full h-full object-cover" />
-  </motion.div>
-
-  <motion.div
-    style={{
-      x: images[4].x * (1 - scatterRatio) + (alignX[4] * scatterRatio) + 40,
-      y: images[4].y * (1 - scatterRatio) + alignY[4] * scatterRatio,
-      rotate: images[4].r * (1 - scatterRatio),
-      transform: `translateZ(0)`,
-      willChange: 'transform'
-    }}
-    className="absolute w-24 h-24 z-[90]"
-  >
-    <img src={process.env.PUBLIC_URL + images[4].src} className="w-full h-full object-cover" />
-  </motion.div>
-
-  <motion.div
-    style={{
-      x: images[5].x * (1 - scatterRatio) + (alignX[5] * scatterRatio) + 60,
-      y: images[5].y * (1 - scatterRatio) + alignY[5] * scatterRatio,
-      rotate: images[5].r * (1 - scatterRatio),
-            transform: `translateZ(0)`,
-      willChange: 'transform'
-    }}
-    className="absolute w-20 h-20 z-[120]"
-  >
-    <img src={process.env.PUBLIC_URL + images[5].src} className="w-full h-full object-cover" />
-  </motion.div>
-
-  <motion.div
-    style={{
-      x: images[6].x * (1 - scatterRatio) + (alignX[6] * scatterRatio) + 80,
-      y: images[6].y * (1 - scatterRatio) + alignY[6] * scatterRatio,
-      rotate: images[6].r * (1 - scatterRatio),
-    }}
-    className="absolute w-28 h-28 z-50"
-  >
-    <img src={process.env.PUBLIC_URL + images[6].src} className="w-full h-full object-cover" />
-  </motion.div>
-</div>
-</div>
 
 
-    {showScrollDown && (
-      <div style={{ opacity: pathOpacity }} className='w-full animate-float flex flex-col justify-center items-center fixed top-[500px]  gap-3 transition-opacity duration-200'>
-        <svg className='w-[150px] h-[20px]'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 21" fill='none' >
+
+
+
+  {showScrollDown && (
+      <div className='animate-float flex flex-col justify-center items-center absolute top-[500px] left-1/3 -translate-x-1/2 gap-3 transition-opacity duration-200'>
+        <svg className='w-[150px] h-[21px]'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 21" fill='none' >
           <path d="M145.547 17.1406C145.547 17.0312 145.531 16.9766 145.5 16.9766C145.406 16.9766 145.336 17.0312 145.289 17.1406C145.289 17.2031 145.312 17.25 145.359 17.2812C145.484 17.2812 145.547 17.2344 145.547 17.1406ZM140.039 3.125C140.039 2.89062 139.953 2.82812 139.781 2.9375C139.594 3.03125 139.531 3.13281 139.594 3.24219C139.609 3.30469 139.68 3.33594 139.805 3.33594C139.961 3.33594 140.039 3.26562 140.039 3.125ZM137.766 1.20312C138.031 1.10938 138.195 1.0625 138.258 1.0625C138.289 1.0625 138.609 1.10938 139.219 1.20312C139.641 1.20312 140.023 1.39062 140.367 1.76562C140.695 2.1875 141.492 3.67969 142.758 6.24219C143.055 6.78906 143.234 7.14062 143.297 7.29688C144.891 10.5312 145.727 12.1484 145.805 12.1484C145.914 12.1484 145.969 10.7969 145.969 8.09375C146.016 4.90625 146.047 3.27344 146.062 3.19531C146.125 2.74219 146.281 2.34375 146.531 2C146.781 1.65625 147.094 1.48438 147.469 1.48438C148 1.48438 148.289 1.80469 148.336 2.44531C148.383 3.19531 148.406 4.32812 148.406 5.84375C148.406 8.40625 148.531 11.1172 148.781 13.9766C148.969 16.1328 149.062 17.6016 149.062 18.3828V18.5703C148.984 18.8984 148.633 19.2578 148.008 19.6484C147.398 20.0234 146.922 20.2109 146.578 20.2109C145.547 20.2109 144.523 19.3672 143.508 17.6797C143.133 17.0547 142.383 15.5859 141.258 13.2734C140.148 10.9453 139.438 9.38281 139.125 8.58594L138.398 6.6875L138.141 7.74219C137.703 9.89844 137.406 11.7031 137.25 13.1562C137.062 14.8438 136.914 15.8203 136.805 16.0859C136.68 16.3828 136.398 16.5312 135.961 16.5312C135.523 16.5312 135.305 16.4609 135.305 16.3203C135.305 16.2109 135.312 16.1406 135.328 16.1094C135.438 15.6875 135.555 14.6562 135.68 13.0156C135.789 11.5625 136.062 9.27344 136.5 6.14844C136.828 3.71094 137.094 2.22656 137.297 1.69531C137.406 1.46094 137.562 1.29688 137.766 1.20312Z" fill='white'/>
           <path d="M125.109 2.09375C125.109 1.21875 125.398 0.78125 125.977 0.78125C126.383 0.78125 126.766 0.96875 127.125 1.34375C127.484 1.70313 127.773 2.10938 127.992 2.5625C128.461 3.57813 128.938 4.82812 129.422 6.3125C130.109 8.3125 130.461 9.32031 130.477 9.33594C130.57 9.33594 130.742 8.74219 130.992 7.55469C131.242 6.49219 131.602 5.25781 132.07 3.85156C132.508 2.55469 132.93 1.8125 133.336 1.625C133.367 1.59375 133.453 1.57813 133.594 1.57813C133.875 1.57813 134.078 1.99219 134.203 2.82031C134.25 3.17969 134.273 3.4375 134.273 3.59375C134.273 4.03125 134.062 5.71094 133.641 8.63281C133.234 11.4141 132.938 13.2422 132.75 14.1172C132.609 14.7734 132.398 15.3281 132.117 15.7812C131.492 16.7031 130.789 17.1641 130.008 17.1641C129.57 17.1641 129.117 17.0234 128.648 16.7422C127.961 16.3203 127.375 15.4531 126.891 14.1406C126.484 13.0156 126.008 10.9688 125.461 8L125.367 7.41406L124.969 8.58594C124.078 11.3984 123.539 13.4375 123.352 14.7031C123.258 15.4375 123.172 15.875 123.094 16.0156C122.984 16.2031 122.75 16.4219 122.391 16.6719C121.922 16.9688 121.555 17.1172 121.289 17.1172C121.023 17.1172 120.695 17.0078 120.305 16.7891C119.82 16.5234 119.445 15.9766 119.18 15.1484C118.898 14.2578 118.461 12.2344 117.867 9.07812C117.164 5.375 116.812 3.35156 116.812 3.00781C116.812 2.82031 117.203 2.52344 117.984 2.11719L119.156 1.46094L119.602 1.95312C119.898 2.29688 120.312 3.30469 120.844 4.97656C121.375 6.66406 121.82 8.42188 122.18 10.25C122.305 10.7969 122.422 11.2031 122.531 11.4688C122.703 11.4688 123.18 10.0781 123.961 7.29688C124.727 4.5625 125.109 2.82813 125.109 2.09375Z" fill='white'/>
           <path d="M104.578 9.71094C104.578 10.6797 104.898 11.4453 105.539 12.0078C106.18 12.5703 107.016 12.8672 108.047 12.8984H108.141C110.031 12.8984 111.359 12.1172 112.125 10.5547C112.328 10.1484 112.43 9.58594 112.43 8.86719C112.43 8.02344 112.312 7.34375 112.078 6.82812C111.391 5.28125 110.273 4.36719 108.727 4.08594C108.57 4.05469 108.422 4.03906 108.281 4.03906C107.672 4.03906 107.367 4.11719 107.367 4.27344C107.367 4.41406 107.109 4.78125 106.594 5.375C106.156 5.8125 105.734 6.39844 105.328 7.13281C104.922 7.86719 104.68 8.53125 104.602 9.125C104.586 9.21875 104.578 9.41406 104.578 9.71094ZM107.273 0.804688C107.773 0.679688 108.188 0.617188 108.516 0.617188C108.953 0.617188 109.461 0.6875 110.039 0.828125C111.805 1.23438 113.234 2.20313 114.328 3.73438C115.438 5.28125 116 7.05469 116.016 9.05469C116.016 11.3516 115.148 13.2109 113.414 14.6328C111.555 16.1953 109.492 16.9766 107.227 16.9766C105.148 16.9766 103.391 16.2734 101.953 14.8672C100.656 13.6172 100.008 12.0078 100.008 10.0391C100.008 8.67969 100.289 7.42188 100.852 6.26562C101.43 5.10938 102.172 4.14062 103.078 3.35938C103.562 2.90625 104.234 2.41406 105.094 1.88281C105.969 1.33594 106.695 0.976563 107.273 0.804688Z" fill='white'/>
@@ -244,24 +541,75 @@ useEffect(() => {
 
 
 
-      {/* 박스 이미지 */}
-      <motion.div className="sticky top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] h-[220px] z-40" style={{ scale: boxScale, opacity: showBox }}>
-        <img src="/box.png" className="w-full h-full object-contain" />
-      </motion.div>
+      {/* Modal */}
+      {selectedImage !== null && scrollY >= stopScrollY && (
+            <div
+          className="fixed inset-0 bg-black bg-opacity-70 w-full flex  justify-center items-center z-[300]"  
+        >
+          <div
+            className=" flex flex-col w-full justify-center lg:gap-20 mx-4 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
 
-      {/* 문서 애니메이션 */}
-      <motion.div className="sticky top-[50%] -translate-y-1/2 z-50 flex flex-col items-center justify-center">
-        <motion.img key={currentIdx} src={`/scrollimage${currentIdx + 1}.png`} className="w-[180px] h-[120px] object-cover mb-3 rounded shadow" />
-        <div className="text-black font-bold text-xl">{currentIdx + 1}</div>
-        <div className="text-center text-black text-sm mt-2">문서 설명이 여기에 들어갑니다</div>
-      </motion.div>
-
-      <div onClick={scrollToTop} className="z-[9999] fixed bottom-4 right-4 flex flex-col items-center hover:cursor-pointer gap-1">
-        <img src={process.env.PUBLIC_URL + '/top.png'} alt="top" className="w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] md:w-[60px] md:h-[60px] lg:w-[70px] lg:h-[70px] xl:w-[80px] xl:h-[80px] object-contain" />
-        <p className="text-[10px] sm:text-[12px] md:text-[14px] text-black">TOP</p>
+            <div className=" flex items-center justify-center">
+              <img
+                src={alternativeImages[selectedImage.index]}
+                alt="selected"
+                className="w-40 object-contain"
+              />
+            </div>
+            <div className="relative items-center justify-center">
+              <img
+                src={process.env.PUBLIC_URL + '/file.png'}
+                alt="file"
+                className="w-[550px] h-[400px] block"
+              />
+              <img
+                src={process.env.PUBLIC_URL + '/close.png'}
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-[60px] right-12 w-6 h-6 cursor-pointer z-20"
+              />
+              <div className="absolute top-0 left-2 w-full h-full p-20 flex flex-col justify-center">
+                <h2 className="text-4xl font-bold text-[#e5501f] mb-4">
+                  {selectedImage.name}
+                </h2>
+                <div className="text-black text-lg font-semibold mb-4  leading-snug">
+                  {selectedImage.job}
+                </div>
+                <div className="text-black font-light leading-normal tracking-tight">
+                  {selectedImage.description}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    <div 
+    onClick={scrollToTop} 
+    className="z-[9999] fixed bottom-4 right-4 flex flex-col items-center hover:cursor-pointer gap-1">
+      <img
+        src={process.env.PUBLIC_URL + '/top.png'}
+        alt="top"
+        className="
+          w-[40px] h-[40px]
+          sm:w-[50px] sm:h-[50px]
+          md:w-[60px] md:h-[60px]
+          lg:w-[70px] lg:h-[70px]
+          xl:w-[80px] xl:h-[80px]
+          object-contain
+        "
+      />
+      <p className="text-[10px] sm:text-[12px] md:text-[14px] text-black">TOP</p>
+    </div>
       </div>
+
+      {/* 두번째 div */}
+<div id="next-section" className="h-[100vh]"></div>
+
     </section>
+
+
   );
 };
 
-export default Mobile;
+export default View01;
