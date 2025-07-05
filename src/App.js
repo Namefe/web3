@@ -21,9 +21,9 @@ function App() {
       <View02/>
       <View03/>
     </div>
-    <div className='block lg:hidden'>
+    {/* <div className='block lg:hidden'>
       <Mobile/>
-    </div>
+    </div> */}
     <View05/>
       <Footer/>
     </>

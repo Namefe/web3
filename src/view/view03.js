@@ -209,19 +209,19 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ duration: 1.2, delay: 0.2 }}
-  className=" absolute top-[-10%]  w-screen h-[100px] -translate-x-[10%]  -translate-y-1/2 flex justify-center gap-[700px]  items-center z-20 "
+  className=" absolute top-[-10%]  w-screen h-screen -translate-x-[10%]  -translate-y-1/2 flex justify-center gap-[800px]  items-center z-20 "
 >
 
 
   {/* 왼쪽 숫자 */}
   <div className="text-white text-7xl font-bold">
-    {currentIdx + 1}
+    0{currentIdx + 1}
   </div>
 
   
 
   {/* 오른쪽 텍스트 */}
-  <div className="text-center text-white w-[300px] flex-shrink-0 ">
+  <div className="text-right text-white w-[300px] flex-shrink-0 ">
     <div className="text-2xl font-bold mb-6">
       {documents[currentIdx].title}
     </div>
