@@ -288,7 +288,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{  y: y1, skewY: skew1 }}
         onClick={() => {
-          if (scrollY >= stopScrollY) {
+  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 0,
               name: imageName[0],
@@ -307,7 +307,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y2, skewY: skew2 }}
         onClick={() => {
-          if (scrollY >= stopScrollY) {
+  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 1,
               name: imageName[1],
@@ -326,8 +326,8 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y3, skewY: skew3 }}
         onClick={() => {
-          if (scrollY >= stopScrollY) {
-            setSelectedImage({
+  if (stopScrollY === null || scrollY >= stopScrollY) {
+              setSelectedImage({
               index: 2,
               name: imageName[2],
               job: job[2],
@@ -345,7 +345,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y4, skewY: skew4 }}
         onClick={() => {
-          if (scrollY >= stopScrollY) {
+  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 3,
               name: imageName[3],
@@ -364,7 +364,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y5, skewY: skew5 }}
         onClick={() => {
-          if (scrollY >= stopScrollY) {
+  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 4,
               name: imageName[4],
@@ -383,7 +383,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y6, skewY: skew6 }}
         onClick={() => {
-          if (scrollY >= stopScrollY) {
+  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 5,
               name: imageName[5],
@@ -402,7 +402,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y7, skewY: skew7 }}
         onClick={() => {
-          if (scrollY >= stopScrollY) {
+  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 6,
               name: imageName[6],
@@ -447,7 +447,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
 
 
       {/* Modal */}
-      {selectedImage !== null && scrollY >= stopScrollY && (
+      {selectedImage !== null &&  (
             <div
           className="fixed inset-0 bg-black bg-opacity-70 w-full flex  justify-center items-center z-[300]"  
         >
@@ -507,9 +507,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <p className="text-[10px] sm:text-[12px] md:text-[14px] text-black">TOP</p>
     </div>
       </div>
-
-      {/* 두번째 div */}
-<div id="next-section" className="h-[100vh]"></div>
 
     </section>
 
