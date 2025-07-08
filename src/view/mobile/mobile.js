@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useState, } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import gsap from "gsap";
-import { useLayoutEffect } from "react";
 
 const View01 = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -10,13 +8,8 @@ const View01 = () => {
   const [showScrollDown, setShowScrollDown] = useState(true);
   const [showLines13, setShowLines13] = useState(false); 
   const sectionRef = useRef(null);
-  const [isFixed, setIsFixed] = useState(true);
-  const [stopTop, setStopTop] = useState(0);
   const imageWrapperRef = useRef(null);
   const [progress, setProgress] = useState(0);
-
-
-
 
 
   
@@ -24,7 +17,7 @@ const { scrollYProgress } = useScroll({
   target: sectionRef,
   offset: ["start start", "end end"],
 });
-const fadeOutOpacity = useTransform(scrollYProgress, [0, 0.2 , 0.99], [1, 1, 0]);
+const fadeOutOpacity = useTransform(scrollYProgress, [0, 0.5, 0.8, 0.99], [1, 1, 0.5, 0]);
 
 useEffect(() => {
   scrollYProgress.on("change", (p) => {
@@ -34,19 +27,7 @@ useEffect(() => {
 }, [scrollYProgress]);
 
 
-useEffect(() => {
-  const unsubscribe = scrollYProgress.on("change", (p) => {
-    if (!imageWrapperRef.current) return; 
-    const triggerStart = 0.48;
-    if (p > triggerStart && isFixed) {
-      const currentTop = imageWrapperRef.current.getBoundingClientRect().top + window.scrollY;
-      setStopTop(currentTop);
-      setIsFixed(false);
-    }
-    if (p < triggerStart && !isFixed) setIsFixed(true);
-  });
-  return () => unsubscribe();
-}, [scrollYProgress, isFixed]);
+
 
 
   
@@ -107,15 +88,6 @@ useEffect(() => {
 }, [line2.length]);
 
 
-gsap.timeline()
-  .from("#imageWrapper > div", {
-    y: 100,
-    opacity: 0,
-    stagger: 0.3,
-    duration: 0.8,
-    ease: "power3.out"
-  })
-
 
   const alternativeImages = [
   process.env.PUBLIC_URL + '/clickimage1.png',
@@ -154,123 +126,49 @@ useEffect(() => {
 
 
 
-useLayoutEffect(() => {
-  gsap.from("#imageWrapper > div", {
-    y: 100,
-    opacity: 0,
-    stagger: 0.3,
-    duration: 0.8,
-    ease: "power3.out",
-    scrollTrigger: {
-      trigger: "#imageWrapper",
-      start: "top 80%", // viewport 80% 지점에 닿으면 시작
-    }
-  });
-}, []);
+
+
+
+const { scrollYProgress: imageProgress } = useScroll({
+  target: imageWrapperRef,
+  offset: ["start end", "end start"],
+});
 
 
 
 
 
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
+const y1 = useTransform(imageProgress, [0, 0.3], [120, 0]);
+const skew1 = useTransform(imageProgress, [0, 0.3], [30, 0]);
 
-      tl.from("#imageWrapper > div", {
-        y: 100,
-        opacity: 0,
-        stagger: 0.3,
-        duration: 0.8,
-        ease: "power3.out"
-      });
-    }, imageWrapperRef);
+const y2 = useTransform(imageProgress, [0.1, 0.28], [80, 0]); // 조금 더 빠르게
+const skew2 = useTransform(imageProgress, [0.1, 0.28], [-15, 0]);
 
-    return () => ctx.revert();  // cleanup
-  }, []);
+const y3 = useTransform(imageProgress, [0.2, 0.5], [100, 0]);
+const skew3 = useTransform(imageProgress, [0.2, 0.5], [20, 0]);
 
+const y4 = useTransform(imageProgress, [0.25, 0.45], [150, 0]); // 더 빠르게
+const skew4 = useTransform(imageProgress, [0.25, 0.45], [-25, 0]);
 
-const transforms = [
-  [300, -650, -40],
-  [125, -500, 60],
-  [-170, -90, 40],
-  [150, -110, -80],
-  [-250, -180, 250],
-  [110, -380, -80],
-  [-620, -570, 160],
-];
+const y5 = useTransform(imageProgress, [0.4, 0.6], [90, 0]);
+const skew5 = useTransform(imageProgress, [0.4, 0.6], [10, 0]);
 
-const transformsDestination = [
-  [0, 0, 0],
-  [10, 120, 0],
-  [-10, 240, 0],
-  [15, 360, 0],
-  [-15, 480, 0],
-  [20, 600, 0],
-  [-20, 720, 0],
-];
+const y6 = useTransform(imageProgress, [0.45, 0.65], [110, 0]);
+const skew6 = useTransform(imageProgress, [0.45, 0.65], [-20, 0]);
 
-useLayoutEffect(() => {
-  const tl = gsap.timeline();
-
-  tl.from(".img1", {
-    y: 100,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out"
-  })
-  .from(".img2", {
-    y: 100,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out"
-  }, "-=0.5") // 약간 겹쳐서 등장
-  .from(".img3", {
-    y: 100,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out"
-  }, "-=0.5")
-  .from(".img4", {
-    y: 100,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out"
-  }, "-=0.5")
-  .from(".img5", {
-    y: 100,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out"
-  }, "-=0.5")
-  .from(".img6", {
-    y: 100,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out"
-  }, "-=0.5")
-  .from(".img7", {
-    y: 100,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out"
-  }, "-=0.5");
-
-  return () => {
-    tl.kill(); // 페이지 나갈 때 혹시 모르게 초기화
-  };
-}, []);
+const y7 = useTransform(imageProgress, [0.55, 0.75], [130, 0]);
+const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
 
 
 
 
 
-const shouldShowTape = progress > 0.98;
 
 
 
   return (
-   <section id="merge-section"  className=" w-full h-[1000vh]  relative z-50 bg-[#E1D4C4]">
+   <section id="merge-section"  className=" w-full h-[500vh]  relative z-50 bg-[#E1D4C4]">
         <div ref={sectionRef} className=" h-[500vh]">
   <div className="sticky top-0 h-screen flex items-center justify-center">
   <motion.div
@@ -381,137 +279,144 @@ const shouldShowTape = progress > 0.98;
         </div>
           {/*------------------------------이미지---------------------------- */}
 
-<motion.div
-  id="imageWrapper"
-  ref={imageWrapperRef}
-  className="z-[90] flex flex-col justify-center items-center gap-4 border border-dashed border-lime mt-[200vh]"
->
-  {/* 이미지 1 */}
-  <div
-    onClick={() => {
-      if (scrollY >= stopScrollY) {
-        setSelectedImage({
-          index: 0,
-          name: imageName[0],
-          job: job[0],
-          description: imageDescriptions[0],
-          img: alternativeImages[0],
-        });
-      }
-    }}
-    className={`relative img1 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
-  >
-    <img src={alternativeImages[0]} alt="img1" className="w-full h-full object-cover" />
-  </div>
+    <motion.div
+      id="imageWrapper"
+      ref={imageWrapperRef}
+      className="z-[90] flex flex-col justify-center items-center gap-4  mt-[200vh]"
+    >
+      {/* 이미지 1 */}
+      <motion.div
+        style={{  y: y1, skewY: skew1 }}
+        onClick={() => {
+          if (scrollY >= stopScrollY) {
+            setSelectedImage({
+              index: 0,
+              name: imageName[0],
+              job: job[0],
+              description: imageDescriptions[0],
+              img: alternativeImages[0],
+            });
+          }
+        }}
+        className="relative img1 w-[150px] h-[200px] flex items-center justify-center"
+      >
+        <img src={alternativeImages[0]} alt="img1" className="w-full h-full object-cover" />
+      </motion.div>
 
-  {/* 이미지 2 */}
-  <div
-    onClick={() => {
-      if (scrollY >= stopScrollY) {
-        setSelectedImage({
-          index: 1,
-          name: imageName[1],
-          job: job[1],
-          description: imageDescriptions[1],
-          img: alternativeImages[1],
-        });
-      }
-    }}
-    className={`relative img2 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
-  >
-    <img src={alternativeImages[1]} alt="img2" className="w-full h-full object-cover" />
-  </div>
+      {/* 이미지 2 */}
+      <motion.div
+        style={{ y: y2, skewY: skew2 }}
+        onClick={() => {
+          if (scrollY >= stopScrollY) {
+            setSelectedImage({
+              index: 1,
+              name: imageName[1],
+              job: job[1],
+              description: imageDescriptions[1],
+              img: alternativeImages[1],
+            });
+          }
+        }}
+        className="relative img2 w-[150px] h-[200px] flex items-center justify-center "
+      >
+        <img src={alternativeImages[1]} alt="img2" className="w-full h-full object-cover" />
+      </motion.div>
 
-  {/* 이미지 3 */}
-  <div
-    onClick={() => {
-      if (scrollY >= stopScrollY) {
-        setSelectedImage({
-          index: 2,
-          name: imageName[2],
-          job: job[2],
-          description: imageDescriptions[2],
-          img: alternativeImages[2],
-        });
-      }
-    }}
-    className={`relative img3 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
-  >
-    <img src={alternativeImages[2]} alt="img3" className="w-full h-full object-cover" />
-  </div>
+      {/* 이미지 3 */}
+      <motion.div
+        style={{ y: y3, skewY: skew3 }}
+        onClick={() => {
+          if (scrollY >= stopScrollY) {
+            setSelectedImage({
+              index: 2,
+              name: imageName[2],
+              job: job[2],
+              description: imageDescriptions[2],
+              img: alternativeImages[2],
+            });
+          }
+        }}
+        className="relative img3 w-[150px] h-[200px] flex items-center justify-center "
+      >
+        <img src={alternativeImages[2]} alt="img3" className="w-full h-full object-cover" />
+      </motion.div>
 
-  {/* 이미지 4 */}
-  <div
-    onClick={() => {
-      if (scrollY >= stopScrollY) {
-        setSelectedImage({
-          index: 3,
-          name: imageName[3],
-          job: job[3],
-          description: imageDescriptions[3],
-          img: alternativeImages[3],
-        });
-      }
-    }}
-    className={`relative img4 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
-  >
-    <img src={alternativeImages[3]} alt="img4" className="w-full h-full object-cover" />
-  </div>
+      {/* 이미지 4 */}
+      <motion.div
+        style={{ y: y4, skewY: skew4 }}
+        onClick={() => {
+          if (scrollY >= stopScrollY) {
+            setSelectedImage({
+              index: 3,
+              name: imageName[3],
+              job: job[3],
+              description: imageDescriptions[3],
+              img: alternativeImages[3],
+            });
+          }
+        }}
+        className="relative img4 w-[150px] h-[200px] flex items-center justify-center "
+      >
+        <img src={alternativeImages[3]} alt="img4" className="w-full h-full object-cover" />
+      </motion.div>
 
-  {/* 이미지 5 */}
-  <div
-    onClick={() => {
-      if (scrollY >= stopScrollY) {
-        setSelectedImage({
-          index: 4,
-          name: imageName[4],
-          job: job[4],
-          description: imageDescriptions[4],
-          img: alternativeImages[4],
-        });
-      }
-    }}
-    className={`relative img5 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
-  >
-    <img src={alternativeImages[4]} alt="img5" className="w-full h-full object-cover" />
-  </div>
+      {/* 이미지 5 */}
+      <motion.div
+        style={{ y: y5, skewY: skew5 }}
+        onClick={() => {
+          if (scrollY >= stopScrollY) {
+            setSelectedImage({
+              index: 4,
+              name: imageName[4],
+              job: job[4],
+              description: imageDescriptions[4],
+              img: alternativeImages[4],
+            });
+          }
+        }}
+        className="relative img5 w-[150px] h-[200px] flex items-center justify-center "
+      >
+        <img src={alternativeImages[4]} alt="img5" className="w-full h-full object-cover" />
+      </motion.div>
 
-  {/* 이미지 6 */}
-  <div
-    onClick={() => {
-      if (scrollY >= stopScrollY) {
-        setSelectedImage({
-          index: 5,
-          name: imageName[5],
-          job: job[5],
-          description: imageDescriptions[5],
-          img: alternativeImages[5],
-        });
-      }
-    }}
-    className={`relative img6 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
-  >
-    <img src={alternativeImages[5]} alt="img6" className="w-full h-full object-cover" />
-  </div>
+      {/* 이미지 6 */}
+      <motion.div
+        style={{ y: y6, skewY: skew6 }}
+        onClick={() => {
+          if (scrollY >= stopScrollY) {
+            setSelectedImage({
+              index: 5,
+              name: imageName[5],
+              job: job[5],
+              description: imageDescriptions[5],
+              img: alternativeImages[5],
+            });
+          }
+        }}
+        className="relative img6 w-[150px] h-[200px] flex items-center justify-center "
+      >
+        <img src={alternativeImages[5]} alt="img6" className="w-full h-full object-cover" />
+      </motion.div>
 
-  {/* 이미지 7 */}
-  <div
-    onClick={() => {
-      if (scrollY >= stopScrollY) {
-        setSelectedImage({
-          index: 6,
-          name: imageName[6],
-          job: job[6],
-          description: imageDescriptions[6],
-          img: alternativeImages[6],
-        });
-      }
-    }}
-    className={`relative img7 w-[150px] h-[200px] flex items-center justify-center border-2 border-red-500`}
-  >
-    <img src={alternativeImages[6]} alt="img7" className="w-full h-full object-cover" />
-  </div>
-</motion.div>
+      {/* 이미지 7 */}
+      <motion.div
+        style={{ y: y7, skewY: skew7 }}
+        onClick={() => {
+          if (scrollY >= stopScrollY) {
+            setSelectedImage({
+              index: 6,
+              name: imageName[6],
+              job: job[6],
+              description: imageDescriptions[6],
+              img: alternativeImages[6],
+            });
+          }
+        }}
+        className="relative img7 w-[150px] h-[200px] flex items-center justify-center "
+      >
+        <img src={alternativeImages[6]} alt="img7" className="w-full h-full object-cover" />
+      </motion.div>
+    </motion.div>
 
 
 
@@ -520,7 +425,7 @@ const shouldShowTape = progress > 0.98;
 
 
   {showScrollDown && (
-      <div className='animate-float flex flex-col justify-center items-center absolute top-[500px] left-1/3 -translate-x-1/2 gap-3 transition-opacity duration-200'>
+      <div className='animate-float flex flex-col justify-center items-center absolute top-[600px] left-1/3 -translate-x-1/2 gap-3 transition-opacity duration-200'>
         <svg className='w-[150px] h-[21px]'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 21" fill='none' >
           <path d="M145.547 17.1406C145.547 17.0312 145.531 16.9766 145.5 16.9766C145.406 16.9766 145.336 17.0312 145.289 17.1406C145.289 17.2031 145.312 17.25 145.359 17.2812C145.484 17.2812 145.547 17.2344 145.547 17.1406ZM140.039 3.125C140.039 2.89062 139.953 2.82812 139.781 2.9375C139.594 3.03125 139.531 3.13281 139.594 3.24219C139.609 3.30469 139.68 3.33594 139.805 3.33594C139.961 3.33594 140.039 3.26562 140.039 3.125ZM137.766 1.20312C138.031 1.10938 138.195 1.0625 138.258 1.0625C138.289 1.0625 138.609 1.10938 139.219 1.20312C139.641 1.20312 140.023 1.39062 140.367 1.76562C140.695 2.1875 141.492 3.67969 142.758 6.24219C143.055 6.78906 143.234 7.14062 143.297 7.29688C144.891 10.5312 145.727 12.1484 145.805 12.1484C145.914 12.1484 145.969 10.7969 145.969 8.09375C146.016 4.90625 146.047 3.27344 146.062 3.19531C146.125 2.74219 146.281 2.34375 146.531 2C146.781 1.65625 147.094 1.48438 147.469 1.48438C148 1.48438 148.289 1.80469 148.336 2.44531C148.383 3.19531 148.406 4.32812 148.406 5.84375C148.406 8.40625 148.531 11.1172 148.781 13.9766C148.969 16.1328 149.062 17.6016 149.062 18.3828V18.5703C148.984 18.8984 148.633 19.2578 148.008 19.6484C147.398 20.0234 146.922 20.2109 146.578 20.2109C145.547 20.2109 144.523 19.3672 143.508 17.6797C143.133 17.0547 142.383 15.5859 141.258 13.2734C140.148 10.9453 139.438 9.38281 139.125 8.58594L138.398 6.6875L138.141 7.74219C137.703 9.89844 137.406 11.7031 137.25 13.1562C137.062 14.8438 136.914 15.8203 136.805 16.0859C136.68 16.3828 136.398 16.5312 135.961 16.5312C135.523 16.5312 135.305 16.4609 135.305 16.3203C135.305 16.2109 135.312 16.1406 135.328 16.1094C135.438 15.6875 135.555 14.6562 135.68 13.0156C135.789 11.5625 136.062 9.27344 136.5 6.14844C136.828 3.71094 137.094 2.22656 137.297 1.69531C137.406 1.46094 137.562 1.29688 137.766 1.20312Z" fill='white'/>
           <path d="M125.109 2.09375C125.109 1.21875 125.398 0.78125 125.977 0.78125C126.383 0.78125 126.766 0.96875 127.125 1.34375C127.484 1.70313 127.773 2.10938 127.992 2.5625C128.461 3.57813 128.938 4.82812 129.422 6.3125C130.109 8.3125 130.461 9.32031 130.477 9.33594C130.57 9.33594 130.742 8.74219 130.992 7.55469C131.242 6.49219 131.602 5.25781 132.07 3.85156C132.508 2.55469 132.93 1.8125 133.336 1.625C133.367 1.59375 133.453 1.57813 133.594 1.57813C133.875 1.57813 134.078 1.99219 134.203 2.82031C134.25 3.17969 134.273 3.4375 134.273 3.59375C134.273 4.03125 134.062 5.71094 133.641 8.63281C133.234 11.4141 132.938 13.2422 132.75 14.1172C132.609 14.7734 132.398 15.3281 132.117 15.7812C131.492 16.7031 130.789 17.1641 130.008 17.1641C129.57 17.1641 129.117 17.0234 128.648 16.7422C127.961 16.3203 127.375 15.4531 126.891 14.1406C126.484 13.0156 126.008 10.9688 125.461 8L125.367 7.41406L124.969 8.58594C124.078 11.3984 123.539 13.4375 123.352 14.7031C123.258 15.4375 123.172 15.875 123.094 16.0156C122.984 16.2031 122.75 16.4219 122.391 16.6719C121.922 16.9688 121.555 17.1172 121.289 17.1172C121.023 17.1172 120.695 17.0078 120.305 16.7891C119.82 16.5234 119.445 15.9766 119.18 15.1484C118.898 14.2578 118.461 12.2344 117.867 9.07812C117.164 5.375 116.812 3.35156 116.812 3.00781C116.812 2.82031 117.203 2.52344 117.984 2.11719L119.156 1.46094L119.602 1.95312C119.898 2.29688 120.312 3.30469 120.844 4.97656C121.375 6.66406 121.82 8.42188 122.18 10.25C122.305 10.7969 122.422 11.2031 122.531 11.4688C122.703 11.4688 123.18 10.0781 123.961 7.29688C124.727 4.5625 125.109 2.82813 125.109 2.09375Z" fill='white'/>

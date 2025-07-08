@@ -3,6 +3,7 @@ import ClickEffect from './view/clickEffect';
 import Footer from './view/footer';
 import Header from './view/header';
 import Mobile from './view/mobile/mobile';
+import Mobile2 from './view/mobile/mobile2';
 import View01 from './view/view01';
 import View02 from './view/view02';
 import View03 from './view/view03';
@@ -21,9 +22,10 @@ function App() {
       <View02/>
       <View03/>
     </div>
-    {/* <div className='block lg:hidden'>
+    <div className='block lg:hidden'>
       <Mobile/>
-    </div> */}
+      <Mobile2/>
+    </div> 
     <View05/>
       <Footer/>
     </>

@@ -50,11 +50,6 @@ const [boxVisible, setBoxVisible] = useState(true)
   });
 
 const boxScale = useTransform(scrollYProgress, [0.5, 0.6], [1, 1.2]);
-// const boxY = useTransform(scrollYProgress, (p) => {
-//   if (p < 0.5) return 0;
-//   if (p >= 0.5 && p <= 0.6) return (p - 0.5) * 2000; // 점점 내려옴
-//   return 200; // 고정
-// }); 
 const boxY = useTransform(scrollYProgress, [0.5, 0.6], [0, 300]);
  const backgroundOpacity = useTransform(scrollYProgress, [0.1, 0.2], [0, 1]);
   const boardOpacity = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.6], [0, 0.5, 1, 0]);
@@ -76,6 +71,7 @@ const opacityMotionValues = [
   useMotionValue(0),
   useMotionValue(0),
 ];
+
   const interpolate = (p, input, output) => {
     if (p <= input[0]) return output[0];
     if (p >= input[2]) return output[2];
