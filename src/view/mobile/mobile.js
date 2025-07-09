@@ -44,9 +44,11 @@ useEffect(() => {
 
 
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+const scrollToTop = () => {
+  console.log("clicked!"); 
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
   const line1 = [ 
     <img src={process.env.PUBLIC_URL + '/넷2.png'} alt="넷" className="inline-block w-6 h-6" />,
     <img src={process.env.PUBLIC_URL + '/플2.png'} alt="플" className="inline-block w-6 h-6" />,
@@ -142,13 +144,13 @@ const { scrollYProgress: imageProgress } = useScroll({
 const y1 = useTransform(imageProgress, [0, 0.3], [120, 0]);
 const skew1 = useTransform(imageProgress, [0, 0.3], [30, 0]);
 
-const y2 = useTransform(imageProgress, [0.1, 0.28], [80, 0]); // 조금 더 빠르게
+const y2 = useTransform(imageProgress, [0.1, 0.28], [80, 0]); 
 const skew2 = useTransform(imageProgress, [0.1, 0.28], [-15, 0]);
 
 const y3 = useTransform(imageProgress, [0.2, 0.5], [100, 0]);
 const skew3 = useTransform(imageProgress, [0.2, 0.5], [20, 0]);
 
-const y4 = useTransform(imageProgress, [0.25, 0.45], [150, 0]); // 더 빠르게
+const y4 = useTransform(imageProgress, [0.25, 0.45], [150, 0]); 
 const skew4 = useTransform(imageProgress, [0.25, 0.45], [-25, 0]);
 
 const y5 = useTransform(imageProgress, [0.4, 0.6], [90, 0]);
@@ -168,7 +170,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
 
 
   return (
-   <section id="merge-section"  className=" w-full h-[500vh]  relative z-50 bg-[#E1D4C4]">
+   <section id="merge-section"  className=" w-full h-[500vh]  relative z-[999999999] bg-[#E1D4C4]">
         <div ref={sectionRef} className=" h-[500vh]">
   <div className="sticky top-0 h-screen flex items-center justify-center">
   <motion.div
@@ -179,7 +181,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
     transform: 'translateX(-50%)',
     width: '100%',
     zIndex: 50,
-    pointerEvents: 'none',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -189,8 +190,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
  {/* Line 1 */}
 <div
   className="flex space-x-1 mb-4 transition-opacity duration-1000"
-  style={{ opacity: showLines13 ? 1 : 0 }}
->
+  style={{ opacity: showLines13 ? 1 : 0, pointerEvents: 'auto' }}>
   {line1.map((img, index) => (
     <div key={`line1-${index}`}>{img}</div>
   ))}
@@ -198,7 +198,9 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
 
 
   {/* Line 2 */}
-<div className="flex flex-wrap justify-center gap-1 relative z-10">
+<div
+style={{ pointerEvents: 'auto' }}
+ className="flex flex-wrap justify-center gap-1 relative z-10">
 {line2.map((img, index) => {
   const { x, y } = initialPositionsLine2[index] || { x: 0, y: 0 };
   const rotate = 10 * (1 - progress); 
@@ -222,7 +224,9 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
 
 
 {/* Line 3 */}
-<div className={`flex flex-wrap justify-center mt-4 space-x-1 transition-opacity duration-1000 ${showLines13 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+<div
+style={{ pointerEvents: 'auto' }}
+ className={`flex flex-wrap justify-center mt-4 space-x-1 transition-opacity duration-1000 ${showLines13 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
     <p className='font-bold text-4xl text-white mr-4'>ONLY ON</p>
     {line3.map((img, index) => (
       <div key={`line3-${index}`}>{img}</div>
@@ -232,6 +236,7 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
 
   {/* ------------------SVG------------------------------------- */}
 <div
+style={{ pointerEvents: 'auto' }}
   className={`absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ease-out ${
     showLines13 ? 'opacity-100' : 'opacity-0'
   }`}
@@ -286,9 +291,8 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
     >
       {/* 이미지 1 */}
       <motion.div
-        style={{  y: y1, skewY: skew1 }}
+        style={{  y: y1, skewY: skew1, pointerEvents : 'auto' }}
         onClick={() => {
-  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 0,
               name: imageName[0],
@@ -296,7 +300,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
               description: imageDescriptions[0],
               img: alternativeImages[0],
             });
-          }
         }}
         className="relative img1 w-[150px] h-[200px] flex items-center justify-center"
       >
@@ -307,7 +310,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y2, skewY: skew2 }}
         onClick={() => {
-  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 1,
               name: imageName[1],
@@ -315,7 +317,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
               description: imageDescriptions[1],
               img: alternativeImages[1],
             });
-          }
         }}
         className="relative img2 w-[150px] h-[200px] flex items-center justify-center "
       >
@@ -326,7 +327,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y3, skewY: skew3 }}
         onClick={() => {
-  if (stopScrollY === null || scrollY >= stopScrollY) {
               setSelectedImage({
               index: 2,
               name: imageName[2],
@@ -334,7 +334,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
               description: imageDescriptions[2],
               img: alternativeImages[2],
             });
-          }
         }}
         className="relative img3 w-[150px] h-[200px] flex items-center justify-center "
       >
@@ -345,7 +344,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y4, skewY: skew4 }}
         onClick={() => {
-  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 3,
               name: imageName[3],
@@ -353,7 +351,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
               description: imageDescriptions[3],
               img: alternativeImages[3],
             });
-          }
         }}
         className="relative img4 w-[150px] h-[200px] flex items-center justify-center "
       >
@@ -364,7 +361,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y5, skewY: skew5 }}
         onClick={() => {
-  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 4,
               name: imageName[4],
@@ -372,7 +368,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
               description: imageDescriptions[4],
               img: alternativeImages[4],
             });
-          }
         }}
         className="relative img5 w-[150px] h-[200px] flex items-center justify-center "
       >
@@ -383,7 +378,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y6, skewY: skew6 }}
         onClick={() => {
-  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 5,
               name: imageName[5],
@@ -391,7 +385,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
               description: imageDescriptions[5],
               img: alternativeImages[5],
             });
-          }
         }}
         className="relative img6 w-[150px] h-[200px] flex items-center justify-center "
       >
@@ -402,7 +395,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
       <motion.div
         style={{ y: y7, skewY: skew7 }}
         onClick={() => {
-  if (stopScrollY === null || scrollY >= stopScrollY) {
             setSelectedImage({
               index: 6,
               name: imageName[6],
@@ -410,7 +402,6 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
               description: imageDescriptions[6],
               img: alternativeImages[6],
             });
-          }
         }}
         className="relative img7 w-[150px] h-[200px] flex items-center justify-center "
       >
@@ -489,24 +480,32 @@ const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
           </div>
         </div>
       )}
-    <div 
-    onClick={scrollToTop} 
-    className="z-[9999] fixed bottom-4 right-4 flex flex-col items-center hover:cursor-pointer gap-1">
-      <img
-        src={process.env.PUBLIC_URL + '/top.png'}
-        alt="top"
-        className="
-          w-[40px] h-[40px]
-          sm:w-[50px] sm:h-[50px]
-          md:w-[60px] md:h-[60px]
-          lg:w-[70px] lg:h-[70px]
-          xl:w-[80px] xl:h-[80px]
-          object-contain
-        "
-      />
-      <p className="text-[10px] sm:text-[12px] md:text-[14px] text-black">TOP</p>
-    </div>
+{selectedImage === null && (
+  <div 
+    onClick={scrollToTop}
+    style={{
+      pointerEvents: 'auto',
+    }}
+    className="z-[99999999] fixed bottom-4 right-4 flex flex-col items-center hover:cursor-pointer gap-1"
+  >
+    <img
+      src={process.env.PUBLIC_URL + '/top.png'}
+      alt="top"
+      className="
+        w-[40px] h-[40px]
+        sm:w-[50px] sm:h-[50px]
+        md:w-[60px] md:h-[60px]
+        lg:w-[70px] lg:h-[70px]
+        xl:w-[80px] xl:h-[80px]
+        object-contain
+      "
+    />
+    <p className="text-[10px] sm:text-[12px] md:text-[14px] text-black">TOP</p>
+  </div>
+)}
       </div>
+
+      
 
     </section>
 
