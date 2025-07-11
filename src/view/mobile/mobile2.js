@@ -88,7 +88,7 @@ const Mobile2 = () => {
         <img
           src={process.env.PUBLIC_URL + "/box.png"}
           alt="box"
-          className="object-contain w-[350px] h-[200px] mx-auto max-w-[80%] max-h-[80%]"
+          className="object-contain w-[350px] h-[200px] mx-auto max-w-[80%] max-h-[80%] z-[999]"
         />
 
         {/* 문서 하나씩 올라갔다 내려가기 */}
