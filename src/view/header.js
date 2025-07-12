@@ -11,7 +11,7 @@ const Header = () => {
                 <div className="flex gap-4 2xl:gap-20 mr-2 2xl:mr-8 text-black">
                   <a href="#" className="relative inline-block group text-white font-fowell text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[22px] 2xl:text-[25px]
           ">
-          ABOUT
+          CHARACTER
           <svg
             className="absolute top-1/2 left-1/2 max-w-[150px] max-h-[60px] w-full h-full -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
             viewBox="0 0 168 55"
