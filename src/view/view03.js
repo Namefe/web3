@@ -123,7 +123,7 @@ useMotionValueEvent(scrollYProgress, "change", (p) => {
   return (
     <section ref={sectionRef} id="section03" className="relative w-full h-[1000vh] bg-[#e1d4c4] ">
       {/* 배경 */}
-      <motion.div  className="absolute inset-0 bg-[#e1d4c4] z-0"  />
+      <motion.div id="board"  className="absolute inset-0 bg-[#e1d4c4] z-0"  />
 
       {/* 보드 이미지 */}
       {showBoard && (

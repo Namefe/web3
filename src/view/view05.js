@@ -30,6 +30,7 @@ const SupportHover = () => {
 
   return (
     <motion.section
+      id="contact"
       ref={ref}
       className="w-full h-[100vh] flex items-center justify-center bg-[#f2e8db] relative overflow-hidden"
       onMouseMove={handleMouseMove}

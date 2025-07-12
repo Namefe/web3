@@ -1,15 +1,26 @@
 import React from 'react'
 
 const Header = () => {
+
+
   return (
-    <header className="fixed top-0 left-0 w-full h-[100px] z-[9999] bg-transparent flex items-center justify-between px-6">
+    <header className="fixed top-0 left-0 w-full h-[100px] z-[9999999999] bg-transparent flex items-center justify-between px-6">
       <div>
         <img src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" className="w-[50px] sm:w-[65px] md:w-[80px] lg:w-[100px] xl:w-[120px] 2xl:w-[150px]
           h-[40px] sm:h-[50px] md:h-[60px] lg:h-[70px] xl:h-[85px] 2xl:h-[100px]" />
                 </div>
 
-                <div className="flex gap-4 2xl:gap-20 mr-2 2xl:mr-8 text-black">
-                  <a href="#" className="relative inline-block group text-white font-fowell text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[22px] 2xl:text-[25px]
+        <div className="flex gap-4 2xl:gap-20 mr-2 2xl:mr-8 text-black">
+        <a 
+        href="#board"
+        onClick={(e) => {
+          e.preventDefault();
+          const target = document.getElementById('board');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+         className="relative inline-block group text-white font-fowell text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[22px] 2xl:text-[25px]
           ">
           CHARACTER
           <svg
@@ -31,7 +42,16 @@ const Header = () => {
           </svg>
         </a>
 
-        <a href="#" className="relative inline-block group text-white font-fowell text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[22px] 2xl:text-[25px]
+        <a
+         href="#contact"
+         onClick={(e) => {
+          e.preventDefault();
+          const target = document.getElementById('contact');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+          className="relative inline-block group text-white font-fowell text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] xl:text-[22px] 2xl:text-[25px]
 ">
           CONTACT
           <svg

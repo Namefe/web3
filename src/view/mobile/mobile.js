@@ -102,7 +102,7 @@ useEffect(() => {
 ];
 
 const imageDescriptions = [
-  "실력도, 돈도, 사명감도 있지만 싸가지가 없는 천재 외과의사. 다소 거친 표현을 상대방들에게 쓰지만, 환자를 끝까지 포기하지 않고 어떻게든 살려내려는 성격을 지니고 있다. 다소 겁이 없고, 위급상황에서도 초인적인 능력으로 신들린 스킬을 발휘하며, 과거 ‘국제 평화 의사회’ '블랙 윙즈(민간군사기업)' 에이스로도 활약했다. 한국대학병원의 중증외상팀을 심폐 소생하기 위해 등판한다.",
+  "실력도, 돈도, 사명감도 있지만 싸가지가 없는 천재 외과의사. 다소 거친 표현을 상대방들에게 쓰지만, 환자를 끝까지 포기하지 않고 어떻게든 살려내려는 성격을 지니고 있다. 한국대학병원의 중증외상팀을 심폐 소생하기 위해 등판한다.",
   "백강혁의 현란한 수술 스킬에 반해 낚여버린 외상외과의 첫번째 제자. 항문외과 펠로우로 지내던 중 중증외상팀으로 스카웃된다. 허당미 넘치지만 실력만큼은 어디 내놔도 빠지지 않는 인물로, 백강혁을 따라 사선을 넘나드는 중증 환자들과 온몸을 내던진 사투를 벌이며 성장해 간다.",
   "중증외상팀 5년 차 시니어 간호사. 책임감도 강하고 실력도 좋은 베테랑으로, 백강혁이 별명을 붙일 만큼 당차고 깡다구가 좋다. 그 누구보다 화끈하게 중증외상팀을 지키고자 고군분투한다.",
   "백강혁도 인정한 마취통증의학과 레지던트. 환자의 상태를 세심하게 살피며, 어떤 상황에서도 감정의 동요 없이 무덤덤하고 침착하게 마취를 진행하는 센스가 남달라 첫 만남에 백강혁의 신뢰를 얻는다.",
@@ -142,25 +142,34 @@ const { scrollYProgress: imageProgress } = useScroll({
 
 
 const y1 = useTransform(imageProgress, [0, 0.3], [120, 0]);
-const skew1 = useTransform(imageProgress, [0, 0.3], [30, 0]);
+const skew1 = useTransform(imageProgress, [0, 0.3], [30, -30]);
 
 const y2 = useTransform(imageProgress, [0.1, 0.28], [80, 0]); 
-const skew2 = useTransform(imageProgress, [0.1, 0.28], [-15, 0]);
+const skew2 = useTransform(imageProgress, [0.1, 0.28], [-15, 15]);
 
 const y3 = useTransform(imageProgress, [0.2, 0.5], [100, 0]);
-const skew3 = useTransform(imageProgress, [0.2, 0.5], [20, 0]);
+const skew3 = useTransform(imageProgress, [0.2, 0.5], [20, -20]);
 
 const y4 = useTransform(imageProgress, [0.25, 0.45], [150, 0]); 
-const skew4 = useTransform(imageProgress, [0.25, 0.45], [-25, 0]);
+const skew4 = useTransform(imageProgress, [0.25, 0.45], [-25, 25]);
 
 const y5 = useTransform(imageProgress, [0.4, 0.6], [90, 0]);
-const skew5 = useTransform(imageProgress, [0.4, 0.6], [10, 0]);
+const skew5 = useTransform(imageProgress, [0.4, 0.6], [10, -10]);
 
 const y6 = useTransform(imageProgress, [0.45, 0.65], [110, 0]);
-const skew6 = useTransform(imageProgress, [0.45, 0.65], [-20, 0]);
+const skew6 = useTransform(imageProgress, [0.45, 0.65], [-20, 20]);
 
 const y7 = useTransform(imageProgress, [0.55, 0.75], [130, 0]);
-const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, 0]);
+const skew7 = useTransform(imageProgress, [0.55, 0.75], [15, -15]);
+
+
+const x1 = useTransform(imageProgress, [0, 0.3], [-40, -40]);
+const x2 = useTransform(imageProgress, [0.1, 0.28], [70, 70]);
+const x3 = useTransform(imageProgress, [0.2, 0.5], [-60, -60]);
+const x4 = useTransform(imageProgress, [0.25, 0.45], [65, 65]);
+const x5 = useTransform(imageProgress, [0.4, 0.6], [-75, -75]);
+const x6 = useTransform(imageProgress, [0.45, 0.65], [40, 40]);
+const x7 = useTransform(imageProgress, [0.55, 0.75], [-88, -88]);
 
 
 
@@ -299,13 +308,13 @@ style={{ pointerEvents: 'auto' }}
           {/*------------------------------이미지---------------------------- */}
 
     <motion.div
-      id="imageWrapper"
+      id="board"
       ref={imageWrapperRef}
       className="z-[90] flex flex-col justify-center items-center gap-4  mt-[200vh]"
     >
       {/* 이미지 1 */}
       <motion.div
-        style={{  y: y1, skewY: skew1, pointerEvents : 'auto' }}
+        style={{ x: x1,  y: y1, skewY: skew1, pointerEvents : 'auto' }}
         onClick={() => {
             setSelectedImage({
               index: 0,
@@ -322,7 +331,7 @@ style={{ pointerEvents: 'auto' }}
 
       {/* 이미지 2 */}
       <motion.div
-        style={{ y: y2, skewY: skew2 }}
+        style={{x: x2, y: y2, skewY: skew2 }}
         onClick={() => {
             setSelectedImage({
               index: 1,
@@ -339,7 +348,7 @@ style={{ pointerEvents: 'auto' }}
 
       {/* 이미지 3 */}
       <motion.div
-        style={{ y: y3, skewY: skew3 }}
+        style={{x: x3, y: y3, skewY: skew3 }}
         onClick={() => {
               setSelectedImage({
               index: 2,
@@ -356,7 +365,7 @@ style={{ pointerEvents: 'auto' }}
 
       {/* 이미지 4 */}
       <motion.div
-        style={{ y: y4, skewY: skew4 }}
+        style={{x: x4, y: y4, skewY: skew4 }}
         onClick={() => {
             setSelectedImage({
               index: 3,
@@ -373,7 +382,7 @@ style={{ pointerEvents: 'auto' }}
 
       {/* 이미지 5 */}
       <motion.div
-        style={{ y: y5, skewY: skew5 }}
+        style={{x: x5, y: y5, skewY: skew5 }}
         onClick={() => {
             setSelectedImage({
               index: 4,
@@ -390,7 +399,7 @@ style={{ pointerEvents: 'auto' }}
 
       {/* 이미지 6 */}
       <motion.div
-        style={{ y: y6, skewY: skew6 }}
+        style={{x: x6, y: y6, skewY: skew6 }}
         onClick={() => {
             setSelectedImage({
               index: 5,
@@ -407,7 +416,7 @@ style={{ pointerEvents: 'auto' }}
 
       {/* 이미지 7 */}
       <motion.div
-        style={{ y: y7, skewY: skew7 }}
+        style={{x: x7, y: y7, skewY: skew7 }}
         onClick={() => {
             setSelectedImage({
               index: 6,
@@ -480,7 +489,7 @@ style={{ pointerEvents: 'auto' }}
                 className="absolute top-[60px] right-12 w-6 h-6 cursor-pointer z-20"
               />
               <div className="absolute top-0 left-2 w-full h-full p-20 flex flex-col justify-center">
-                <h2 className="text-4xl font-bold text-[#e5501f] mb-4">
+                <h2 className="text-2xl font-bold text-[#e5501f] mt-8 mb-2">
                   {selectedImage.name}
                 </h2>
                 <div className="text-black text-lg font-semibold mb-4  leading-snug">
